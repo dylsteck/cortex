@@ -48,6 +48,30 @@ export async function POST(request: Request) {
           return weatherData;
         },
       },
+      getCasts: {
+        description: 'Get posts(casts) around a certain keyword that happened on Farcaster. Do not return any other text at all.',
+        parameters: z.object({
+          keyword: z.string(),
+        }),
+        execute: async ({ keyword }) => {
+          const response = await fetch(
+            `https://searchcaster.xyz/api/search?text=${keyword}`
+          );
+          const castData = await response.json();
+          return castData;
+        },
+      },
+      getEvents: {
+        description: 'Get upcoming Farcaster events on Events.xyz',
+        parameters: z.object({}),
+        execute: async ({}) => {
+          const response = await fetch(
+            `https://beta.events.xyz/api/events`
+          );
+          const eventsData = await response.json();
+          return eventsData;
+        },
+      },
     },
     onFinish: async ({ responseMessages }) => {
       if (session.user && session.user.id) {

@@ -20,15 +20,20 @@ import { Button } from '../ui/button';
 import { Textarea } from '../ui/textarea';
 
 const suggestedActions = [
+  // {
+  //   title: 'What is the weather',
+  //   label: 'in San Francisco?',
+  //   action: 'What is the weather in San Francisco?',
+  // },
   {
-    title: 'What is the weather',
-    label: 'in San Francisco?',
-    action: 'What is the weather in San Francisco?',
+    title: 'Tell me about',
+    label: 'aethernet on Farcaster',
+    action: 'Tell me about aethernet on Farcaster',
   },
   {
-    title: "Answer like I'm 5,",
-    label: 'why is the sky blue?',
-    action: "Answer like I'm 5, why is the sky blue?",
+    title: 'Who is dylsteck.eth',
+    label: 'on Farcaster?',
+    action: 'Who is dylsteck.eth on Farcaster?',
   },
 ];
 

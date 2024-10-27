@@ -5,6 +5,8 @@ import { motion } from 'framer-motion';
 import { Sparkles } from 'lucide-react';
 import { ReactNode } from 'react';
 
+import { Casts } from './casts';
+import { Events } from './events';
 import { Markdown } from './markdown';
 import { PreviewAttachment } from './preview-attachment';
 import { Weather } from './weather';
@@ -40,31 +42,35 @@ export const Message = ({
             </div>
           )}
 
-          {toolInvocations && toolInvocations.length > 0 ? (
-            <div className="flex flex-col gap-4">
-              {toolInvocations.map((toolInvocation) => {
-                const { toolName, toolCallId, state } = toolInvocation;
+        {toolInvocations && toolInvocations.length > 0 ? (
+          <div className="flex flex-col gap-4">
+            {toolInvocations.map((toolInvocation) => {
+              const { toolName, toolCallId, state } = toolInvocation;
 
-                if (state === 'result') {
-                  const { result } = toolInvocation;
+              if (state === 'result') {
+                const { result } = toolInvocation;
 
-                  return (
-                    <div key={toolCallId}>
-                      {toolName === 'getWeather' ? (
-                        <Weather weatherAtLocation={result} />
-                      ) : null}
-                    </div>
-                  );
-                } else {
-                  return (
-                    <div key={toolCallId} className="skeleton">
-                      {toolName === 'getWeather' ? <Weather /> : null}
-                    </div>
-                  );
-                }
-              })}
-            </div>
-          ) : null}
+                return (
+                  <div key={toolCallId}>
+                    {toolName === 'getWeather' ? (
+                      <Weather weatherAtLocation={result} />
+                    ) : toolName === 'getCasts' ? (
+                      <Casts casts={result.casts} />
+                    ) : toolName === 'getEvents' ? (
+                      <Events events={result} />
+                    ) : null}
+                  </div>
+                );
+              } else {
+                return (
+                  <div key={toolCallId} className="skeleton">
+                    {toolName === 'getWeather' ? <Weather /> : toolName === 'getCasts' ? <Casts /> : toolName === 'getEvents' ? <Events /> : null}
+                  </div>
+                );
+              }
+            })}
+          </div>
+        ) : null}
 
           {attachments && (
             <div className="flex flex-row gap-2">

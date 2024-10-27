@@ -30,8 +30,8 @@ export function Chat({
       },
     });
 
-  const [messagesContainerRef, messagesEndRef] =
-    useScrollToBottom<HTMLDivElement>();
+  // const [messagesContainerRef, messagesEndRef] =
+  //   useScrollToBottom<HTMLDivElement>();
 
   const [attachments, setAttachments] = useState<Array<Attachment>>([]);
 
@@ -39,7 +39,7 @@ export function Chat({
     <div className="flex flex-col min-w-0 h-dvh bg-background">
       <ChatHeader selectedModelName={selectedModelName} />
       <div
-        ref={messagesContainerRef}
+        // ref={messagesContainerRef}
         className="flex flex-col min-w-0 gap-6 flex-1 overflow-y-scroll"
       >
         {messages.length === 0 && <Overview />}
@@ -55,7 +55,7 @@ export function Chat({
         ))}
 
         <div
-          ref={messagesEndRef}
+          // ref={messagesEndRef}
           className="shrink-0 min-w-[24px] min-h-[24px]"
         />
       </div>
