@@ -1,3 +1,4 @@
+import { Redis } from '@upstash/redis';
 import {
   CoreMessage,
   CoreToolMessage,
@@ -9,6 +10,8 @@ import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 
 import { Chat } from "@/db/schema";
+
+export const redis = Redis.fromEnv()
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
