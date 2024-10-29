@@ -5,6 +5,8 @@ import { Card } from "@/components/ui/card";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Skeleton } from "@/components/ui/skeleton";
 
+import Frame from './frame';
+
 interface Host {
   fid: number;
   username: string;
@@ -55,7 +57,7 @@ export function Events({ events }: { events?: EventData[] }) {
   return (
     <ScrollArea className="w-full">
       <div className="flex space-x-4 pb-4">
-        {events.map((event) => (
+        {/* {events.map((event) => (
           <Card key={event.id} className="shrink-0 max-h-[350px] w-[400px] overflow-hidden">
             <img src={event.image_url} alt={event.title} className="h-48 w-full object-cover" />
             <div className="p-4 space-y-2">
@@ -68,7 +70,14 @@ export function Events({ events }: { events?: EventData[] }) {
               </div>
             </div>
           </Card>
-        ))}
+        ))} */}
+        {events.map((event, index) => {
+          return (
+            <div key={`frame-${index}`} className="min-w-[30vw]">
+              <Frame url={`https://beta.events.xyz/events/${event.id}`} />
+            </div>
+          )
+        })}
       </div>
       <ScrollBar orientation="horizontal" />
     </ScrollArea>

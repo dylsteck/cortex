@@ -68,8 +68,8 @@ export async function POST(request: Request) {
         execute: async ({}) => {
           // const eventsLink = 'https://beta.events.xyz/api/events';
           // const eventsLink = 'https://cortex-dev.vercel.app/api/farcaster/events';
-          const eventsLink = '/api/farcaster/events';
-          //const eventsLink = 'http://localhost:3000/api/farcaster/events';
+          //const eventsLink = '/api/farcaster/events';
+          const eventsLink = 'http://localhost:3000/api/farcaster/events';
           const response = await fetch(eventsLink);
           console.log(response)
           const eventsData = await response.json();
