@@ -3,6 +3,7 @@ import { z } from 'zod';
 
 import { customModel } from '@/ai';
 import { auth } from '@/app/(auth)/auth';
+import Iframe from '@/components/custom/iframe';
 import { deleteChatById, getChatById, saveChat } from '@/db/queries';
 import { Model, models } from '@/lib/model';
 
@@ -55,7 +56,7 @@ export async function POST(request: Request) {
         }),
         execute: async ({ keyword }) => {
           const response = await fetch(
-            `https://searchcaster.xyz/api/search?text=${keyword}`
+            `https://searchcaster.xyz/api/search?text=${keyword}&count=10&engagement=reactions`
           );
           const castData = await response.json();
           return castData;
@@ -65,10 +66,14 @@ export async function POST(request: Request) {
         description: 'Get upcoming Farcaster events on Events.xyz',
         parameters: z.object({}),
         execute: async ({}) => {
-          const response = await fetch(
-            `https://beta.events.xyz/api/events`
-          );
+          // const eventsLink = 'https://beta.events.xyz/api/events';
+          // const eventsLink = 'https://cortex-dev.vercel.app/api/farcaster/events';
+          const eventsLink = '/api/farcaster/events';
+          //const eventsLink = 'http://localhost:3000/api/farcaster/events';
+          const response = await fetch(eventsLink);
+          console.log(response)
           const eventsData = await response.json();
+          console.log(eventsData)
           return eventsData;
         },
       },

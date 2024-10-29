@@ -12,6 +12,6 @@ export const models = [
   },
 ] as const;
 
-export const DEFAULT_MODEL_NAME: Model['name'] = 'gpt-4o';
+export const DEFAULT_MODEL_NAME: Model['name'] = 'gpt-4o-mini';
 
 export type Model = (typeof models)[number];

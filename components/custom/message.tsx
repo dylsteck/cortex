@@ -36,41 +36,41 @@ export const Message = ({
           </div>
         )}
         <div className="flex flex-col gap-2 w-full">
-          {content && (
+          {content ? (
             <div className="flex flex-col gap-4">
               <Markdown>{content as string}</Markdown>
             </div>
-          )}
+          ) : null}
 
-        {toolInvocations && toolInvocations.length > 0 ? (
-          <div className="flex flex-col gap-4">
-            {toolInvocations.map((toolInvocation) => {
-              const { toolName, toolCallId, state } = toolInvocation;
+          {toolInvocations && toolInvocations.length > 0 ? (
+            <div className="flex flex-col gap-4">
+              {toolInvocations.map((toolInvocation) => {
+                const { toolName, toolCallId, state } = toolInvocation;
 
-              if (state === 'result') {
-                const { result } = toolInvocation;
+                if (state === 'result') {
+                  const { result } = toolInvocation;
 
-                return (
-                  <div key={toolCallId}>
-                    {toolName === 'getWeather' ? (
-                      <Weather weatherAtLocation={result} />
-                    ) : toolName === 'getCasts' ? (
-                      <Casts casts={result.casts} />
-                    ) : toolName === 'getEvents' ? (
-                      <Events events={result} />
-                    ) : null}
-                  </div>
-                );
-              } else {
-                return (
-                  <div key={toolCallId} className="skeleton">
-                    {toolName === 'getWeather' ? <Weather /> : toolName === 'getCasts' ? <Casts /> : toolName === 'getEvents' ? <Events /> : null}
-                  </div>
-                );
-              }
-            })}
-          </div>
-        ) : null}
+                  return (
+                    <div key={toolCallId}>
+                      {toolName === 'getWeather' ? (
+                        <Weather weatherAtLocation={result} />
+                      ) : toolName === 'getCasts' ? (
+                        <Casts casts={result.casts} />
+                      ) : toolName === 'getEvents' ? (
+                        <Events events={result} />
+                      ) : null}
+                    </div>
+                  );
+                } else {
+                  return (
+                    <div key={toolCallId} className="skeleton">
+                      {toolName === 'getWeather' ? <Weather /> : toolName === 'getCasts' ? <Casts /> : toolName === 'getEvents' ? <Events /> : null}
+                    </div>
+                  );
+                }
+              })}
+            </div>
+          ) : null}
 
           {attachments && (
             <div className="flex flex-row gap-2">

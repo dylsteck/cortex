@@ -74,7 +74,7 @@ export function Casts({ casts }: { casts?: Cast[] }) {
       <ScrollArea className="w-full">
         <div className="flex space-x-4 pb-4">
           {[1, 2, 3].map((i) => (
-            <Card key={i} className="shrink-0 max-h-[350px] w-[400px] p-4">
+            <Card key={i} className="shrink-0 max-h-[500px] w-[400px] p-4 overflow-y-scroll">
               <div className="space-y-4">
                 <div className="flex items-center space-x-4">
                   <Skeleton className="size-12 rounded-full" />
