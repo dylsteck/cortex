@@ -1,3 +1,6 @@
+/* eslint-disable @next/next/no-img-element */
+import cortexImg from "@/public/images/app-icon.png";
+
 export const BotIcon = () => {
   return (
     <svg
@@ -56,22 +59,9 @@ export const AttachmentIcon = () => {
   );
 };
 
-export const VercelIcon = ({ size = 17 }) => {
+export const CortexIcon = ({ size = 30 }) => {
   return (
-    <svg
-      height={size}
-      strokeLinejoin="round"
-      viewBox="0 0 16 16"
-      width={size}
-      style={{ color: "currentcolor" }}
-    >
-      <path
-        fillRule="evenodd"
-        clipRule="evenodd"
-        d="M8 1L16 15H0L8 1Z"
-        fill="currentColor"
-      ></path>
-    </svg>
+    <img src={cortexImg.src} alt="Cortex Icon" style={{ width: size, height: size }} />
   );
 };
 

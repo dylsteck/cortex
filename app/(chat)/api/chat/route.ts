@@ -6,6 +6,7 @@ import { auth } from '@/app/(auth)/auth';
 import Iframe from '@/components/custom/iframe';
 import { deleteChatById, getChatById, saveChat } from '@/db/queries';
 import { Model, models } from '@/lib/model';
+import { BASE_URL } from '@/lib/utils';
 
 export async function POST(request: Request) {
   const {
@@ -50,30 +51,22 @@ export async function POST(request: Request) {
         },
       },
       getCasts: {
-        description: 'Get posts(casts) around a certain keyword that happened on Farcaster. Do not return any other text at all.',
+        description: 'Search over content(posts or casts) on Farcaster per a given query/keyword',
         parameters: z.object({
-          keyword: z.string(),
+          query: z.string(),
         }),
-        execute: async ({ keyword }) => {
-          const response = await fetch(
-            `https://searchcaster.xyz/api/search?text=${keyword}&count=10&engagement=reactions`
-          );
+        execute: async ({ query }) => {
+          const response = await fetch(`${BASE_URL}/api/farcaster/casts/search?q=${query}`);
           const castData = await response.json();
-          return castData;
+          return castData.result.casts;
         },
       },
       getEvents: {
-        description: 'Get upcoming Farcaster events on Events.xyz',
+        description: 'Get upcoming Farcaster events on Events.xyz. Do not show any images or markdown in your response, instead give a text summary of all the events. Not even a list, just a paragraph of sumamry text like prose!',
         parameters: z.object({}),
         execute: async ({}) => {
-          // const eventsLink = 'https://beta.events.xyz/api/events';
-          // const eventsLink = 'https://cortex-dev.vercel.app/api/farcaster/events';
-          //const eventsLink = '/api/farcaster/events';
-          const eventsLink = 'http://localhost:3000/api/farcaster/events';
-          const response = await fetch(eventsLink);
-          console.log(response)
+          const response = await fetch(`${BASE_URL}/api/farcaster/events`);
           const eventsData = await response.json();
-          console.log(eventsData)
           return eventsData;
         },
       },

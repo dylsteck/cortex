@@ -13,6 +13,8 @@ import { Chat } from "@/db/schema";
 
 export const redis = Redis.fromEnv()
 
+export const BASE_URL = process.env.VERCEL_URL || process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
+
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }

@@ -8,64 +8,206 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 import "react-farcaster-embed/dist/styles.css";
 
-interface CastData {
-  publishedAt: number;
-  username: string;
-  data: {
-    text: string;
-    image?: string | null;
-    embeds?: {
-      urls?: any[];
-      images?: {
-        alt: string;
-        url: string;
-        type: string;
-        media: {
-          width: number;
-          height: number;
-          source: string;
-          version: string;
-          staticRaster: string;
-        };
-        sourceUrl: string;
-      }[];
-      videos?: any[];
-      unknowns?: any[];
-      groupInvites?: any[];
-    } | null;
-  };
-  replyParentMerkleRoot: string | null;
-  threadMerkleRoot: string;
-}
-
-interface CastMeta {
-  displayName: string;
-  avatar: string;
-  isVerifiedAvatar: boolean;
-  numReplyChildren: number;
-  reactions: {
-    count: number;
-    type: string;
-  };
-  recasts: {
-    count: number;
-  };
-  watches: {
-    count: number;
-  };
-  replyParentUsername?: {
-    fid: number | null;
-    username: string | null;
-  };
-  mentions?: any[] | null;
-  tags?: any[];
-}
-
 interface Cast {
-  body: CastData;
-  meta: CastMeta;
-  merkleRoot: string;
-  uri: string;
+  object: string;
+  hash: string;
+  thread_hash: string;
+  parent_hash: string | null;
+  parent_url: string | null;
+  root_parent_url: string | null;
+  parent_author: {
+    fid: number | null;
+  };
+  author: {
+    object: string;
+    fid: number;
+    username: string;
+    display_name: string;
+    pfp_url: string;
+    custody_address: string;
+    profile: {
+      bio: {
+        text: string;
+      };
+    };
+    follower_count: number;
+    following_count: number;
+    verifications: string[];
+    verified_addresses: {
+      eth_addresses: string[];
+      sol_addresses: string[];
+    };
+    verified_accounts: {
+      platform: string;
+      username: string;
+    }[] | null;
+    power_badge: boolean;
+  };
+  text: string;
+  timestamp: string;
+  embeds: {
+    url: string;
+    metadata: {
+      content_type: string;
+      content_length: number | null;
+      _status: string;
+      image?: {
+        width_px: number;
+        height_px: number;
+      };
+      html?: {
+        favicon: string;
+        ogImage: { url: string }[];
+        ogTitle: string;
+        ogLocale: string;
+        ogDescription: string;
+      };
+    };
+  }[];
+  reactions: {
+    likes_count: number;
+    recasts_count: number;
+    likes: {
+      fid: number;
+      fname: string;
+    }[];
+    recasts: {
+      fid: number;
+      fname: string;
+    }[];
+  };
+  replies: {
+    count: number;
+  };
+  channel: {
+    object: string;
+    id: string;
+    name: string;
+    image_url: string;
+  } | null;
+  mentioned_profiles: any[];
+  author_channel_context?: {
+    role: string;
+    following: boolean;
+  };
+  tags?: {
+    type?: string;
+    id?: string;
+    name?: string;
+    imageUrl?: string;
+  }[];
+}
+
+type CastData = {
+  hash?: string;
+  threadHash?: string;
+  parentSource?: {
+    type?: string;
+    url?: string;
+  };
+  author?: {
+    fid?: number;
+    username?: string;
+    displayName?: string;
+    pfp?: {
+      url?: string;
+    };
+    profile?: {
+      bio?: {
+        text?: string;
+      };
+    };
+    followerCount?: number;
+    followingCount?: number;
+  };
+  text?: string;
+  timestamp?: number;
+  embeds?: {
+    images?: {
+      type: string;
+      url: string;
+      sourceUrl: string;
+      alt: string;
+    }[];
+    urls?: {
+      type: string;
+      openGraph?: {
+        url?: string;
+        sourceUrl?: string;
+        title?: string;
+        description?: string;
+        domain?: string;
+        image?: string;
+      };
+    }[];
+  };
+  reactions?: {
+    count?: number;
+  };
+  recasts?: {
+    count?: number;
+  };
+  replies?: {
+    count?: number;
+  };
+  tags?: {
+    type?: string;
+    id?: string;
+    name?: string;
+    imageUrl?: string;
+  }[];
+};
+
+function convertCastToCastData(cast: Cast): CastData {
+  return {
+    hash: cast.hash,
+    threadHash: cast.thread_hash,
+    parentSource: cast.parent_url ? { type: "url", url: cast.parent_url } : undefined,
+    author: {
+      fid: cast.author.fid,
+      username: cast.author.username,
+      displayName: cast.author.display_name,
+      pfp: {
+        url: cast.author.pfp_url,
+      },
+      profile: {
+        bio: {
+          text: cast.author.profile.bio.text,
+        },
+      },
+      followerCount: cast.author.follower_count,
+      followingCount: cast.author.following_count,
+    },
+    text: cast.text,
+    timestamp: new Date(cast.timestamp).getTime(),
+    embeds: {
+      images: cast.embeds?.filter(embed => embed.metadata.content_type?.includes("image")).map(embed => ({
+        type: "image",
+        url: embed.url,
+        sourceUrl: embed.url,
+        alt: embed.metadata.html?.ogDescription || "",
+      })) || [],
+      urls: cast.embeds?.filter(embed => embed.metadata.content_type === "text/html").map(embed => ({
+        type: "url",
+        openGraph: {
+          url: embed.url,
+          title: embed.metadata.html?.ogTitle,
+          description: embed.metadata.html?.ogDescription,
+          image: embed.metadata.html?.ogImage?.[0]?.url,
+        },
+      })) || [],
+    },
+    reactions: {
+      count: cast.reactions.likes_count || 0,
+    },
+    recasts: {
+      count: cast.reactions.recasts_count || 0,
+    },
+    replies: {
+      count: cast.replies.count || 0,
+    },
+    tags: cast.tags || [], // Defaulting tags to an empty array if undefined
+  };
 }
 
 export function Casts({ casts }: { casts?: Cast[] }) {
@@ -102,9 +244,9 @@ export function Casts({ casts }: { casts?: Cast[] }) {
     <ScrollArea className="w-full">
       <div className="flex space-x-4 pb-4">
         {casts.map((cast) => (
-          <Card key={cast.merkleRoot} className="shrink-0 max-h-[350px] w-[400px] overflow-hidden">
+          <Card key={cast.hash} className="shrink-0 size-auto max-w-[20vw] max-h-[50vh] overflow-y-scroll text-md">
             <div className="h-full">
-              <FarcasterEmbed username={cast.body.username} hash={cast.merkleRoot} />
+              <FarcasterEmbed castData={convertCastToCastData(cast)} />
             </div>
           </Card>
         ))}

@@ -7,6 +7,7 @@ import { ReactNode } from 'react';
 
 import { Casts } from './casts';
 import { Events } from './events';
+import { CortexIcon } from './icons';
 import { Markdown } from './markdown';
 import { PreviewAttachment } from './preview-attachment';
 import { Weather } from './weather';
@@ -32,7 +33,7 @@ export const Message = ({
       <div className="flex gap-4 group-data-[role=user]/message:px-5 w-full group-data-[role=user]/message:w-fit group-data-[role=user]/message:ml-auto group-data-[role=user]/message:max-w-2xl group-data-[role=user]/message:py-3.5 group-data-[role=user]/message:bg-muted rounded-xl">
         {role === 'assistant' && (
           <div className="size-8 flex items-center rounded-full justify-center ring-1 shrink-0 ring-border">
-            <Sparkles className="size-4" />
+            <CortexIcon size={30} />
           </div>
         )}
         <div className="flex flex-col gap-2 w-full">
@@ -55,7 +56,7 @@ export const Message = ({
                       {toolName === 'getWeather' ? (
                         <Weather weatherAtLocation={result} />
                       ) : toolName === 'getCasts' ? (
-                        <Casts casts={result.casts} />
+                        <Casts casts={result} />
                       ) : toolName === 'getEvents' ? (
                         <Events events={result} />
                       ) : null}

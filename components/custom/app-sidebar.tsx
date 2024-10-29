@@ -4,7 +4,6 @@ import { Plus } from 'lucide-react';
 import Link from 'next/link';
 import { type User } from 'next-auth';
 
-import { VercelIcon } from '@/components/custom/icons';
 import { SidebarHistory } from '@/components/custom/sidebar-history';
 import { SidebarUserNav } from '@/components/custom/sidebar-user-nav';
 import { Button } from '@/components/ui/button';
@@ -30,6 +29,8 @@ import {
 } from '@/components/ui/sidebar';
 import { BetterTooltip } from '@/components/ui/tooltip';
 
+import { CortexIcon } from './icons';
+
 export function AppSidebar({ user }: { user: User | undefined }) {
   const { setOpenMobile } = useSidebar();
 
@@ -39,8 +40,9 @@ export function AppSidebar({ user }: { user: User | undefined }) {
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton asChild>
-              <Link href="/" onClick={() => setOpenMobile(false)}>
-                <span className="text-lg font-semibold font-mono tracking-tighter">
+              <Link className="flex flex-row gap-0 items-center" href="/" onClick={() => setOpenMobile(false)}>
+                <CortexIcon />
+                <span className="text-lg font-semibold tracking-tighter">
                   Cortex
                 </span>
               </Link>
