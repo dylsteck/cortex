@@ -6,7 +6,7 @@ import { auth } from '@/app/(auth)/auth';
 import Iframe from '@/components/custom/iframe';
 import { deleteChatById, getChatById, saveChat } from '@/db/queries';
 import { Model, models } from '@/lib/model';
-import { BASE_URL } from '@/lib/utils';
+import { BASE_URL, cortexAPI, fetcher } from '@/lib/utils';
 
 export async function POST(request: Request) {
   const {
@@ -50,15 +50,27 @@ export async function POST(request: Request) {
           return weatherData;
         },
       },
-      getCasts: {
+      searchCasts: {
         description: 'Search over content(posts or casts) on Farcaster per a given query/keyword',
         parameters: z.object({
           query: z.string(),
         }),
         execute: async ({ query }) => {
-          const response = await fetch(`${BASE_URL}/api/farcaster/casts/search?q=${query}`);
+          const response = await fetch(`${BASE_URL}/api/farcaster/cast/search?q=${query}`);
           const castData = await response.json();
           return castData.result.casts;
+        },
+      },
+      getUserCasts: {
+        description: 'Gets the latest casts per a particular username on Farcaster',
+        parameters: z.object({
+          username: z.string(),
+        }),
+        execute: async ({ username }) => {
+          const user = await cortexAPI.getFarcasterUser(username);
+          const response = await fetcher(`${BASE_URL}/api/farcaster/feed/user/casts?fid=${`${user.fid}`}`);
+          const castData = await response.json();
+          return castData.casts;
         },
       },
       getEvents: {

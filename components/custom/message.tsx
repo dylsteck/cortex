@@ -55,7 +55,7 @@ export const Message = ({
                     <div key={toolCallId}>
                       {toolName === 'getWeather' ? (
                         <Weather weatherAtLocation={result} />
-                      ) : toolName === 'getCasts' ? (
+                      ) : (toolName === 'searchCasts' || toolName === 'getUserCasts') ? (
                         <Casts casts={result} />
                       ) : toolName === 'getEvents' ? (
                         <Events events={result} />
@@ -65,7 +65,7 @@ export const Message = ({
                 } else {
                   return (
                     <div key={toolCallId} className="skeleton">
-                      {toolName === 'getWeather' ? <Weather /> : toolName === 'getCasts' ? <Casts /> : toolName === 'getEvents' ? <Events /> : null}
+                      {toolName === 'getWeather' ? <Weather /> : (toolName === 'searchCasts' || toolName === 'getUserCasts') ? <Casts /> : toolName === 'getEvents' ? <Events /> : null}
                     </div>
                   );
                 }

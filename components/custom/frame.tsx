@@ -10,6 +10,8 @@ import {
   type FrameUITheme,
 } from "@frames.js/render/ui";
 import { useFrame } from "@frames.js/render/use-frame";
+import { motion } from 'framer-motion';
+import { RefreshCcw } from "lucide-react";
  
 /**
  * StylingProps is a type that defines the props that can be passed to the components to style them.
@@ -26,7 +28,36 @@ type StylingProps = {
  *
  * You can also style components here and completely ignore theme if you wish.
  */
-const components: FrameUIComponents<StylingProps> = {};
+const components: FrameUIComponents<StylingProps> = {
+  LoadingScreen(props, stylingProps) {
+    return (
+      <motion.div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          height: '100%',
+          width: '100%',
+        }}
+      >
+        <motion.div
+          animate={{ rotate: 360 }}
+          transition={{
+            repeat: Infinity,
+            duration: 1,
+            ease: 'linear',
+          }}
+          style={{
+            fontSize: '40px',
+            color: '#fff',
+          }}
+        >
+          <RefreshCcw />
+        </motion.div>
+      </motion.div>
+    );
+  },
+};
  
 /**
  * By default there are no styles so it is up to you to style the components as you wish.
