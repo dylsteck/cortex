@@ -14,19 +14,6 @@ import useWindowSize from './use-window-size';
 import { Button } from '../ui/button';
 import { Textarea } from '../ui/textarea';
 
-const suggestedActions = [
-  {
-    title: 'What can you tell me about',
-    label: 'aethernet on Farcaster?',
-    action: 'What can you tell me about aethernet on Farcaster?',
-  },
-  {
-    title: 'What are some',
-    label: 'upcoming events I should go to?',
-    action: 'What are some upcoming events I should go to?',
-  },
-];
-
 export function MultimodalInput({
   input,
   setInput,

@@ -10,6 +10,7 @@ import { Model } from '@/lib/model';
 
 import { ChatHeader } from './chat-header';
 import { MultimodalInput } from './multimodal-input';
+import { Overview } from './overview';
 
 export function Chat({
   id,
@@ -33,12 +34,7 @@ export function Chat({
     <div className="flex flex-col gap-0 min-w-0 h-screen bg-background">
       <ChatHeader selectedModelName={selectedModelName} />
       <div className="flex-1 overflow-auto">
-        {messages.length === 0 && 
-          <iframe
-            className="w-full h-[91%] rounded-xl border border-white"
-            src="https://dylansteck.com"
-          />
-        }
+        {messages.length === 0 && <Overview append={append} />}
         {messages.length > 0 &&  
         <div className="w-full h-[91%] rounded-xl border border-white pt-2 overflow-y-scroll">
           {messages.map((message) => (
