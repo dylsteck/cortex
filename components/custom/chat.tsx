@@ -32,11 +32,11 @@ export function Chat({
 
   return (
     <div className="flex flex-col gap-0 min-w-0 h-screen bg-background">
-      <ChatHeader selectedModelName={selectedModelName} />
+      <ChatHeader />
       <div className="flex-1 overflow-auto">
         {messages.length === 0 && <Overview append={append} />}
         {messages.length > 0 &&  
-        <div className="w-full h-[91%] rounded-xl border border-white pt-2 overflow-y-scroll">
+        <div className="w-full h-[91%] rounded-xl pt-2 overflow-y-scroll">
           {messages.map((message) => (
             <PreviewMessage
               key={message.id}

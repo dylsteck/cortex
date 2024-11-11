@@ -28,10 +28,11 @@ import {
   useSidebar,
 } from '@/components/ui/sidebar';
 import { BetterTooltip } from '@/components/ui/tooltip';
+import { Model } from '@/lib/model';
 
 import { CortexIcon } from './icons';
 
-export function AppSidebar({ user }: { user: User | undefined }) {
+export function AppSidebar({ user, selectedModelName }: { user: User | undefined, selectedModelName: Model['name'] }) {
   const { setOpenMobile } = useSidebar();
 
   return (
@@ -64,7 +65,7 @@ export function AppSidebar({ user }: { user: User | undefined }) {
         {user && (
           <SidebarGroup>
             <SidebarGroupContent>
-              <SidebarUserNav user={user} />
+              <SidebarUserNav user={user} selectedModelName={selectedModelName} />
             </SidebarGroupContent>
           </SidebarGroup>
         )}
