@@ -30,24 +30,27 @@ export function Chat({
       },
     });
 
+  const [containerRef, endRef] = useScrollToBottom<HTMLDivElement>();
+
   return (
     <div className="flex flex-col gap-0 min-w-0 h-screen bg-background">
       <ChatHeader />
-      <div className="flex-1 overflow-auto">
+      <div className="w-full h-[91%] rounded-xl pt-2 overflow-y-scroll" ref={containerRef}>
         {messages.length === 0 && <Overview append={append} />}
-        {messages.length > 0 &&  
-        <div className="w-full h-[91%] rounded-xl pt-2 overflow-y-scroll">
-          {messages.map((message) => (
-            <PreviewMessage
-              key={message.id}
-              role={message.role}
-              content={message.content}
-              attachments={message.experimental_attachments}
-              toolInvocations={message.toolInvocations}
-            />
-          ))}
-        </div>
-        }
+        {messages.map((message, index) => (
+          <PreviewMessage
+            key={message.id}
+            role={message.role}
+            nextRole={messages[index + 1] ? messages[index + 1].role : ""}
+            content={message.content}
+            attachments={message.experimental_attachments}
+            toolInvocations={message.toolInvocations}
+          />
+        ))}
+        <div
+          ref={endRef}
+          className="shrink-0 min-w-[24px] min-h-[24px]"
+        />
       </div>
       <form className="flex m-0 bg-background w-full fixed bottom-0 inset-x-0">
         <MultimodalInput

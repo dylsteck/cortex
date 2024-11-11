@@ -73,7 +73,7 @@ export function Events({ events }: { events?: EventData[] }) {
         ))} */}
         {events.map((event, index) => {
           return (
-            <div key={`frame-${index}`} className="min-w-[30vw]">
+            <div key={`frame-${index}`} className="min-w-[30vw] w-auto">
               <Frame url={`https://beta.events.xyz/events/${event.id}`} />
             </div>
           )
