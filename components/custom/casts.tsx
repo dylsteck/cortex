@@ -47,7 +47,7 @@ interface Cast {
   timestamp: string;
   embeds: {
     url: string;
-    metadata: {
+    metadata?: {
       content_type: string;
       content_length: number | null;
       _status: string;
@@ -181,19 +181,19 @@ function convertCastToCastData(cast: Cast): CastData {
     text: cast.text,
     timestamp: new Date(cast.timestamp).getTime(),
     embeds: {
-      images: cast.embeds?.filter(embed => embed.metadata.content_type?.includes("image")).map(embed => ({
+      images: cast.embeds?.filter(embed => embed.metadata?.content_type?.includes("image")).map(embed => ({
         type: "image",
         url: embed.url,
         sourceUrl: embed.url,
-        alt: embed.metadata.html?.ogDescription || "",
+        alt: embed.metadata?.html?.ogDescription || "",
       })) || [],
-      urls: cast.embeds?.filter(embed => embed.metadata.content_type === "text/html").map(embed => ({
+      urls: cast.embeds?.filter(embed => embed.metadata?.content_type === "text/html").map(embed => ({
         type: "url",
         openGraph: {
           url: embed.url,
-          title: embed.metadata.html?.ogTitle,
-          description: embed.metadata.html?.ogDescription,
-          image: embed.metadata.html?.ogImage?.[0]?.url,
+          title: embed.metadata?.html?.ogTitle,
+          description: embed.metadata?.html?.ogDescription,
+          image: embed.metadata?.html?.ogImage?.[0]?.url,
         },
       })) || [],
     },
@@ -206,7 +206,7 @@ function convertCastToCastData(cast: Cast): CastData {
     replies: {
       count: cast.replies.count || 0,
     },
-    tags: cast.tags || [], // Defaulting tags to an empty array if undefined
+    tags: cast.tags || [],
   };
 }
 

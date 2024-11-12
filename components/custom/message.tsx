@@ -2,89 +2,93 @@
 
 import { Attachment, ToolInvocation } from 'ai';
 import { motion } from 'framer-motion';
-import { Sparkles } from 'lucide-react';
 import { ReactNode } from 'react';
 
 import { Casts } from './casts';
 import { Events } from './events';
-import { CortexIcon } from './icons';
 import { Markdown } from './markdown';
 import { PreviewAttachment } from './preview-attachment';
 import { Weather } from './weather';
 
 export const Message = ({
   role,
+  nextRole,
   content,
   toolInvocations,
   attachments,
+  showDivider,
 }: {
   role: string;
+  nextRole: string;
   content: string | ReactNode;
   toolInvocations: Array<ToolInvocation> | undefined;
   attachments?: Array<Attachment>;
+  showDivider?: boolean;
 }) => {
   return (
     <motion.div
-      className="w-full mx-auto max-w-3xl px-4 group/message "
+      className="w-full px-4 md:px-8 lg:px-12 group/message mb-[5%]"
       initial={{ y: 5, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       data-role={role}
     >
-      <div className="flex gap-4 group-data-[role=user]/message:px-5 w-full group-data-[role=user]/message:w-fit group-data-[role=user]/message:ml-auto group-data-[role=user]/message:max-w-2xl group-data-[role=user]/message:py-3.5 group-data-[role=user]/message:bg-muted rounded-xl">
+      <div className="flex flex-col gap-6 max-w-4xl mx-auto">
+        {role === 'user' && (
+          <h2 className="text-xl font-medium mb-4">{content}</h2>
+        )}
         {role === 'assistant' && (
-          <div className="size-8 flex items-center rounded-full justify-center ring-1 shrink-0 ring-border">
-            <CortexIcon size={30} />
+          <div className="flex gap-4 w-full">
+            <div className="flex flex-col gap-6 w-full">
+              {content ? (
+                <Markdown>{content as string}</Markdown>
+              ) : null}
+              {toolInvocations && toolInvocations.length > 0 && (
+                <div className="flex flex-col gap-4">
+                  {toolInvocations.map((toolInvocation) => {
+                    const { toolName, toolCallId, state } = toolInvocation;
+
+                    if (state === 'result') {
+                      const { result } = toolInvocation;
+                      return (
+                        <div key={toolCallId}>
+                          {toolName === 'getWeather' ? (
+                            <Weather weatherAtLocation={result} />
+                          ) : (toolName === 'searchCasts' || toolName === 'getUserCasts') ? (
+                            <Casts casts={result} />
+                          ) : toolName === 'getEvents' ? (
+                            <Events events={result} />
+                          ) : null}
+                        </div>
+                      );
+                    } else {
+                      return (
+                        <div key={toolCallId} className="skeleton">
+                          {toolName === 'getWeather' ? <Weather /> : (toolName === 'searchCasts' || toolName === 'getUserCasts') ? <Casts /> : toolName === 'getEvents' ? <Events /> : null}
+                        </div>
+                      );
+                    }
+                  })}
+                </div>
+              )}
+              {attachments && (
+                <div className="flex flex-row gap-2">
+                  {attachments.map((attachment) => (
+                    <PreviewAttachment
+                      key={attachment.url}
+                      attachment={attachment}
+                    />
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
         )}
-        <div className="flex flex-col gap-2 w-full">
-          {content ? (
-            <div className="flex flex-col gap-4">
-              <Markdown>{content as string}</Markdown>
-            </div>
-          ) : null}
-
-          {toolInvocations && toolInvocations.length > 0 ? (
-            <div className="flex flex-col gap-4">
-              {toolInvocations.map((toolInvocation) => {
-                const { toolName, toolCallId, state } = toolInvocation;
-
-                if (state === 'result') {
-                  const { result } = toolInvocation;
-
-                  return (
-                    <div key={toolCallId}>
-                      {toolName === 'getWeather' ? (
-                        <Weather weatherAtLocation={result} />
-                      ) : (toolName === 'searchCasts' || toolName === 'getUserCasts') ? (
-                        <Casts casts={result} />
-                      ) : toolName === 'getEvents' ? (
-                        <Events events={result} />
-                      ) : null}
-                    </div>
-                  );
-                } else {
-                  return (
-                    <div key={toolCallId} className="skeleton">
-                      {toolName === 'getWeather' ? <Weather /> : (toolName === 'searchCasts' || toolName === 'getUserCasts') ? <Casts /> : toolName === 'getEvents' ? <Events /> : null}
-                    </div>
-                  );
-                }
-              })}
-            </div>
-          ) : null}
-
-          {attachments && (
-            <div className="flex flex-row gap-2">
-              {attachments.map((attachment) => (
-                <PreviewAttachment
-                  key={attachment.url}
-                  attachment={attachment}
-                />
-              ))}
-            </div>
-          )}
-        </div>
       </div>
+      {role === 'assistant' && nextRole === 'user' && (
+        <div className="max-w-4xl mx-auto">
+          <hr className="my-7 w-[99%] border-t-0.5 border-white/55" />
+        </div>
+      )}
     </motion.div>
   );
 };
