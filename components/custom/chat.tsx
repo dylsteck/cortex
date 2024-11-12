@@ -1,8 +1,7 @@
 'use client';
-
 import { Attachment, Message } from 'ai';
 import { useChat } from 'ai/react';
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 import { Message as PreviewMessage } from '@/components/custom/message';
 import { useScrollToBottom } from '@/components/custom/use-scroll-to-bottom';
@@ -30,8 +29,8 @@ export function Chat({
       },
     });
 
-  const [containerRef, endRef] = useScrollToBottom<HTMLDivElement>();
-
+  const [containerRef, endRef] = useScrollToBottom(messages);
+  
   return (
     <div className="flex flex-col gap-0 min-w-0 h-screen bg-background">
       <ChatHeader />
@@ -47,10 +46,7 @@ export function Chat({
             toolInvocations={message.toolInvocations}
           />
         ))}
-        <div
-          ref={endRef}
-          className="shrink-0 min-w-[24px] min-h-[24px]"
-        />
+        <div ref={endRef} />
       </div>
       <form className="flex m-0 bg-background w-full fixed bottom-0 inset-x-0">
         <MultimodalInput
