@@ -2,16 +2,13 @@
 
 import { ChatRequestOptions, CreateMessage, Message } from 'ai';
 import { motion } from 'framer-motion';
-import React, {
-  useRef,
-  useEffect,
-  useCallback,
-} from 'react';
+import React, { useRef, useEffect, useCallback, useState } from 'react';
 import { toast } from 'sonner';
 
-import { ArrowUpIcon, StopIcon } from './icons';
+import { ArrowUpIcon, StopIcon, RocketIcon } from './icons';
 import useWindowSize from './use-window-size';
 import { Button } from '../ui/button';
+import { Switch } from '../ui/switch';
 import { Textarea } from '../ui/textarea';
 
 export function MultimodalInput({
@@ -41,6 +38,7 @@ export function MultimodalInput({
 }) {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const { width } = useWindowSize();
+  const [autopilot, setAutopilot] = useState(false);
 
   useEffect(() => {
     if (textareaRef.current) {
@@ -90,28 +88,49 @@ export function MultimodalInput({
         }}
       />
 
-      {isLoading ? (
-        <Button
-          className="rounded-full p-1.5 h-fit absolute bottom-2 right-2 m-0.5"
-          onClick={(event) => {
-            event.preventDefault();
-            stop();
-          }}
-        >
-          <StopIcon size={14} />
-        </Button>
-      ) : (
-        <Button
-          className="rounded-full p-1.5 h-fit absolute bottom-3 right-2 m-0.5"
-          onClick={(event) => {
-            event.preventDefault();
-            submitForm();
-          }}
-          disabled={input.length === 0}
-        >
-          <ArrowUpIcon size={14} />
-        </Button>
-      )}
+      <div className="absolute bottom-2 right-2 flex space-x-2 items-center">
+        <div className="flex flex-row gap-2 items-center pr-2">
+          <Switch
+            checked={autopilot}
+            onCheckedChange={setAutopilot}
+            className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none ${
+              autopilot ? 'bg-black dark:bg-gray-100' : 'bg-gray-300 dark:bg-gray-600'
+            }`}
+          >
+            <span
+              className={`${
+                autopilot ? 'translate-x-6 bg-blue-500' : 'translate-x-1 bg-white'
+              } inline-block size-4 rounded-full transition-transform`}
+            />
+          </Switch>
+          <div className="text-black dark:text-white mt-0.5">
+            <RocketIcon size={16} />
+          </div>
+        </div>
+
+        {isLoading ? (
+          <Button
+            className="rounded-full p-1.5 h-fit m-0.5"
+            onClick={(event) => {
+              event.preventDefault();
+              stop();
+            }}
+          >
+            <StopIcon size={14} />
+          </Button>
+        ) : (
+          <Button
+            className="rounded-full p-1.5 h-fit m-0.5"
+            onClick={(event) => {
+              event.preventDefault();
+              submitForm();
+            }}
+            disabled={input.length === 0}
+          >
+            <ArrowUpIcon size={14} />
+          </Button>
+        )}
+      </div>
     </div>
   );
 }
