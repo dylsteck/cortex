@@ -5,7 +5,7 @@ import { customModel } from '@/ai';
 import { auth } from '@/app/(auth)/auth';
 import Iframe from '@/components/custom/iframe';
 import { deleteChatById, getChatById, saveChat } from '@/db/queries';
-import { Model, models } from '@/lib/model';
+import { Model, models, SYSTEM_PROMPT } from '@/lib/model';
 import { tools } from '@/lib/tools';
 import { BASE_URL, cortexAPI } from '@/lib/utils';
 
@@ -31,8 +31,7 @@ export async function POST(request: Request) {
 
   const result = await streamText({
     model: customModel(model),
-    system:
-      'You are a web searching personal assistant whose objective is to either proceed or enquire so you can show a Markdown page with the full results. Show smaller summary bullet-points with emojis as the bullet point and a sub-header for the bullet point, so that your response functions as a mini web page for the query result. Do *not* show any images or other embeds.',
+    system: SYSTEM_PROMPT,
     messages: coreMessages,
     maxSteps: 10,
     tools: tools,

@@ -240,18 +240,23 @@ export function Casts({ casts }: { casts?: Cast[] }) {
     );
   }
 
+  const uniqueCasts = Array.from(new Map(casts.map(cast => [cast.hash, cast])).values());
+
   return (
-    <ScrollArea className="w-full">
-      <div className="flex space-x-4 pb-4">
-        {casts.map((cast) => (
-          <Card key={cast.hash} className="shrink-0 size-auto max-w-[20vw] max-h-[50vh] overflow-y-scroll text-md">
-            <div className="h-full">
-              <FarcasterEmbed castData={convertCastToCastData(cast)} />
-            </div>
-          </Card>
-        ))}
-      </div>
-      <ScrollBar orientation="horizontal" />
-    </ScrollArea>
+    <div>
+      <h2 className="text-lg font-semibold mb-4">Casts</h2>
+      <ScrollArea className="w-full">
+        <div className="flex space-x-4 pb-4">
+          {uniqueCasts.map((cast) => (
+            <Card key={cast.hash} className="shrink-0 size-auto max-w-[25vw] max-h-[55vh] overflow-y-scroll text-md">
+              <div className="h-full">
+                <FarcasterEmbed castData={convertCastToCastData(cast)} />
+              </div>
+            </Card>
+          ))}
+        </div>
+        <ScrollBar orientation="horizontal" />
+      </ScrollArea>
+    </div>
   );
 }

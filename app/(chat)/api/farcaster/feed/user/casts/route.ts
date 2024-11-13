@@ -25,7 +25,7 @@ export async function GET(request: Request) {
     return new Response(JSON.stringify(JSON.parse(cachedData)), { status: 200 });
   }
 
-  const response = await fetch(`https://api.neynar.com/v2/farcaster/feed/user/popular?fid=${encodeURIComponent(fid)}`, {
+  const response = await fetch(`https://api.neynar.com/v2/farcaster/feed/user/casts?fid=${encodeURIComponent(fid)}`, {
     method: "GET",
     headers: {
       'accept': 'application/json',
