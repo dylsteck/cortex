@@ -25,7 +25,7 @@ export async function GET(request: Request) {
     return new Response(JSON.stringify(JSON.parse(cachedData)), { status: 200 });
   }
 
-  const response = await fetch(`https://api.neynar.com/v2/farcaster/cast/search?q=${encodeURIComponent(query)}&priority_mode=false&limit=25`, {
+  const response = await fetch(`https://api.neynar.com/v2/farcaster/cast/search?q=${encodeURIComponent(query)}&priority_mode=true&limit=25`, {
     method: "GET",
     headers: {
       'accept': 'application/json',
