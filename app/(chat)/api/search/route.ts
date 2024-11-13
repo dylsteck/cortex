@@ -26,7 +26,7 @@ export async function GET(request: Request) {
     return new Response("Unsupported provider", { status: 400 })
   }
 
-  const cacheKey = `search:${query}:${maxResults}:${searchDepth}:${includeDomains.join(",")}:${excludeDomains.join(",")}:${provider}`
+  const cacheKey = `web_search:${query}:${maxResults}:${searchDepth}:${includeDomains.join(",")}:${excludeDomains.join(",")}:${provider}`
   let data = await redis.get(cacheKey)
 
   if (!data) {

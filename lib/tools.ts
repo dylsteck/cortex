@@ -4,14 +4,38 @@ import { z } from "zod"
 import { BASE_URL, cortexAPI } from "./utils"
 
 export const tools = {
-  getEvents: {
+  castSearch: tool({
+    description: 'Search over content(posts, casts as Farcaster calls them) on Farcaster per a given query.',
+    parameters: z.object({
+      query: z.string(),
+    }),
+    execute: async ({ query }) => {
+      const castSearchData = await cortexAPI.castSearch(query)
+      return castSearchData.result.casts
+    },
+  }),
+  getEvents: tool({
     description: 'Get upcoming Farcaster events on Events.xyz. Do not show any images or markdown in your response.',
     parameters: z.object({}),
     execute: async ({}) => {
-        const eventsData = await cortexAPI.getEvents();
-        return eventsData;
+      const eventsData = await cortexAPI.getEvents()
+      return eventsData
     },
-  },
+  }),
+  getUserCasts: tool({
+    description: 'Gets the latest casts per a particular username on Farcaster.',
+    parameters: z.object({
+        username: z.string(),
+    }),
+    execute: async ({ username }) => {
+        const user = await cortexAPI.getFarcasterUser(username);
+        if(!user){
+            throw new Error('User data not available');
+        }
+        const userCastsData = await cortexAPI.getFarcasterUserCasts(user.fid);
+        return userCastsData.casts;
+    },
+  }),
   getWeather: tool({
     description: 'Get the current weather at a location.',
     parameters: z.object({

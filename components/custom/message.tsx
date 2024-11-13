@@ -9,6 +9,35 @@ import { Events } from './events';
 import { Markdown } from './markdown';
 import { PreviewAttachment } from './preview-attachment';
 import { Weather } from './weather';
+import { Skeleton } from '../ui/skeleton';
+
+const Tool = ({ result, toolName }: {result: any, toolName: string}) => {
+  return (
+    <div>
+      {toolName === 'getWeather' ? (
+        <Weather weatherAtLocation={result} />
+      ) : (toolName === 'castSearch' || toolName === 'getUserCasts') ? (
+        <Casts casts={result} />
+      ) : toolName === 'getEvents' ? (
+        <Events events={result} />
+      ) : <Skeleton className="h-4 w-[200px]" /> }
+    </div>
+  );
+}
+
+const ToolPreview = ({ toolName }: {toolName: string}) => {
+  return (
+    <div className="skeleton">
+      {toolName === 'getWeather' ? (
+        <Weather />
+      ) : (toolName === 'castSearch' || toolName === 'getUserCasts') ? (
+        <Casts />
+      ) : toolName === 'getEvents' ? (
+        <Events />
+      ) : null}
+    </div>
+  );
+}
 
 export const Message = ({
   role,
@@ -25,6 +54,7 @@ export const Message = ({
   attachments?: Array<Attachment>;
   showDivider?: boolean;
 }) => {
+
   return (
     <motion.div
       className="w-full px-4 md:px-8 lg:px-12 group/message mb-[5%]"
@@ -46,26 +76,11 @@ export const Message = ({
                 <div className="flex flex-col gap-4">
                   {toolInvocations.map((toolInvocation) => {
                     const { toolName, toolCallId, state } = toolInvocation;
-
                     if (state === 'result') {
                       const { result } = toolInvocation;
-                      return (
-                        <div key={toolCallId}>
-                          {toolName === 'getWeather' ? (
-                            <Weather weatherAtLocation={result} />
-                          ) : (toolName === 'searchCasts' || toolName === 'getUserCasts') ? (
-                            <Casts casts={result} />
-                          ) : toolName === 'getEvents' ? (
-                            <Events events={result} />
-                          ) : null}
-                        </div>
-                      );
+                      return <Tool key={toolCallId} result={result} toolName={toolName} />
                     } else {
-                      return (
-                        <div key={toolCallId} className="skeleton">
-                          {toolName === 'getWeather' ? <Weather /> : (toolName === 'searchCasts' || toolName === 'getUserCasts') ? <Casts /> : toolName === 'getEvents' ? <Events /> : null}
-                        </div>
-                      );
+                      return <ToolPreview key={toolCallId} toolName={toolName} />
                     }
                   })}
                 </div>

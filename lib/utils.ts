@@ -16,6 +16,7 @@ import CortexAPI from './api';
 export const redis = Redis.fromEnv()
 
 export const BASE_URL = process.env.VERCEL_URL || process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
+
 export const cortexAPI = new CortexAPI();
 
 export function cn(...inputs: ClassValue[]) {
@@ -27,6 +28,7 @@ interface ApplicationError extends Error {
   status: number;
 }
 
+// TODO: fix fetcher, which should be used in `lib/api`
 export const fetcher = async (url: string) => {
   const res = await fetch(url);
 
