@@ -9,6 +9,7 @@ import { Events } from './events';
 import { Markdown } from './markdown';
 import { PreviewAttachment } from './preview-attachment';
 import { Weather } from './weather';
+import { WebResults } from './web-results';
 import { Skeleton } from '../ui/skeleton';
 
 const Tool = ({ result, toolName }: {result: any, toolName: string}) => {
@@ -20,7 +21,10 @@ const Tool = ({ result, toolName }: {result: any, toolName: string}) => {
         <Casts casts={result} />
       ) : toolName === 'getEvents' ? (
         <Events events={result} />
-      ) : <Skeleton className="h-4 w-[200px]" /> }
+      ) : toolName === 'webSearch' ? (
+        <WebResults results={result} />
+      )
+      : <Skeleton className="h-4 w-[200px]" /> }
     </div>
   );
 }
@@ -34,7 +38,9 @@ const ToolPreview = ({ toolName }: {toolName: string}) => {
         <Casts />
       ) : toolName === 'getEvents' ? (
         <Events />
-      ) : null}
+      ) : toolName === 'webSearch' ? (
+        <WebResults />
+      ) : <Skeleton className="h-4 w-[200px]" />}
     </div>
   );
 }
