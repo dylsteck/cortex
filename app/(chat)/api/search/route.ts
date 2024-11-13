@@ -2,14 +2,14 @@ import { auth } from "@/app/(auth)/auth"
 import { redis } from "@/lib/utils"
 
 export async function GET(request: Request) {
-  const session = await auth()
-  if (!session?.user) {
-    const { url, headers } = request
-    const hostHeader = headers.get("host")
-    if (hostHeader !== new URL(url).host) {
-      return Response.redirect(new URL(`/login?callbackUrl=${encodeURIComponent(url)}`, url))
-    }
-  }
+  // const session = await auth()
+  // if (!session?.user) {
+  //   const { url, headers } = request
+  //   const hostHeader = headers.get("host")
+  //   if (hostHeader !== new URL(url).host) {
+  //     return Response.redirect(new URL(`/login?callbackUrl=${encodeURIComponent(url)}`, url))
+  //   }
+  // }
 
   const url = new URL(request.url)
   const query = url.searchParams.get("query")
