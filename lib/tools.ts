@@ -14,6 +14,14 @@ export const tools = {
       return castSearchData.result.casts
     },
   }),
+  getComposerActions: tool({
+    description: 'Get Farcaster composer actions, which are mini apps Farcaster users can interact with',
+    parameters: z.object({}),
+    execute: async ({}) => {
+      const composerActionData = await cortexAPI.getComposerActions();
+      return composerActionData;
+    },
+  }),
   getEvents: tool({
     description: 'Get upcoming Farcaster events on Events.xyz. Do not show any images or markdown in your response.',
     parameters: z.object({}),

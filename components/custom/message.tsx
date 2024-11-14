@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { ReactNode } from 'react';
 
 import { Casts } from './casts';
+import ComposerActions from './composer-actions';
 import { Events } from './events';
 import { Markdown } from './markdown';
 import { PreviewAttachment } from './preview-attachment';
@@ -19,6 +20,8 @@ const Tool = ({ result, toolName }: {result: any, toolName: string}) => {
         <Weather weatherAtLocation={result} />
       ) : (toolName === 'castSearch' || toolName === 'getUserCasts') ? (
         <Casts casts={result} />
+      ) : toolName === 'getComposerActions' ? (
+        <ComposerActions results={result} />
       ) : toolName === 'getEvents' ? (
         <Events events={result} />
       ) : toolName === 'webSearch' ? (
@@ -36,6 +39,8 @@ const ToolPreview = ({ toolName }: {toolName: string}) => {
         <Weather />
       ) : (toolName === 'castSearch' || toolName === 'getUserCasts') ? (
         <Casts />
+      ) : toolName === 'getComposerActions' ? (
+        <ComposerActions />
       ) : toolName === 'getEvents' ? (
         <Events />
       ) : toolName === 'webSearch' ? (
