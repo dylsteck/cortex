@@ -2,12 +2,11 @@ import { Metadata } from 'next';
 import { Toaster } from 'sonner';
 
 import { ThemeProvider } from '@/components/custom/theme-provider';
-import { BASE_URL } from '@/lib/utils';
 
 import './globals.css';
 
 export const metadata: Metadata = {
-  metadataBase: new URL(BASE_URL),
+  metadataBase: new URL('https://withcortex.vercel.app'),
   title: 'Cortex',
   description: 'Cortex',
 };
