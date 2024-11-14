@@ -7,6 +7,7 @@ import {
   ToolInvocation,
 } from "ai";
 import { clsx, type ClassValue } from "clsx";
+import { Session } from 'next-auth';
 import { twMerge } from "tailwind-merge";
 
 import { Chat } from "@/db/schema";
@@ -28,6 +29,16 @@ export function cn(...inputs: ClassValue[]) {
 interface ApplicationError extends Error {
   info: string;
   status: number;
+}
+
+export const authMiddleware = (session: Session | null, url: Request['url'], headers: Request['headers']): Response | void => {
+  if (!session?.user) {
+    const hostHeader = headers.get("host");
+    const expectedHost = new URL(BASE_URL).host;
+    if (hostHeader !== expectedHost) {
+      return Response.redirect(new URL(`/login?callbackUrl=${encodeURIComponent(url)}`, url));
+    }
+  }
 }
 
 // TODO: fix fetcher, which should be used in `lib/api`

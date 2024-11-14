@@ -1,14 +1,11 @@
 import { auth } from "@/app/(auth)/auth";
-import { EVENTS_API_URL, redis } from "@/lib/utils";
+import { authMiddleware, EVENTS_API_URL, redis } from "@/lib/utils";
 
 export async function GET(request: Request) {
   const session = await auth();
-  if (!session?.user) {
-    const { url, headers } = request;
-    const hostHeader = headers.get("host");
-    if (hostHeader !== new URL(url).host) {
-      return Response.redirect(new URL(`/login?callbackUrl=${encodeURIComponent(url)}`, url));
-    }
+  const authResponse = authMiddleware(session, request.url, request.headers);
+  if (authResponse) {
+    return authResponse;
   }
 
   const cacheKey = "events";
