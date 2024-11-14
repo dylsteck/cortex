@@ -6,6 +6,28 @@
   The nerve center for your digital life
 </p>
 
+Cortex is an AI assistant for your life that can connect to the web, social platforms like Farcaster, and (soon) your apps to make it easier to get things done quickly online.
+
+Built by [Dylan Steck](https://dylansteck.com)
+
+## Tools
+Cortex currently uses:
+- [Next.js](https://nextjs.org)
+- [shadcn UI](https://ui.shadcn.com)
+- [Drizzle ORM](https://orm.drizzle.team)
+- [Postgres](https://www.postgresql.org)
+- [Vercel AI SDK](https://sdk.vercel.ai)
+- [OpenAI models(currently GPT-4o and 4o mini)](https://platform.openai.com/docs/concepts)
+- [Upstash Redis](https://upstash.com)
+- [Neynar](https://neynar.com)
+- [Events.xyz](https://events.xyz)
+- [frames.js](https://framesjs.org)
+- [Tavily](https://tavily.com)
+- [Open-Meteo](https://open-meteo.com)
+- [NextAuth](https://next-auth.js.org)
+
+For a further understanding of how the assistant tools are defined, check out [tools.ts](/lib/tools.ts)
+
 ## Running locally
 
 You will need to use the environment variables [defined in `.env.example`](.env.example) to run Cortex.
