@@ -14,11 +14,38 @@ class CortexAPI {
     return json
   }
 
+  async getComposerActions(cursor?: string, list: 'top' | 'featured' = 'top'): Promise<any> {
+    const url = new URL(`${this.BASE_URL}/api/farcaster/composer-actions`);
+    url.searchParams.append("list", list);
+    if (cursor) {
+      url.searchParams.append("cursor", cursor);
+    }
+  
+    const response = await fetch(url.toString(), {
+      method: "GET",
+      headers: {
+        'accept': 'application/json'
+      }
+    });
+  
+    if (!response.ok) {
+      throw new Error(`Failed to fetch data from API route: ${response.status}`);
+    }
+  
+    return await response.json();
+  }  
+
+  async getEvent(id: string): Promise<any> {
+    const response = await fetch(`${this.BASE_URL}/api/farcaster/event?id=${id}`)
+    if (!response.ok) throw new Error('Failed to fetch Farcaster event')
+    const json = await response.json();
+    return json
+  }
+
   async getEvents(): Promise<any> {
-    const response = await fetch(`${this.BASE_URL}/api/farcaster/events`)
+    const response = await fetch(`${this.BASE_URL}/api/farcaster/event/feed`)
     if (!response.ok) throw new Error('Failed to fetch Farcaster events')
     const json = await response.json();
-    console.log(json);
     return json
   }
 
@@ -28,6 +55,30 @@ class CortexAPI {
     const json = await response.json()
     return json.result.user
   }
+
+  async getFarcasterUsersByLocation(latitude: number, longitude: number, viewer_fid?: number, limit: number = 25): Promise<any> {
+    const url = new URL(`${this.BASE_URL}/api/user/by_location`);
+    url.searchParams.append("latitude", latitude.toString());
+    url.searchParams.append("longitude", longitude.toString());
+    url.searchParams.append("limit", limit.toString());
+  
+    if (viewer_fid !== undefined) {
+      url.searchParams.append("viewer_fid", viewer_fid.toString());
+    }
+  
+    const response = await fetch(url.toString(), {
+      method: "GET",
+      headers: {
+        'accept': 'application/json'
+      }
+    });
+  
+    if (!response.ok) {
+      throw new Error(`Failed to fetch data from API route: ${response.status}`);
+    }
+  
+    return await response.json();
+  }  
 
   async getFarcasterUserCasts(fid: number): Promise<any> {
     const response = await fetch(`${this.BASE_URL}/api/farcaster/feed/user/casts?fid=${fid}`)

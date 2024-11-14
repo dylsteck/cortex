@@ -1,5 +1,5 @@
 import { auth } from "@/app/(auth)/auth";
-import { redis } from "@/lib/utils";
+import { EVENTS_API_URL, redis } from "@/lib/utils";
 
 export async function GET(request: Request) {
   const session = await auth();
@@ -11,10 +11,17 @@ export async function GET(request: Request) {
     }
   }
 
-  const cacheKey = "events";
+  const url = new URL(request.url);
+  const id = url.searchParams.get("id");
+
+  if (!id) {
+    return new Response(JSON.stringify("Query parameter 'id' is required!"), { status: 400 });
+  }
+
+  const cacheKey = `event:${id}`
   let data = await redis.get(cacheKey);
   if (!data) {
-    const response = await fetch("https://beta.events.xyz/api/events");
+    const response = await fetch(`${EVENTS_API_URL}/events/${id}`);
     if (!response.ok) return new Response("Failed to fetch data from Events.xyz API!", { status: response.status });
     data = await response.json();
     await redis.set(cacheKey, JSON.stringify(data), { ex: 60 * 60 });

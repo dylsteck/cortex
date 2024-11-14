@@ -16,6 +16,8 @@ import CortexAPI from './api';
 export const redis = Redis.fromEnv()
 
 export const BASE_URL = process.env.VERCEL_URL || process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
+export const EVENTS_API_URL = 'https://events.xyz/api';
+export const NEYNAR_API_URL = 'https://api.neynar.com/v2';
 
 export const cortexAPI = new CortexAPI();
 
