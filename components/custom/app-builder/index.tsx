@@ -44,7 +44,7 @@ interface ExtendedWidget extends Widget {
   size: string;
   visible: boolean;
   preview: React.ReactNode;
-  props?: Record<string, any>; // Added props as an optional property
+  props?: Record<string, any>;
 }
 
 function WidgetDrawer({ onAdd }: { onAdd: (widget: ExtendedWidget) => void }) {
@@ -58,6 +58,8 @@ function WidgetDrawer({ onAdd }: { onAdd: (widget: ExtendedWidget) => void }) {
   const handleNext = () => {
     setCurrentSlide((prev) => (prev === WIDGETS.length - 1 ? 0 : prev + 1))
   }
+
+  const filteredWidgets = WIDGETS.filter(widget => widget.appId === currentWidget?.appId);
 
   return (
     <Drawer>
@@ -74,7 +76,7 @@ function WidgetDrawer({ onAdd }: { onAdd: (widget: ExtendedWidget) => void }) {
           <div className="p-4">
             <div className="flex items-center justify-between mb-4">
               <ChevronLeft 
-                className="size-6 cursor-pointer"
+                className={`size-6 cursor-pointer`}
                 onClick={() => setCurrentWidget(null)}
               />
               <h2 className="text-xl font-medium">{currentWidget.name}</h2>
@@ -88,14 +90,14 @@ function WidgetDrawer({ onAdd }: { onAdd: (widget: ExtendedWidget) => void }) {
             </div>
             <div className="relative mt-4 overflow-hidden">
               <div className="flex items-center justify-between">
-                <ChevronLeft className="size-6 cursor-pointer" onClick={handlePrev} />
-                <div className="grow text-center">
-                  {(currentWidget as any).component}
+                <ChevronLeft className={`size-6 cursor-pointer ${currentSlide > 0 ? '' : 'hidden'}`} onClick={handlePrev} />
+                <div className="grow flex justify-center">
+                  {currentWidget.component}
                 </div>
-                <ChevronRight className="size-6 cursor-pointer" onClick={handleNext} />
+                <ChevronRight className={`size-6 cursor-pointer ${currentSlide < filteredWidgets.length - 1 ? '' : 'hidden'}`} onClick={handleNext} />
               </div>
               <div className="flex justify-center gap-1 mt-2">
-                {WIDGETS.map((_, index) => (
+                {filteredWidgets.map((_, index) => (
                   <div
                     key={index}
                     className={`size-2 rounded-full ${
@@ -149,6 +151,7 @@ export default function AppBuilder() {
   const [viewMode, setViewMode] = React.useState<"desktop" | "mobile">("desktop")
   const [placedWidgets, setPlacedWidgets] = React.useState<ExtendedWidget[]>([])
   const [isMobile, setIsMobile] = React.useState(false)
+  const [currentWidget, setCurrentWidget] = React.useState<ExtendedWidget | null>(null)
 
   React.useEffect(() => {
     const checkMobile = () => {
@@ -214,14 +217,15 @@ export default function AppBuilder() {
           </div>
         </div>
         <div className="relative m-auto mt-4 flex flex-row gap-2 items-center">
-          <div className="flex justify-center">
+          <div className="flex justify-start">
             <div className="flex gap-3 items-center bg-muted/90 rounded-full p-2 shadow-lg backdrop-blur-md">
               <div className="pl-1 mr-2 flex flex-row gap-2 items-center">
                 <Link href="/app">
                   <ArrowLeftCircleIcon className="size-7" />
                 </Link>
-                <p className="text-lg">Unnamed</p>
+                <p className="text-lg">Untitled</p>
               </div>
+              <p className="text-lg">{currentWidget?.name}</p>
               <WidgetDrawer onAdd={addWidget} />
               {!isMobile && (
                 <div 
