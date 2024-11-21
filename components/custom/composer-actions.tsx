@@ -65,7 +65,7 @@ export default function ComposerActions({ results }: { results?: ComposerActions
           <div>
             <h2 className="text-lg font-semibold mb-4">Mini Apps</h2>
             <ScrollArea className="w-full">
-              <div className="flex flex-col space-y-4 pb-4">
+              <div className="flex flex-row gap-2 pb-4">
                 {results.result.actions.map((action, index) => (
                   <Card key={index} className="shrink-0 h-[180px] w-[400px] p-4 flex flex-col">
                     <div className="grow space-y-2">
