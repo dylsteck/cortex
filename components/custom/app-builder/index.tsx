@@ -10,30 +10,25 @@ import {
   Trash2,
   ArrowLeftCircleIcon,
   PlusCircleIcon,
+  X,
+  Check,
+  ChevronLeft,
+  ChevronRight,
 } from 'lucide-react'
+import Link from 'next/link'
 import * as React from "react"
 
 import { Button } from "@/components/ui/button"
 import {
   Drawer,
-  DrawerClose,
   DrawerContent,
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer"
-import { Input } from "@/components/ui/input"
 import { cn } from "@/lib/utils"
 
-interface Widget {
-  id: string
-  name: string
-  description: string
-  icon: React.ReactNode
-  sizes: ("small" | "medium" | "large")[]
-  preview: React.ReactNode
-  editableProps?: string[]
-}
+import { APPS, Widget, WIDGETS } from './widgets'
 
 interface GridPosition {
   x: number
@@ -42,90 +37,117 @@ interface GridPosition {
   h: number
 }
 
-interface PlacedWidget extends Widget {
-  position: GridPosition
-  size: "small" | "medium" | "large"
-  visible: boolean
-  props: Record<string, any>
-}
-
 const GRID_SIZE = 10
 
-const WIDGETS: Widget[] = [
-  {
-    id: "icebreaker",
-    name: "Icebreaker",
-    description: "Start a conversation or idea",
-    icon: <Sparkles className="size-6" />,
-    sizes: ["small", "medium", "large"],
-    preview: (
-      <div className="flex flex-col items-center justify-center h-full space-y-2">
-        <Sparkles className="size-8 text-primary" />
-        <div className="text-2xl font-semibold">Lets Begin</div>
-      </div>
-    ),
-    editableProps: ["prompt", "topic"]
-  },
-  {
-    id: "nounsBuilder",
-    name: "Nouns Builder",
-    description: "Create and explore noun ideas",
-    icon: <Square className="size-6" />,
-    sizes: ["medium", "large"],
-    preview: (
-      <div className="flex items-center justify-between h-full p-4">
-        <div>
-          <div className="text-3xl font-bold">Noun</div>
-          <div className="text-sm text-muted-foreground">Build together</div>
-        </div>
-        <SquareStack className="size-12 text-blue-500" />
-      </div>
-    ),
-    editableProps: ["input", "categories"]
-  },
-  {
-    id: "farcaster",
-    name: "Farcaster",
-    description: "Discover and connect with others",
-    icon: <Search className="size-6" />,
-    sizes: ["medium", "large"],
-    preview: (
-      <div className="space-y-2">
-        <div className="flex items-center">
-          <div className="size-4 rounded-sm border mr-2" />
-          <div className="text-sm">Explore communities</div>
-        </div>
-        <div className="flex items-center">
-          <div className="size-4 rounded-sm border mr-2" />
-          <div className="text-sm">Join discussions</div>
-        </div>
-      </div>
-    ),
-    editableProps: ["filters", "network"]
-  },
-  {
-    id: "zora",
-    name: "Zora",
-    description: "Explore art and culture",
-    icon: <BarChart3 className="size-6" />,
-    sizes: ["medium", "large"],
-    preview: (
-      <div className="flex items-center justify-between h-full p-4">
-        <div>
-          <div className="text-3xl font-bold">Art</div>
-          <div className="text-sm text-muted-foreground">Discover trends</div>
-        </div>
-        <LineChart className="size-12 text-green-500" />
-      </div>
-    ),
-    editableProps: ["collections", "viewMode"]
-  },
-]
+interface ExtendedWidget extends Widget {
+  position: GridPosition;
+  size: string;
+  visible: boolean;
+  preview: React.ReactNode;
+  props?: Record<string, any>; // Added props as an optional property
+}
+
+function WidgetDrawer({ onAdd }: { onAdd: (widget: ExtendedWidget) => void }) {
+  const [currentWidget, setCurrentWidget] = React.useState<ExtendedWidget | null>(null)
+  const [currentSlide, setCurrentSlide] = React.useState(0)
+
+  const handlePrev = () => {
+    setCurrentSlide((prev) => (prev === 0 ? WIDGETS.length - 1 : prev - 1))
+  }
+
+  const handleNext = () => {
+    setCurrentSlide((prev) => (prev === WIDGETS.length - 1 ? 0 : prev + 1))
+  }
+
+  return (
+    <Drawer>
+      <DrawerTrigger asChild>
+        <PlusCircleIcon className="size-7 cursor-pointer" />
+      </DrawerTrigger>
+      <DrawerContent
+        className={cn(
+          "fixed bottom-0 left-0 right-0 w-full bg-black dark:bg-white text-white dark:text-black rounded-t-xl shadow-lg border border-gray-200 mx-auto max-w-auto md:max-w-[30%]",
+          "p-4 outline-none"
+        )}
+      >
+        {currentWidget ? (
+          <div className="p-4">
+            <div className="flex items-center justify-between mb-4">
+              <ChevronLeft 
+                className="size-6 cursor-pointer"
+                onClick={() => setCurrentWidget(null)}
+              />
+              <h2 className="text-xl font-medium">{currentWidget.name}</h2>
+              <Check 
+                className="size-6 cursor-pointer"
+                onClick={() => {
+                  onAdd(currentWidget)
+                  setCurrentWidget(null)
+                }}
+              />
+            </div>
+            <div className="relative mt-4 overflow-hidden">
+              <div className="flex items-center justify-between">
+                <ChevronLeft className="size-6 cursor-pointer" onClick={handlePrev} />
+                <div className="grow text-center">
+                  {(currentWidget as any).component}
+                </div>
+                <ChevronRight className="size-6 cursor-pointer" onClick={handleNext} />
+              </div>
+              <div className="flex justify-center gap-1 mt-2">
+                {WIDGETS.map((_, index) => (
+                  <div
+                    key={index}
+                    className={`size-2 rounded-full ${
+                      index === currentSlide ? 'bg-primary' : 'bg-muted'
+                    }`}
+                  />
+                ))}
+              </div>
+            </div>
+          </div>
+        ) : (
+          <>
+            <DrawerHeader className="p-0">
+              <DrawerTitle className="text-2xl font-medium">Apps</DrawerTitle>
+            </DrawerHeader>
+            <div className="mt-4 overflow-y-scroll max-h-[50vh]">
+              {APPS.map((app) => (
+                <div key={app.id} className="mb-4">
+                  <div className="flex items-center justify-between mb-2">
+                    <div className="flex items-center">
+                      <div className="size-10 bg-gradient-to-r from-purple-400 to-blue-500 rounded-lg mr-3" />
+                      <div>
+                        <p className="font-medium">{app.name}</p>
+                        <p className="text-sm text-muted-foreground">{app.description}</p>
+                      </div>
+                    </div>
+                    <Button
+                      variant="secondary"
+                      onClick={() => {
+                        const widget = WIDGETS.find(w => w.id === 'icebreaker-profile');
+                        if (widget) {
+                          setCurrentWidget({ ...widget, position: { x: 0, y: 0, w: 4, h: 3 }, size: "medium", visible: true, preview: widget.component } as ExtendedWidget);
+                        }
+                      }}
+                      className="max-w-[30%] w-auto"
+                    >
+                      Add
+                    </Button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </>
+        )}
+      </DrawerContent>
+    </Drawer>
+  )
+}
 
 export default function AppBuilder() {
   const [viewMode, setViewMode] = React.useState<"desktop" | "mobile">("desktop")
-  const [placedWidgets, setPlacedWidgets] = React.useState<PlacedWidget[]>([])
-  const [selectedWidget, setSelectedWidget] = React.useState<PlacedWidget | null>(null)
+  const [placedWidgets, setPlacedWidgets] = React.useState<ExtendedWidget[]>([])
   const [isMobile, setIsMobile] = React.useState(false)
 
   React.useEffect(() => {
@@ -141,8 +163,8 @@ export default function AppBuilder() {
     return () => window.removeEventListener('resize', checkMobile)
   }, [])
 
-  const addWidget = (widget: Widget) => {
-    const newWidget: PlacedWidget = {
+  const addWidget = (widget: ExtendedWidget) => {
+    const newWidget: ExtendedWidget = {
       ...widget,
       size: "medium",
       position: { x: 0, y: 0, w: 4, h: 3 },
@@ -150,7 +172,6 @@ export default function AppBuilder() {
       props: {}
     }
     setPlacedWidgets(prev => [...prev, newWidget])
-    setSelectedWidget(newWidget)
   }
 
   return (
@@ -196,48 +217,12 @@ export default function AppBuilder() {
           <div className="flex justify-center">
             <div className="flex gap-3 items-center bg-muted/90 rounded-full p-2 shadow-lg backdrop-blur-md">
               <div className="pl-1 mr-2 flex flex-row gap-2 items-center">
-                <ArrowLeftCircleIcon className="size-7 cursor-pointer" />
+                <Link href="/app">
+                  <ArrowLeftCircleIcon className="size-7" />
+                </Link>
                 <p className="text-lg">Unnamed</p>
               </div>
-              <Drawer>
-                <DrawerTrigger asChild>
-                  <PlusCircleIcon className="size-7 cursor-pointer" />
-                </DrawerTrigger>
-                <DrawerContent
-                  className={cn(
-                    "fixed bottom-0 left-0 right-0 w-full bg-white rounded-t-xl shadow-lg border border-gray-200 mx-auto max-w-auto md:max-w-[50%]",
-                    "p-4 outline-none"
-                  )}
-                >
-                  <DrawerHeader>
-                    <DrawerTitle className="text-lg font-medium">Add Widget</DrawerTitle>
-                  </DrawerHeader>
-                  <div className="text-sm text-muted-foreground">
-                    Use this drawer to add a new widget to your layout.
-                  </div>
-                  <div className="mt-4 overflow-y-auto max-h-[50vh]">
-                    <h2 className="text-xl font-semibold mb-4">All</h2>
-                    {WIDGETS.map((widget) => (
-                      <div key={widget.id} className="mb-4">
-                        <div className="flex items-center mb-2">
-                          <div className="w-10 h-10 bg-gradient-to-r from-purple-400 to-blue-500 rounded-lg mr-3" />
-                          <div>
-                            <p className="font-medium">{widget.name}</p>
-                            <p className="text-sm text-muted-foreground">{widget.description}</p>
-                          </div>
-                        </div>
-                        <Button
-                          variant="secondary"
-                          onClick={() => addWidget(widget)}
-                          className="w-full"
-                        >
-                          Add {widget.name}
-                        </Button>
-                      </div>
-                    ))}
-                  </div>
-                </DrawerContent>
-              </Drawer>
+              <WidgetDrawer onAdd={addWidget} />
               {!isMobile && (
                 <div 
                   onClick={() => setViewMode("desktop")} 
