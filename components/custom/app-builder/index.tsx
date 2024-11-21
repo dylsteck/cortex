@@ -295,7 +295,6 @@ export default function AppBuilder() {
                 </Link>
                 <p className="text-lg">Untitled</p>
               </div>
-              <p className="text-lg">{placedWidgets.length > 0 ? `${placedWidgets.length} Widgets` : "Untitled"}</p>
               <WidgetDrawer onAdd={addWidget} />
               {!isMobile && (
                 <div 
