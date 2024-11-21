@@ -7,17 +7,22 @@ import {
   Search,
   BarChart3,
   LineChart,
-  ChevronLeft,
   Trash2,
+  ArrowLeftCircleIcon,
+  PlusCircleIcon,
 } from 'lucide-react'
 import * as React from "react"
 
 import { Button } from "@/components/ui/button"
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer"
 import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { ScrollArea } from "@/components/ui/scroll-area"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { cn } from "@/lib/utils"
 
 interface Widget {
@@ -119,13 +124,24 @@ const WIDGETS: Widget[] = [
 
 export default function AppBuilder() {
   const [viewMode, setViewMode] = React.useState<"desktop" | "mobile">("desktop")
-  const [showWidgetSelection, setShowWidgetSelection] = React.useState(false)
   const [placedWidgets, setPlacedWidgets] = React.useState<PlacedWidget[]>([])
   const [selectedWidget, setSelectedWidget] = React.useState<PlacedWidget | null>(null)
-  const [rightSidebarCollapsed, setRightSidebarCollapsed] = React.useState(false)
+  const [isMobile, setIsMobile] = React.useState(false)
+
+  React.useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768)
+      if (window.innerWidth <= 768) {
+        setViewMode("mobile")
+      }
+    }
+
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
 
   const addWidget = (widget: Widget) => {
-    setShowWidgetSelection(true)
     const newWidget: PlacedWidget = {
       ...widget,
       size: "medium",
@@ -137,206 +153,109 @@ export default function AppBuilder() {
     setSelectedWidget(newWidget)
   }
 
-  const handleResize = (widgetId: string, newSize: "small" | "medium" | "large") => {
-    setPlacedWidgets(widgets =>
-      widgets.map(widget => {
-        if (widget.id === widgetId) {
-          const sizeMap: Record<string, GridPosition> = {
-            small: { x: widget.position.x, y: widget.position.y, w: 2, h: 2 },
-            medium: { x: widget.position.x, y: widget.position.y, w: 4, h: 3 },
-            large: { x: widget.position.x, y: widget.position.y, w: 6, h: 4 }
-          }
-          return {
-            ...widget,
-            size: newSize,
-            position: sizeMap[newSize]
-          }
-        }
-        return widget
-      })
-    )
-  }
-
-  const updateWidgetProp = (widgetId: string, prop: string, value: any) => {
-    setPlacedWidgets(widgets =>
-      widgets.map(widget => {
-        if (widget.id === widgetId) {
-          return {
-            ...widget,
-            props: {
-              ...widget.props,
-              [prop]: value
-            }
-          }
-        }
-        return widget
-      })
-    )
-  }
-
-  const deleteWidget = (widgetId: string) => {
-    setPlacedWidgets(widgets => widgets.filter(w => w.id !== widgetId))
-    setSelectedWidget(null)
-  }
-
   return (
     <div className="flex h-screen bg-background">
-      <div className="flex-1 flex flex-col">
-        <header className="h-14 border-b flex items-center justify-between px-4">
-          <div className="flex items-center gap-2">
-            <ChevronLeft className="size-4 cursor-pointer" />
-            <Input placeholder="Untitled Project" className="w-[200px] h-8" />
-          </div>
-          <div className="flex items-center gap-4">
-            <Tabs value={viewMode} onValueChange={(v) => setViewMode(v as "desktop" | "mobile")}>
-              <TabsList>
-                <TabsTrigger value="desktop">Desktop</TabsTrigger>
-                <TabsTrigger value="mobile">Mobile</TabsTrigger>
-              </TabsList>
-            </Tabs>
-            <Button
-              variant="outline"
-              size="icon"
-              onClick={() => setRightSidebarCollapsed(!rightSidebarCollapsed)}
+      <div className="flex-1 flex flex-col items-center justify-center">
+        <div className="w-full max-w-6xl px-4 mt-4 text-left">
+        </div>
+        <div className="relative mx-auto mt-4 border rounded-xl shadow-sm overflow-hidden">
+          <div
+            className={cn(
+              "transition-all duration-200 overflow-hidden",
+              viewMode === "desktop" ? "w-[1200px] h-[800px] max-w-full" : "w-[390px] h-[844px]"
+            )}
+          >
+            <div
+              className="relative size-full border-2 border-gray-200 rounded-xl"
+              style={{
+                backgroundSize: `${GRID_SIZE}px ${GRID_SIZE}px`,
+              }}
             >
-              {rightSidebarCollapsed ? <ChevronLeft className="size-4 rotate-180" /> : <ChevronLeft className="size-4" />}
-            </Button>
-          </div>
-        </header>
-        <main className="flex-1 p-4 bg-muted/30 overflow-hidden">
-          {showWidgetSelection ? (
-            <div className="grid grid-cols-2 gap-4">
-              {WIDGETS.map((widget) => (
-                <button
+              {placedWidgets.map((widget) => (
+                <div
                   key={widget.id}
-                  className="rounded-lg border p-4 hover:bg-muted text-left transition-colors"
-                  onClick={() => {
-                    addWidget(widget)
-                    setShowWidgetSelection(false)
+                  className={cn("absolute group cursor-move")}
+                  style={{
+                    left: widget.position.x,
+                    top: widget.position.y,
+                    width: widget.position.w * GRID_SIZE,
+                    height: widget.position.h * GRID_SIZE,
+                    opacity: widget.visible ? 1 : 0.5,
+                    transition: 'all 0.2s ease-in-out',
                   }}
                 >
-                  <div className="flex items-center gap-4">
-                    <div className="p-2 rounded-md bg-primary/10 text-primary">
-                      {widget.icon}
-                    </div>
-                    <div>
-                      <h3 className="font-semibold">{widget.name}</h3>
-                      <p className="text-sm text-muted-foreground">{widget.description}</p>
-                    </div>
+                  <div className="h-full rounded-xl border bg-white shadow-sm overflow-hidden">
+                    <div className="absolute inset-0 p-3">{widget.preview}</div>
                   </div>
-                </button>
+                </div>
               ))}
             </div>
-          ) : (
-            <div
-              className={cn(
-                "mx-auto bg-background rounded-xl shadow-sm border transition-all duration-200 overflow-hidden",
-                viewMode === "desktop" ? "w-full max-w-6xl h-[600px]" : "w-[390px] h-[844px]"
-              )}
-            >
-              <div
-                className="relative size-full"
-                style={{
-                  backgroundSize: `${GRID_SIZE}px ${GRID_SIZE}px`,
-                  backgroundImage: 'radial-gradient(circle, #ddd 1px, transparent 1px)',
-                }}
-              >
-                {placedWidgets.map((widget) => (
-                  <div
-                    key={widget.id}
-                    className={cn(
-                      "absolute group cursor-move",
-                      selectedWidget?.id === widget.id && "ring-2 ring-primary ring-offset-2"
-                    )}
-                    style={{
-                      left: widget.position.x,
-                      top: widget.position.y,
-                      width: widget.position.w * GRID_SIZE,
-                      height: widget.position.h * GRID_SIZE,
-                      opacity: widget.visible ? 1 : 0.5,
-                      transition: 'all 0.2s ease-in-out',
-                    }}
-                    onClick={() => setSelectedWidget(widget)}
-                  >
-                    <div className="h-full rounded-xl border bg-card shadow-sm overflow-hidden">
-                      <div className="absolute inset-0 p-3">{widget.preview}</div>
-                    </div>
+          </div>
+        </div>
+        <div className="relative m-auto mt-4 flex flex-row gap-2 items-center">
+          <div className="flex justify-center">
+            <div className="flex gap-3 items-center bg-muted/90 rounded-full p-2 shadow-lg backdrop-blur-md">
+              <div className="pl-1 mr-2 flex flex-row gap-2 items-center">
+                <ArrowLeftCircleIcon className="size-7 cursor-pointer" />
+                <p className="text-lg">Unnamed</p>
+              </div>
+              <Drawer>
+                <DrawerTrigger asChild>
+                  <PlusCircleIcon className="size-7 cursor-pointer" />
+                </DrawerTrigger>
+                <DrawerContent
+                  className={cn(
+                    "fixed bottom-0 left-0 right-0 w-full bg-white rounded-t-xl shadow-lg border border-gray-200 mx-auto max-w-auto md:max-w-[50%]",
+                    "p-4 outline-none"
+                  )}
+                >
+                  <DrawerHeader>
+                    <DrawerTitle className="text-lg font-medium">Add Widget</DrawerTitle>
+                  </DrawerHeader>
+                  <div className="text-sm text-muted-foreground">
+                    Use this drawer to add a new widget to your layout.
                   </div>
-                ))}
+                  <div className="mt-4 overflow-y-auto max-h-[50vh]">
+                    <h2 className="text-xl font-semibold mb-4">All</h2>
+                    {WIDGETS.map((widget) => (
+                      <div key={widget.id} className="mb-4">
+                        <div className="flex items-center mb-2">
+                          <div className="w-10 h-10 bg-gradient-to-r from-purple-400 to-blue-500 rounded-lg mr-3" />
+                          <div>
+                            <p className="font-medium">{widget.name}</p>
+                            <p className="text-sm text-muted-foreground">{widget.description}</p>
+                          </div>
+                        </div>
+                        <Button
+                          variant="secondary"
+                          onClick={() => addWidget(widget)}
+                          className="w-full"
+                        >
+                          Add {widget.name}
+                        </Button>
+                      </div>
+                    ))}
+                  </div>
+                </DrawerContent>
+              </Drawer>
+              {!isMobile && (
+                <div 
+                  onClick={() => setViewMode("desktop")} 
+                  className={cn(`bg-transparent rounded-xl border border-white px-2 py-1.5 cursor-pointer ${viewMode === 'desktop' ? 'bg-white text-black' : ''}`)}
+                >
+                  Desktop
+                </div>
+              )}
+              <div 
+                onClick={() => setViewMode("mobile")} 
+                className={cn(`bg-transparent rounded-xl border border-white px-2 py-1.5 cursor-pointer ${viewMode === 'mobile' ? 'bg-white text-black' : ''}`)}
+              >
+                Mobile
               </div>
             </div>
-          )}
-        </main>
-      </div>
-      {!rightSidebarCollapsed && (
-        <div className="border-l flex flex-col w-[320px]">
-          <div className="p-4 border-b flex justify-between items-center">
-            <h2 className="text-lg font-semibold">Widget Editor</h2>
           </div>
-          <ScrollArea className="flex-1 p-4">
-            {selectedWidget ? (
-              <div className="space-y-6">
-                <div>
-                  <Label>Size</Label>
-                  <Select
-                    value={selectedWidget.size}
-                    onValueChange={(value) => handleResize(selectedWidget.id, value as "small" | "medium" | "large")}
-                  >
-                    <SelectTrigger>
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {selectedWidget.sizes.map((size) => (
-                        <SelectItem key={size} value={size}>
-                          {size.charAt(0).toUpperCase() + size.slice(1)}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-                {selectedWidget.editableProps?.map((prop) => (
-                  <div key={prop}>
-                    <Label>{prop}</Label>
-                    <Input
-                      value={selectedWidget.props[prop] || ""}
-                      onChange={(e) => updateWidgetProp(selectedWidget.id, prop, e.target.value)}
-                    />
-                  </div>
-                ))}
-                <Button
-                  variant="destructive"
-                  className="w-full"
-                  onClick={() => deleteWidget(selectedWidget.id)}
-                >
-                  <Trash2 className="size-4 mr-2" />
-                  Delete Widget
-                </Button>
-              </div>
-            ) : (
-              <div className="space-y-4">
-                <p className="text-sm text-muted-foreground">Select a widget to edit or add a new one.</p>
-                {WIDGETS.map((widget) => (
-                  <button
-                    key={widget.id}
-                    className="w-full rounded-lg border p-4 hover:bg-muted text-left transition-colors"
-                    onClick={() => addWidget(widget)}
-                  >
-                    <div className="flex items-center gap-4">
-                      <div className="p-2 rounded-md bg-primary/10 text-primary">
-                        {widget.icon}
-                      </div>
-                      <div>
-                        <h3 className="font-semibold">{widget.name}</h3>
-                        <p className="text-sm text-muted-foreground">{widget.description}</p>
-                      </div>
-                    </div>
-                  </button>
-                ))}
-              </div>
-            )}
-          </ScrollArea>
         </div>
-      )}
+      </div>
     </div>
   )
 }
