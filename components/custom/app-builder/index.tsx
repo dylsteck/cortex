@@ -14,6 +14,9 @@ import {
   Check,
   ChevronLeft,
   ChevronRight,
+  Maximize2,
+  Minimize2,
+  Copy
 } from 'lucide-react'
 import Link from 'next/link'
 import * as React from "react"
@@ -42,7 +45,7 @@ const GRID_SIZE = 10
 
 interface ExtendedWidget extends Widget {
   position: GridPosition
-  size: string
+  size: "full" | "half"
   visible: boolean
   preview: React.ReactNode
   props?: Record<string, any>
@@ -171,7 +174,6 @@ export default function AppBuilder() {
   const [viewMode, setViewMode] = React.useState<"desktop" | "mobile">("desktop")
   const [placedWidgets, setPlacedWidgets] = React.useState<ExtendedWidget[]>([])
   const [isMobile, setIsMobile] = React.useState(false)
-  const [currentWidget, setCurrentWidget] = React.useState<ExtendedWidget | null>(null)
 
   React.useEffect(() => {
     const checkMobile = () => {
@@ -208,6 +210,28 @@ export default function AppBuilder() {
     })
   }
 
+  const duplicateWidget = (index: number) => {
+    setPlacedWidgets(prev => {
+      const widgetToDuplicate = prev[index]
+      const newWidget = {
+        ...widgetToDuplicate,
+        position: { ...widgetToDuplicate.position, y: widgetToDuplicate.position.y + 1 }
+      }
+      return [...prev, newWidget]
+    })
+  }
+
+  const toggleWidgetSize = (index: number) => {
+    setPlacedWidgets(prev => {
+      const newWidgets = [...prev]
+      newWidgets[index] = {
+        ...newWidgets[index],
+        size: newWidgets[index].size === "full" ? "half" : "full"
+      }
+      return newWidgets
+    })
+  }
+
   return (
     <div className="flex h-screen bg-background">
       <div className="flex-1 flex flex-col items-center justify-center">
@@ -220,15 +244,34 @@ export default function AppBuilder() {
               viewMode === "desktop" ? "w-[1200px] h-[800px] max-w-full" : "w-[390px] h-[844px]"
             )}
           >
-            <div
-              className="relative size-full border-2 border-gray-200 rounded-xl p-4 space-y-4"
-            >
+            <div className="relative size-full border-2 border-gray-200 rounded-xl p-4 space-y-4">
               {placedWidgets.map((widget, index) => (
                 <div
                   key={widget.id}
-                  className="relative w-full bg-white rounded-xl shadow-sm overflow-hidden group"
+                  className={cn(
+                    "relative bg-white rounded-xl shadow-sm overflow-hidden group",
+                    widget.size === "half" ? "w-1/2" : "w-full"
+                  )}
                 >
-                  <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity flex gap-2">
+                    <Button
+                      variant="secondary"
+                      size="icon"
+                      onClick={() => toggleWidgetSize(index)}
+                    >
+                      {widget.size === "full" ? (
+                        <Minimize2 className="size-4" />
+                      ) : (
+                        <Maximize2 className="size-4" />
+                      )}
+                    </Button>
+                    <Button
+                      variant="secondary"
+                      size="icon"
+                      onClick={() => duplicateWidget(index)}
+                    >
+                      <Copy className="size-4" />
+                    </Button>
                     <Button
                       variant="destructive"
                       size="icon"
@@ -252,7 +295,7 @@ export default function AppBuilder() {
                 </Link>
                 <p className="text-lg">Untitled</p>
               </div>
-              <p className="text-lg">{currentWidget?.name}</p>
+              <p className="text-lg">{placedWidgets.length > 0 ? `${placedWidgets.length} Widgets` : "Untitled"}</p>
               <WidgetDrawer onAdd={addWidget} />
               {!isMobile && (
                 <div 
