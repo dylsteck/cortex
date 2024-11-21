@@ -14,8 +14,6 @@ import {
   Check,
   ChevronLeft,
   ChevronRight,
-  Maximize2,
-  Minimize2,
   Copy
 } from 'lucide-react'
 import Link from 'next/link'
@@ -46,7 +44,6 @@ const GRID_SIZE = 10
 
 export interface ExtendedWidget extends Widget {
   position: GridPosition
-  size: "full" | "half"
   visible: boolean
   preview: React.ReactNode
   props?: Record<string, any>
@@ -76,7 +73,6 @@ export default function AppBuilder() {
 
     const newWidget: ExtendedWidget = {
       ...widget,
-      size: "full",
       position: { x: 0, y: yPosition, w: 10, h: 3 },
       visible: true,
       props: {}
@@ -103,17 +99,6 @@ export default function AppBuilder() {
     })
   }
 
-  const toggleWidgetSize = (index: number) => {
-    setPlacedWidgets(prev => {
-      const newWidgets = [...prev]
-      newWidgets[index] = {
-        ...newWidgets[index],
-        size: newWidgets[index].size === "full" ? "half" : "full"
-      }
-      return newWidgets
-    })
-  }
-
   return (
     <div className="flex h-screen bg-background">
       <div className="flex-1 flex flex-col items-center justify-center">
@@ -123,33 +108,19 @@ export default function AppBuilder() {
           <div
             className={cn(
               "transition-all duration-200 overflow-hidden",
-              viewMode === "desktop" ? "w-[1728px] h-[1024px] max-w-full" : "w-[428px] h-[844px]"
+              viewMode === "desktop" ? "w-[80%] h-[90vh]" : "w-[33%] h-[90vh]"
             )}
+            style={{ minWidth: viewMode === "desktop" ? "1024px" : "428px", minHeight: "90vh", borderRadius: "1rem" }}
           >
             <div className="relative size-full border-2 border-gray-200 rounded-xl p-4 space-y-4">
               {placedWidgets.map((widget, index) => (
                 <div
                   key={widget.id}
                   className={cn(
-                    "relative bg-white rounded-xl shadow-sm overflow-hidden group",
-                    widget.size === "half" ? "w-1/2" : "w-full"
+                    "relative bg-white rounded-xl shadow-sm overflow-hidden group w-full"
                   )}
                 >
                   <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity flex gap-2">
-                    {viewMode === 'desktop' ? 
-                      <Button
-                        variant="secondary"
-                        size="icon"
-                        onClick={() => toggleWidgetSize(index)}
-                      >
-                        {widget.size === "full" ? (
-                          <Minimize2 className="size-4" />
-                        ) : (
-                          <Maximize2 className="size-4" />
-                        )}
-                      </Button>
-                      : null
-                    }
                     <Button
                       variant="secondary"
                       size="icon"
