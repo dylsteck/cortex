@@ -21,6 +21,7 @@ import * as React from "react"
 import { Button } from "@/components/ui/button"
 import {
   Drawer,
+  DrawerClose,
   DrawerContent,
   DrawerHeader,
   DrawerTitle,
@@ -40,16 +41,17 @@ interface GridPosition {
 const GRID_SIZE = 10
 
 interface ExtendedWidget extends Widget {
-  position: GridPosition;
-  size: string;
-  visible: boolean;
-  preview: React.ReactNode;
-  props?: Record<string, any>;
+  position: GridPosition
+  size: string
+  visible: boolean
+  preview: React.ReactNode
+  props?: Record<string, any>
 }
 
 function WidgetDrawer({ onAdd }: { onAdd: (widget: ExtendedWidget) => void }) {
   const [currentWidget, setCurrentWidget] = React.useState<ExtendedWidget | null>(null)
   const [currentSlide, setCurrentSlide] = React.useState(0)
+  const [open, setOpen] = React.useState(false)
 
   const handlePrev = () => {
     setCurrentSlide((prev) => (prev === 0 ? WIDGETS.length - 1 : prev - 1))
@@ -59,10 +61,25 @@ function WidgetDrawer({ onAdd }: { onAdd: (widget: ExtendedWidget) => void }) {
     setCurrentSlide((prev) => (prev === WIDGETS.length - 1 ? 0 : prev + 1))
   }
 
-  const filteredWidgets = WIDGETS.filter(widget => widget.appId === currentWidget?.appId);
+  const filteredWidgets = WIDGETS.filter(widget => widget.appId === currentWidget?.appId)
+
+  const handleAddWidget = (widget: ExtendedWidget) => {
+    onAdd(widget)
+    setCurrentWidget(null)
+    setOpen(false)
+    setCurrentSlide(0)
+  }
+
+  const handleOpenChange = (isOpen: boolean) => {
+    setOpen(isOpen)
+    if (!isOpen) {
+      setCurrentWidget(null)
+      setCurrentSlide(0)
+    }
+  }
 
   return (
-    <Drawer>
+    <Drawer open={open} onOpenChange={handleOpenChange}>
       <DrawerTrigger asChild>
         <PlusCircleIcon className="size-7 cursor-pointer" />
       </DrawerTrigger>
@@ -76,16 +93,13 @@ function WidgetDrawer({ onAdd }: { onAdd: (widget: ExtendedWidget) => void }) {
           <div className="p-4">
             <div className="flex items-center justify-between mb-4">
               <ChevronLeft 
-                className={`size-6 cursor-pointer`}
+                className="size-6 cursor-pointer"
                 onClick={() => setCurrentWidget(null)}
               />
               <h2 className="text-xl font-medium">{currentWidget.name}</h2>
               <Check 
                 className="size-6 cursor-pointer"
-                onClick={() => {
-                  onAdd(currentWidget)
-                  setCurrentWidget(null)
-                }}
+                onClick={() => handleAddWidget(currentWidget)}
               />
             </div>
             <div className="relative mt-4 overflow-hidden">
@@ -127,9 +141,15 @@ function WidgetDrawer({ onAdd }: { onAdd: (widget: ExtendedWidget) => void }) {
                     <Button
                       variant="secondary"
                       onClick={() => {
-                        const widget = WIDGETS.find(w => w.id === 'icebreaker-profile');
+                        const widget = WIDGETS.find(w => w.id === 'icebreaker-profile')
                         if (widget) {
-                          setCurrentWidget({ ...widget, position: { x: 0, y: 0, w: 4, h: 3 }, size: "medium", visible: true, preview: widget.component } as ExtendedWidget);
+                          setCurrentWidget({ 
+                            ...widget, 
+                            position: { x: 0, y: 0, w: 10, h: 3 }, 
+                            size: "full", 
+                            visible: true, 
+                            preview: widget.component 
+                          } as ExtendedWidget)
                         }
                       }}
                       className="max-w-[30%] w-auto"
@@ -167,14 +187,25 @@ export default function AppBuilder() {
   }, [])
 
   const addWidget = (widget: ExtendedWidget) => {
+    const lastWidget = placedWidgets[placedWidgets.length - 1]
+    const yPosition = lastWidget ? lastWidget.position.y + lastWidget.position.h : 0
+
     const newWidget: ExtendedWidget = {
       ...widget,
-      size: "medium",
-      position: { x: 0, y: 0, w: 4, h: 3 },
+      size: "full",
+      position: { x: 0, y: yPosition, w: 10, h: 3 },
       visible: true,
       props: {}
     }
     setPlacedWidgets(prev => [...prev, newWidget])
+  }
+
+  const removeWidget = (index: number) => {
+    setPlacedWidgets(prev => {
+      const newWidgets = [...prev]
+      newWidgets.splice(index, 1)
+      return newWidgets
+    })
   }
 
   return (
@@ -190,27 +221,23 @@ export default function AppBuilder() {
             )}
           >
             <div
-              className="relative size-full border-2 border-gray-200 rounded-xl"
-              style={{
-                backgroundSize: `${GRID_SIZE}px ${GRID_SIZE}px`,
-              }}
+              className="relative size-full border-2 border-gray-200 rounded-xl p-4 space-y-4"
             >
-              {placedWidgets.map((widget) => (
+              {placedWidgets.map((widget, index) => (
                 <div
                   key={widget.id}
-                  className={cn("absolute group cursor-move")}
-                  style={{
-                    left: widget.position.x,
-                    top: widget.position.y,
-                    width: widget.position.w * GRID_SIZE,
-                    height: widget.position.h * GRID_SIZE,
-                    opacity: widget.visible ? 1 : 0.5,
-                    transition: 'all 0.2s ease-in-out',
-                  }}
+                  className="relative w-full bg-white rounded-xl shadow-sm overflow-hidden group"
                 >
-                  <div className="h-full rounded-xl border bg-white shadow-sm overflow-hidden">
-                    <div className="absolute inset-0 p-3">{widget.preview}</div>
+                  <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <Button
+                      variant="destructive"
+                      size="icon"
+                      onClick={() => removeWidget(index)}
+                    >
+                      <Trash2 className="size-4" />
+                    </Button>
                   </div>
+                  <div className="p-3">{widget.preview}</div>
                 </div>
               ))}
             </div>
