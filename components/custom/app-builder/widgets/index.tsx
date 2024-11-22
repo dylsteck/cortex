@@ -2,6 +2,7 @@ import React from 'react';
 
 import IcebreakerProfile from './icebreaker/icebreaker-profile';
 import IcebreakerSocials from './icebreaker/icebreaker-socials';
+import FarcasterFeed from './farcaster/farcaster-feed';
 
 export * from './widget';
 
@@ -22,6 +23,12 @@ export type Widget = {
 
 export const APPS: App[] = [
     {
+        id: 'farcaster',
+        iconUrl: 'https://i.imgur.com/I2rEbPF.png',
+        name: 'Farcaster',
+        description: 'A social protocol with a social economy'
+    },
+    {
         id: 'icebreaker',
         iconUrl: 'https://i.imgur.com/JZMb574.jpg',
         name: 'Icebreaker',
@@ -30,6 +37,14 @@ export const APPS: App[] = [
 ]
 
 export const WIDGETS: Widget[] = [
+    // {
+    //     id: 'farcaster-feed',
+    //     appId: 'farcaster',
+    //     component: <FarcasterFeed />,
+    //     name: 'Feed',
+    //     description: 'View a cast feed given a set of parameters'
+    //     // note: stock feeeds or ton of params? we'll see
+    // },
     {
         id: 'icebreaker-profile',
         appId: 'icebreaker',

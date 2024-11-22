@@ -85,11 +85,11 @@ export default function AppBuilder() {
           <div
             className={cn(
               'transition-all duration-200',
-              viewMode === 'desktop' ? 'w-[80%] h-[90vh]' : 'w-[33%] h-[90vh]'
+              viewMode === 'desktop' ? 'w-[80%]' : 'w-[90%]'
             )}
             style={{
-              minWidth: viewMode === 'desktop' ? '1024px' : '428px',
-              minHeight: '90vh',
+              width: viewMode === 'desktop' ? '1024px' : '428px',
+              height: '618px',
               borderRadius: '1rem',
             }}
           >

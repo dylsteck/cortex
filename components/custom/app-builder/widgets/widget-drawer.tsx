@@ -76,7 +76,7 @@ export default function WidgetDrawer({ onAdd }: { onAdd: (widget: ExtendedWidget
       </DrawerTrigger>
       <DrawerContent
         className={cn(
-          'fixed bottom-0 left-0 right-0 w-full bg-black dark:bg-white text-white dark:text-black rounded-t-xl shadow-lg border border-gray-200 mx-auto max-w-auto md:max-w-[30%] max-h-[55%]',
+          'fixed bottom-0 left-0 right-0 w-full bg-black dark:bg-white text-white dark:text-black rounded-t-xl shadow-lg border border-gray-200 mx-auto max-w-auto md:max-w-[60%] xl:max-w-[40%] max-h-[55%]',
           'outline-none'
         )}
       >
@@ -106,12 +106,7 @@ export default function WidgetDrawer({ onAdd }: { onAdd: (widget: ExtendedWidget
                   }`}
                   onClick={handlePrev}
                 />
-                <div
-                  className="flex justify-center"
-                  style={{
-                    width: 'calc(100% - 96px)',
-                  }}
-                >
+                <div className="flex justify-center w-[85%]">
                   {filteredWidgets[currentSlide]?.component}
                 </div>
                 <ChevronRightCircle
@@ -138,7 +133,7 @@ export default function WidgetDrawer({ onAdd }: { onAdd: (widget: ExtendedWidget
             <DrawerHeader className="p-0">
               <DrawerTitle className="text-2xl font-medium">Apps</DrawerTitle>
             </DrawerHeader>
-            <div className="mt-4 overflow-y-scroll max-h-[50vh]">
+            <div className="mt-4 mx-1 overflow-y-scroll max-h-[50vh]">
               {APPS.map((app) => (
                 <div key={app.id} className="mb-4">
                   <div className="flex items-center justify-between mb-2">

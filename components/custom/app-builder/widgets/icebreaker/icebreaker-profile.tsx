@@ -11,7 +11,7 @@ export default function IcebreakerProfile({ profile = sampleProfile as unknown a
     const icebreakerApp = APPS.find((app) => app.id === 'icebreaker');
 
     return (
-        <Widget className="border border-gray-300 p-1 size-[40vw] relative bg-gradient-to-b from-black to-gray-900 rounded-lg shadow-lg">
+        <Widget className="border border-gray-300 p-1 size-[40vw] md:size-[30vw] lg:size-[20vw] xl:size-[15vw] relative bg-gradient-to-b from-black to-gray-900 rounded-lg shadow-lg">
             {icebreakerApp ? (
                 <Image
                     src={icebreakerApp.iconUrl}
