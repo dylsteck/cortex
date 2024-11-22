@@ -5,7 +5,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { APPS } from "..";
 import sampleProfile from "./sample-profile.json";
 import { type IcebreakerProfile } from "./types";
-import Widget from "../widget";
+import { Widget } from "../widget";
 
 export default function IcebreakerProfile({ profile = sampleProfile as unknown as IcebreakerProfile }: { profile?: IcebreakerProfile }) {
     const icebreakerApp = APPS.find((app) => app.id === 'icebreaker');

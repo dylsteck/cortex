@@ -1,126 +1,105 @@
-'use client'
+'use client';
 
 import {
-  Sparkles,
-  Square,
-  SquareStack,
-  Search,
-  BarChart3,
-  LineChart,
   Trash2,
   ArrowLeftCircleIcon,
-  PlusCircleIcon,
-  X,
-  Check,
-  ChevronLeft,
-  ChevronRight,
-  Copy
-} from 'lucide-react'
-import Link from 'next/link'
-import * as React from "react"
+  Copy,
+} from 'lucide-react';
+import Link from 'next/link';
+import * as React from 'react';
 
-import { Button } from "@/components/ui/button"
-import {
-  Drawer,
-  DrawerClose,
-  DrawerContent,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerTrigger,
-} from "@/components/ui/drawer"
-import { cn } from "@/lib/utils"
+import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
 
-import { APPS, Widget, WIDGETS } from './widgets'
-import WidgetDrawer from './widgets/widget-drawer'
+import { Widget, WIDGETS } from './widgets';
+import WidgetDrawer from './widgets/widget-drawer';
 
 interface GridPosition {
-  x: number
-  y: number
-  w: number
-  h: number
+  x: number;
+  y: number;
+  w: number;
+  h: number;
 }
 
-const GRID_SIZE = 10
-
 export interface ExtendedWidget extends Widget {
-  position: GridPosition
-  visible: boolean
-  preview: React.ReactNode
-  props?: Record<string, any>
+  position: GridPosition;
+  visible: boolean;
+  preview: React.ReactNode;
+  props?: Record<string, any>;
 }
 
 export default function AppBuilder() {
-  const [viewMode, setViewMode] = React.useState<"desktop" | "mobile">("mobile")
-  const [placedWidgets, setPlacedWidgets] = React.useState<ExtendedWidget[]>([])
-  const [isMobile, setIsMobile] = React.useState(false)
+  const [viewMode, setViewMode] = React.useState<'desktop' | 'mobile'>('mobile');
+  const [placedWidgets, setPlacedWidgets] = React.useState<ExtendedWidget[]>([]);
+  const [isMobile, setIsMobile] = React.useState(false);
 
   React.useEffect(() => {
     const checkMobile = () => {
-      setIsMobile(window.innerWidth <= 768)
+      setIsMobile(window.innerWidth <= 768);
       if (window.innerWidth <= 768) {
-        setViewMode("mobile")
+        setViewMode('mobile');
       }
-    }
+    };
 
-    checkMobile()
-    window.addEventListener('resize', checkMobile)
-    return () => window.removeEventListener('resize', checkMobile)
-  }, [])
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   const addWidget = (widget: ExtendedWidget) => {
-    const lastWidget = placedWidgets[placedWidgets.length - 1]
-    const yPosition = lastWidget ? lastWidget.position.y + lastWidget.position.h : 0
+    const lastWidget = placedWidgets[placedWidgets.length - 1];
+    const yPosition = lastWidget ? lastWidget.position.y + lastWidget.position.h : 0;
 
     const newWidget: ExtendedWidget = {
       ...widget,
       position: { x: 0, y: yPosition, w: 10, h: 3 },
       visible: true,
-      props: {}
-    }
-    setPlacedWidgets(prev => [...prev, newWidget])
-  }
+      props: {},
+    };
+    setPlacedWidgets((prev) => [...prev, newWidget]);
+  };
 
   const removeWidget = (index: number) => {
-    setPlacedWidgets(prev => {
-      const newWidgets = [...prev]
-      newWidgets.splice(index, 1)
-      return newWidgets
-    })
-  }
+    setPlacedWidgets((prev) => {
+      const newWidgets = [...prev];
+      newWidgets.splice(index, 1);
+      return newWidgets;
+    });
+  };
 
   const duplicateWidget = (index: number) => {
-    setPlacedWidgets(prev => {
-      const widgetToDuplicate = prev[index]
+    setPlacedWidgets((prev) => {
+      const widgetToDuplicate = prev[index];
       const newWidget = {
         ...widgetToDuplicate,
-        position: { ...widgetToDuplicate.position, y: widgetToDuplicate.position.y + 1 }
-      }
-      return [...prev, newWidget]
-    })
-  }
+        position: { ...widgetToDuplicate.position, y: widgetToDuplicate.position.y + 1 },
+      };
+      return [...prev, newWidget];
+    });
+  };
 
   return (
     <div className="flex h-screen bg-background">
       <div className="flex-1 flex flex-col items-center justify-center">
-        <div className="w-full max-w-6xl px-4 mt-4 text-left">
-        </div>
-        <div className="relative mx-auto mt-4 border rounded-xl shadow-sm overflow-hidden">
+        <div className="relative mx-auto mt-4 border rounded-xl shadow-sm overflow-visible">
           <div
             className={cn(
-              "transition-all duration-200 overflow-hidden",
-              viewMode === "desktop" ? "w-[80%] h-[90vh]" : "w-[33%] h-[90vh]"
+              'transition-all duration-200 overflow-visible',
+              viewMode === 'desktop' ? 'w-[80%] h-[90vh]' : 'w-[33%] h-[90vh]'
             )}
-            style={{ minWidth: viewMode === "desktop" ? "1024px" : "428px", minHeight: "90vh", borderRadius: "1rem" }}
+            style={{
+              minWidth: viewMode === 'desktop' ? '1024px' : '428px',
+              minHeight: '90vh',
+              borderRadius: '1rem',
+            }}
           >
-            <div className="relative size-full border-2 border-gray-200 rounded-xl p-4 space-y-4">
+            <div className="relative rounded-xl p-4 space-y-4">
               {placedWidgets.map((widget, index) => (
                 <div
                   key={widget.id}
-                  className={cn(
-                    "relative bg-white rounded-xl shadow-sm overflow-hidden group w-full"
-                  )}
+                  className="relative rounded-xl shadow-sm overflow-visible group w-full"
                 >
-                  <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity flex gap-2">
+                  <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity flex gap-2 z-10">
                     <Button
                       variant="secondary"
                       size="icon"
@@ -136,7 +115,7 @@ export default function AppBuilder() {
                       <Trash2 className="size-4" />
                     </Button>
                   </div>
-                  <div className="p-3">{widget.preview}</div>
+                  <div className="p-3 hover:cursor-pointer">{widget.preview}</div>
                 </div>
               ))}
             </div>
@@ -153,16 +132,24 @@ export default function AppBuilder() {
               </div>
               <WidgetDrawer onAdd={addWidget} />
               {!isMobile && (
-                <div 
-                  onClick={() => setViewMode("desktop")} 
-                  className={cn(`bg-transparent rounded-xl border border-white px-2 py-1.5 cursor-pointer ${viewMode === 'desktop' ? 'bg-white text-black' : ''}`)}
+                <div
+                  onClick={() => setViewMode('desktop')}
+                  className={cn(
+                    `bg-transparent rounded-xl border border-white px-2 py-1.5 cursor-pointer ${
+                      viewMode === 'desktop' ? 'bg-white text-black' : ''
+                    }`
+                  )}
                 >
                   Desktop
                 </div>
               )}
-              <div 
-                onClick={() => setViewMode("mobile")} 
-                className={cn(`bg-transparent rounded-xl border border-white px-2 py-1.5 cursor-pointer ${viewMode === 'mobile' ? 'bg-white text-black' : ''}`)}
+              <div
+                onClick={() => setViewMode('mobile')}
+                className={cn(
+                  `bg-transparent rounded-xl border border-white px-2 py-1.5 cursor-pointer ${
+                    viewMode === 'mobile' ? 'bg-white text-black' : ''
+                  }`
+                )}
               >
                 Mobile
               </div>
@@ -171,5 +158,5 @@ export default function AppBuilder() {
         </div>
       </div>
     </div>
-  )
+  );
 }

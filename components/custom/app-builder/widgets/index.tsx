@@ -1,7 +1,7 @@
 import React from 'react';
 
 import IcebreakerProfile from './icebreaker/icebreaker-profile';
-
+import IcebreakerSocials from './icebreaker/icebreaker-socials';
 
 export * from './widget';
 
@@ -36,5 +36,12 @@ export const WIDGETS: Widget[] = [
         component: <IcebreakerProfile />,
         name: 'Profile',
         description: 'View network info per a fid'
+    },
+    {
+        id: 'icebreaker-socials',
+        appId: 'icebreaker',
+        component: <IcebreakerSocials />,
+        name: 'Socials',
+        description: 'View social profiles per a fid'
     }
 ]
