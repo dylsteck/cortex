@@ -42,6 +42,7 @@
     "frames.js": "^0.19.5",
     "geist": "^1.3.1",
     "lucide-react": "^0.460.0",
+    "motion": "^11.11.17",
     "next": "15.0.1",
     "next-auth": "5.0.0-beta.25",
     "next-themes": "^0.3.0",
