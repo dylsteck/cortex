@@ -18,6 +18,7 @@ import {
   Minimize2,
   Copy
 } from 'lucide-react'
+import Image from 'next/image'
 import Link from 'next/link'
 import * as React from "react"
 
@@ -81,7 +82,7 @@ export default function WidgetDrawer({ onAdd }: { onAdd: (widget: ExtendedWidget
       </DrawerTrigger>
       <DrawerContent
         className={cn(
-          "fixed bottom-0 left-0 right-0 w-full bg-black dark:bg-white text-white dark:text-black rounded-t-xl shadow-lg border border-gray-200 mx-auto max-w-auto md:max-w-[30%]",
+          "fixed bottom-0 left-0 right-0 w-full bg-black dark:bg-white text-white dark:text-black rounded-t-xl shadow-lg border border-gray-200 mx-auto max-w-auto md:max-w-[30%] max-h-[55%]",
           "p-4 outline-none"
         )}
       >
@@ -131,7 +132,7 @@ export default function WidgetDrawer({ onAdd }: { onAdd: (widget: ExtendedWidget
                 <div key={app.id} className="mb-4">
                   <div className="flex items-center justify-between mb-2">
                     <div className="flex items-center">
-                      <div className="size-10 bg-gradient-to-r from-purple-400 to-blue-500 rounded-lg mr-3" />
+                      <Image src={app.iconUrl} alt={`${app.name} icon`} className="size-10 rounded-lg mr-3" width={10} height={10} />
                       <div>
                         <p className="font-medium">{app.name}</p>
                         <p className="text-sm text-muted-foreground">{app.description}</p>

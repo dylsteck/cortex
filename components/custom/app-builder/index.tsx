@@ -50,7 +50,7 @@ export interface ExtendedWidget extends Widget {
 }
 
 export default function AppBuilder() {
-  const [viewMode, setViewMode] = React.useState<"desktop" | "mobile">("desktop")
+  const [viewMode, setViewMode] = React.useState<"desktop" | "mobile">("mobile")
   const [placedWidgets, setPlacedWidgets] = React.useState<ExtendedWidget[]>([])
   const [isMobile, setIsMobile] = React.useState(false)
 

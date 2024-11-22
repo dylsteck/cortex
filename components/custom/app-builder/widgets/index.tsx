@@ -7,7 +7,7 @@ export * from './widget';
 
 export type App = {
     id: string;
-    icon: React.ReactNode;
+    iconUrl: string;
     name: string;
     description: string;
 }
@@ -21,24 +21,12 @@ export type Widget = {
 }
 
 export const APPS: App[] = [
-    // {
-    //     id: 'farcaster',
-    //     icon: <Sparkles className="size-6" />,
-    //     name: 'Farcaster',
-    //     description: 'A decentralized social protocol'
-    // },
     {
         id: 'icebreaker',
-        icon: <div className="size-10 bg-gradient-to-r from-purple-400 to-blue-500 rounded-lg mr-3" />,
+        iconUrl: 'https://i.imgur.com/JZMb574.jpg',
         name: 'Icebreaker',
         description: 'The open professional network'
-    },
-    // {
-    //     id: 'zora',
-    //     icon: <Sparkles className="size-6" />,
-    //     name: 'Zora',
-    //     description: 'A social minting protocol'
-    // }
+    }
 ]
 
 export const WIDGETS: Widget[] = [
