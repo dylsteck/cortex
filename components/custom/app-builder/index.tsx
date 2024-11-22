@@ -81,10 +81,10 @@ export default function AppBuilder() {
   return (
     <div className="flex h-screen bg-background">
       <div className="flex-1 flex flex-col items-center justify-center">
-        <div className="relative mx-auto mt-4 border rounded-xl shadow-sm overflow-visible">
+        <div className="relative mx-auto mt-4 border rounded-xl shadow-sm overflow-y-scroll">
           <div
             className={cn(
-              'transition-all duration-200 overflow-visible',
+              'transition-all duration-200',
               viewMode === 'desktop' ? 'w-[80%] h-[90vh]' : 'w-[33%] h-[90vh]'
             )}
             style={{
@@ -96,10 +96,10 @@ export default function AppBuilder() {
             <div className="relative rounded-xl p-4 space-y-4">
               {placedWidgets.map((widget, index) => (
                 <div
-                  key={widget.id}
+                  key={`widget-${widget.id}-${index}`}
                   className="relative rounded-xl shadow-sm overflow-visible group w-full"
                 >
-                  <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity flex gap-2 z-10">
+                  <div className="absolute -bottom-8 left-2 opacity-0 group-hover:opacity-100 transition-opacity flex gap-2 z-10 pt-2">
                     <Button
                       variant="secondary"
                       size="icon"

@@ -5,6 +5,8 @@ import {
   ChevronRight,
   PlusCircleIcon,
   Check,
+  ChevronLeftCircle,
+  ChevronRightCircle,
 } from 'lucide-react';
 import Image from 'next/image';
 import * as React from 'react';
@@ -75,28 +77,30 @@ export default function WidgetDrawer({ onAdd }: { onAdd: (widget: ExtendedWidget
       <DrawerContent
         className={cn(
           'fixed bottom-0 left-0 right-0 w-full bg-black dark:bg-white text-white dark:text-black rounded-t-xl shadow-lg border border-gray-200 mx-auto max-w-auto md:max-w-[30%] max-h-[55%]',
-          'p-4 outline-none'
+          'outline-none'
         )}
       >
         {currentWidget ? (
-          <div className="p-4">
-            <div className="flex items-center justify-between mb-4">
-              <ChevronLeft
-                className="size-6 cursor-pointer"
-                onClick={() => setCurrentWidget(null)}
-              />
+          <div className="mt-2">
+            <div className="flex items-center justify-between mb-4 px-3 w-[98%]">
+              <div className="flex flex-row gap-1 items-center cursor-pointer" onClick={() => setCurrentWidget(null)}>
+                <ChevronLeft
+                  className="size-6 opacity-80"
+                  onClick={() => setCurrentWidget(null)}
+                />
+                <p>Back</p>
+              </div>
               <div className="flex flex-col gap-0 items-center">
                 <h2 className="text-xl font-medium">{filteredWidgets[currentSlide]?.name}</h2>
                 <p className="text-sm text-light">{filteredWidgets[currentSlide]?.description}</p>
               </div>
-              <Check
-                className="size-6 cursor-pointer"
-                onClick={() => handleAddWidget(filteredWidgets[currentSlide])}
-              />
+              <Button className="bg-black text-white rounded-xl hover:bg-black" onClick={() => handleAddWidget(filteredWidgets[currentSlide])}>
+                Submit
+              </Button>
             </div>
-            <div className="relative mt-4 overflow-hidden">
+            <div className="relative mt-4 overflow-hidden p-3">
               <div className="flex items-center justify-between w-full">
-                <ChevronLeft
+                <ChevronLeftCircle
                   className={`size-6 cursor-pointer ${
                     filteredWidgets.length > 1 ? '' : 'hidden'
                   }`}
@@ -110,7 +114,7 @@ export default function WidgetDrawer({ onAdd }: { onAdd: (widget: ExtendedWidget
                 >
                   {filteredWidgets[currentSlide]?.component}
                 </div>
-                <ChevronRight
+                <ChevronRightCircle
                   className={`size-6 cursor-pointer ${
                     filteredWidgets.length > 1 ? '' : 'hidden'
                   }`}
@@ -122,7 +126,7 @@ export default function WidgetDrawer({ onAdd }: { onAdd: (widget: ExtendedWidget
                   <div
                     key={index}
                     className={`size-2 rounded-full ${
-                      index === currentSlide ? 'bg-primary' : 'bg-muted'
+                      index === currentSlide ? 'bg-muted' : 'bg-muted/60'
                     }`}
                   />
                 ))}

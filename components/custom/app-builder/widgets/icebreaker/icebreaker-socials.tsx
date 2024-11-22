@@ -21,7 +21,7 @@ export default function IcebreakerSocials({
     }));
 
     return (
-        <Widget className="border border-gray-300 p-2 w-[30vw] h-[20vw] relative bg-gradient-to-b from-black to-gray-900 rounded-lg shadow-lg overflow-hidden">
+        <Widget className="border border-gray-300 p-2 w-[70vw] h-[30vw] relative bg-gradient-to-b from-black to-gray-900 rounded-lg shadow-lg overflow-hidden">
             {icebreakerApp && (
                 <Image
                     src={icebreakerApp.iconUrl}
