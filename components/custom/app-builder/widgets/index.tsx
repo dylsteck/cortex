@@ -1,8 +1,8 @@
 import React from 'react';
 
+import FarcasterFeed from './farcaster/farcaster-feed';
 import IcebreakerProfile from './icebreaker/icebreaker-profile';
 import IcebreakerSocials from './icebreaker/icebreaker-socials';
-import FarcasterFeed from './farcaster/farcaster-feed';
 
 export * from './widget';
 
