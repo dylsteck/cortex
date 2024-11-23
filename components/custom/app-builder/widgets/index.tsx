@@ -1,6 +1,6 @@
 import React from 'react';
 
-import FarcasterFeed from './farcaster/farcaster-feed';
+import FarcasterCast from './farcaster/farcaster-cast';
 import IcebreakerProfile from './icebreaker/icebreaker-profile';
 import IcebreakerSocials from './icebreaker/icebreaker-socials';
 
@@ -37,14 +37,13 @@ export const APPS: App[] = [
 ]
 
 export const WIDGETS: Widget[] = [
-    // {
-    //     id: 'farcaster-feed',
-    //     appId: 'farcaster',
-    //     component: <FarcasterFeed />,
-    //     name: 'Feed',
-    //     description: 'View a cast feed given a set of parameters'
-    //     // note: stock feeeds or ton of params? we'll see
-    // },
+    {
+        id: 'farcaster-cast',
+        appId: 'farcaster',
+        component: <FarcasterCast />,
+        name: 'Cast',
+        description: 'View a cast given a url or hash'
+    },
     {
         id: 'icebreaker-profile',
         appId: 'icebreaker',
