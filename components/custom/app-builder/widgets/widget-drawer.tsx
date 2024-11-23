@@ -51,6 +51,8 @@ export default function WidgetDrawer({ onAdd }: { onAdd: (widget: ExtendedWidget
         position: { x: 0, y: 0, w: 10, h: 3 },
         visible: true,
         preview: widget.component,
+        desktop: { x: 0, y: 0 },
+        mobile: { x: 0, y: 0 },
       }))
     : [];
 
@@ -158,6 +160,8 @@ export default function WidgetDrawer({ onAdd }: { onAdd: (widget: ExtendedWidget
                           position: { x: 0, y: 0, w: 10, h: 3 },
                           visible: true,
                           preview: widget.component,
+                          desktop: { x: 0, y: 0 },
+                          mobile: { x: 0, y: 0 },
                         }));
                         if (widgets.length) {
                           setCurrentWidget(widgets[0]);
