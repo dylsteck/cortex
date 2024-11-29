@@ -1,14 +1,19 @@
+import './globals.css';
 import { Metadata } from 'next';
 import { Toaster } from 'sonner';
 
+import FrameProvider from '@/components/custom/frame-provider';
 import { ThemeProvider } from '@/components/custom/theme-provider';
-
-import './globals.css';
+import { frame } from '@/lib/frame';
+import { BASE_URL } from '@/lib/utils';
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://withcortex.vercel.app'),
+  metadataBase: new URL(BASE_URL),
   title: 'Cortex',
   description: 'Cortex',
+  other: {
+    "fc:frame": JSON.stringify(frame)
+  }
 };
 
 export const viewport = {
@@ -64,7 +69,9 @@ export default async function RootLayout({
           disableTransitionOnChange
         >
           <Toaster position="top-center" />
-          {children}
+          <FrameProvider>
+            {children}
+          </FrameProvider>
         </ThemeProvider>
       </body>
     </html>
