@@ -5,10 +5,9 @@ import { motion } from 'framer-motion';
 import React, { useRef, useEffect, useCallback, useState } from 'react';
 import { toast } from 'sonner';
 
-import { ArrowUpIcon, StopIcon, RocketIcon } from './icons';
+import { ArrowUpIcon, StopIcon } from './icons';
 import useWindowSize from './use-window-size';
 import { Button } from '../ui/button';
-import { Switch } from '../ui/switch';
 import { Textarea } from '../ui/textarea';
 
 export function MultimodalInput({
@@ -89,25 +88,6 @@ export function MultimodalInput({
       />
 
       <div className="absolute bottom-2 right-2 flex space-x-2 items-center">
-        <div className="flex flex-row gap-2 items-center pr-2">
-          <Switch
-            checked={autopilot}
-            onCheckedChange={setAutopilot}
-            className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none ${
-              autopilot ? 'bg-black dark:bg-gray-100' : 'bg-gray-300 dark:bg-gray-600'
-            }`}
-          >
-            <span
-              className={`${
-                autopilot ? 'translate-x-6 bg-blue-500' : 'translate-x-1 bg-white'
-              } inline-block size-4 rounded-full transition-transform`}
-            />
-          </Switch>
-          <div className="text-black dark:text-white mt-0.5">
-            <RocketIcon size={16} />
-          </div>
-        </div>
-
         {isLoading ? (
           <Button
             className="rounded-full p-1.5 h-fit m-0.5"
