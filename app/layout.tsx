@@ -5,14 +5,25 @@ import { Toaster } from 'sonner';
 import FrameProvider from '@/components/custom/frame-provider';
 import { ThemeProvider } from '@/components/custom/theme-provider';
 import { frame } from '@/lib/frame';
-import { BASE_URL } from '@/lib/utils';
+import { BANNER_IMG_URL, BASE_URL } from '@/lib/utils';
 
-export const metadata: Metadata = {
-  metadataBase: new URL(BASE_URL),
-  title: 'Cortex',
-  description: 'Cortex',
-  other: {
-    "fc:frame": JSON.stringify(frame)
+export function generateMetadata() {
+  return {
+    metadataBase: new URL(BASE_URL),
+    title: 'Cortex',
+    description: 'Cortex',
+    openGraph: {
+      title: 'Cortex',
+      description: 'Cortex',
+      images: [BANNER_IMG_URL],
+      url: BASE_URL,
+      siteName: 'Cortex',
+      locale: 'en_US',
+      type: 'website',
+    },
+    other: {
+      "fc:frame": JSON.stringify(frame)
+    }
   }
 };
 

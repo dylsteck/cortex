@@ -19,7 +19,8 @@ export const redis = Redis.fromEnv()
 export const BANNER_IMG_URL = ''
 export const ICON_IMG_URL = ''
 
-export const BASE_URL = process.env.NEXT_PUBLIC_URL || 'http://localhost:3000';
+// export const BASE_URL = process.env.NEXT_PUBLIC_URL || 'http://localhost:3000';
+export const BASE_URL = 'https://withcortex.com';
 export const EVENTS_API_URL = 'https://events.xyz/api';
 export const NEYNAR_API_URL = 'https://api.neynar.com/v2';
 
