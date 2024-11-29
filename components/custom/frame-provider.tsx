@@ -1,3 +1,5 @@
+'use client'
+
 import sdk from "@farcaster/frame-sdk";
 import { useEffect, useState } from "react";
 
