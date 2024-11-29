@@ -16,8 +16,9 @@ import CortexAPI from './api';
 
 export const redis = Redis.fromEnv()
 
-export const BANNER_IMG_URL = ''
-export const ICON_IMG_URL = ''
+// TODO: create a new banner image
+export const BANNER_IMG_URL = 'https://i.imgur.com/nqPoYvM.png'
+export const ICON_IMG_URL = 'https://i.imgur.com/Pwf5x4V.png'
 
 // export const BASE_URL = process.env.NEXT_PUBLIC_URL || 'http://localhost:3000';
 export const BASE_URL = 'https://withcortex.com';
