@@ -48,13 +48,13 @@ export function AppSidebar({ user, selectedModelName }: { user: User | undefined
                 </span>
               </Link>
             </SidebarMenuButton>
-            <BetterTooltip content="New Chat">
+            {/* <BetterTooltip content="New Chat">
               <SidebarMenuAction asChild>
                 <Link href="/" onClick={() => setOpenMobile(false)}>
                   <Plus />
                 </Link>
               </SidebarMenuAction>
-            </BetterTooltip>
+            </BetterTooltip> */}
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>

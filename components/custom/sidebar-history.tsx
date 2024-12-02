@@ -1,6 +1,6 @@
 'use client';
 
-import { HomeIcon } from 'lucide-react';
+import { HomeIcon, PlusIcon } from 'lucide-react';
 import Link from 'next/link';
 import { useParams, usePathname, useRouter } from 'next/navigation';
 import { type User } from 'next-auth';
@@ -10,8 +10,10 @@ import useSWR from 'swr';
 
 import {
   InfoIcon,
+  MessageIcon,
   MoreHorizontalIcon,
   TrashIcon,
+  UserIcon,
 } from '@/components/custom/icons';
 import {
   AlertDialog,
@@ -88,6 +90,32 @@ export function SidebarHistory({ user }: { user: User | undefined }) {
   if (!user) {
     return (
       <SidebarGroup>
+        <SidebarMenu className="mb-5">
+          <SidebarMenuItem>
+            <SidebarMenuButton>
+              <HomeIcon size={10} />
+              <span>Home</span>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+          <SidebarMenuItem>
+            <SidebarMenuButton>
+              <MessageIcon size={10} />
+              <span>Chat</span>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+          <SidebarMenuItem>
+            <SidebarMenuButton>
+              <PlusIcon size={10} />
+              <span>New Frame</span>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+          <SidebarMenuItem>
+            <SidebarMenuButton>
+              <UserIcon />
+              <span>Profile</span>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+        </SidebarMenu>
         <SidebarGroupLabel>History</SidebarGroupLabel>
         <SidebarGroupContent>
           <div className="text-zinc-500 h-dvh w-full flex flex-row justify-center items-center text-sm gap-2">
@@ -102,6 +130,32 @@ export function SidebarHistory({ user }: { user: User | undefined }) {
   if (isLoading) {
     return (
       <SidebarGroup>
+       <SidebarMenu className="mb-5">
+          <SidebarMenuItem>
+            <SidebarMenuButton>
+              <HomeIcon size={10} />
+              <span>Home</span>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+          <SidebarMenuItem>
+            <SidebarMenuButton>
+              <MessageIcon size={10} />
+              <span>Chat</span>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+          <SidebarMenuItem>
+            <SidebarMenuButton>
+              <PlusIcon size={10} />
+              <span>New Frame</span>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+          <SidebarMenuItem>
+            <SidebarMenuButton>
+              <UserIcon />
+              <span>Profile</span>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+        </SidebarMenu>
         <SidebarGroupLabel>History</SidebarGroupLabel>
         <SidebarGroupContent>
           <div className="flex flex-col">
@@ -129,6 +183,32 @@ export function SidebarHistory({ user }: { user: User | undefined }) {
   if (history?.length === 0) {
     return (
       <SidebarGroup>
+        <SidebarMenu className="mb-5">
+          <SidebarMenuItem>
+            <SidebarMenuButton>
+              <HomeIcon size={10} />
+              <span>Home</span>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+          <SidebarMenuItem>
+            <SidebarMenuButton>
+              <MessageIcon size={10} />
+              <span>Chat</span>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+          <SidebarMenuItem>
+            <SidebarMenuButton>
+              <PlusIcon size={10} />
+              <span>New Frame</span>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+          <SidebarMenuItem>
+            <SidebarMenuButton>
+              <UserIcon />
+              <span>Profile</span>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+        </SidebarMenu>
         <SidebarGroupLabel>History</SidebarGroupLabel>
         <SidebarGroupContent>
           <SidebarMenu>
@@ -147,11 +227,29 @@ export function SidebarHistory({ user }: { user: User | undefined }) {
   return (
     <>
       <SidebarGroup>
-        <SidebarMenu>
+        <SidebarMenu className="mb-5">
           <SidebarMenuItem>
             <SidebarMenuButton>
               <HomeIcon size={10} />
               <span>Home</span>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+          <SidebarMenuItem>
+            <SidebarMenuButton>
+              <MessageIcon size={10} />
+              <span>Chat</span>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+          <SidebarMenuItem>
+            <SidebarMenuButton>
+              <PlusIcon size={10} />
+              <span>New Frame</span>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+          <SidebarMenuItem>
+            <SidebarMenuButton>
+              <UserIcon />
+              <span>Profile</span>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
@@ -181,7 +279,7 @@ export function SidebarHistory({ user }: { user: User | undefined }) {
                     </DropdownMenuTrigger>
                     <DropdownMenuContent side="bottom" align="end">
                       <DropdownMenuItem
-                        className="text-destructive focus:bg-destructive/15 focus:text-destructive"
+                        className="text-destructive focus:bg-destructive/15 focus:text-destructive cursor-pointer"
                         onSelect={() => {
                           setDeleteId(chat.id);
                           setShowDeleteDialog(true);

@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
 import { ChatRequestOptions, CreateMessage, Message } from 'ai';
 import { motion } from 'framer-motion';
-import React, { useRef, useEffect, useCallback, useState } from 'react';
+import React, { useRef, useEffect, useCallback } from 'react';
 import { toast } from 'sonner';
 
 import { ArrowUpIcon, StopIcon } from './icons';
@@ -37,7 +37,6 @@ export function MultimodalInput({
 }) {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const { width } = useWindowSize();
-  const [autopilot, setAutopilot] = useState(false);
 
   useEffect(() => {
     if (textareaRef.current) {
@@ -66,13 +65,20 @@ export function MultimodalInput({
   }, [handleSubmit, width]);
 
   return (
-    <div className="relative w-full flex flex-col gap-4">
+    <motion.div
+      key="multimodal-input"
+      className="relative min-w-[33.33%] max-w-[50%] mx-auto flex flex-col gap-4 mb-2"
+      initial={{ opacity: 0, scale: 0.98 }}
+      animate={{ opacity: 1, scale: 1 }}
+      exit={{ opacity: 0, scale: 0.98 }}
+      transition={{ delay: 0.5 }}
+    >
       <Textarea
         ref={textareaRef}
-        placeholder="Where do you want to go?"
+        placeholder="Message"
         value={input}
         onChange={handleInput}
-        className="min-h-[24px] overflow-hidden resize-none p-4 focus-visible:ring-0 focus-visible:ring-offset-0 text-base bg-muted border-none w-full rounded-xl"
+        className="min-h-[20px] overflow-hidden resize-none p-3 focus-visible:ring-0 focus-visible:ring-offset-0 text-base bg-muted border-none w-full rounded-xl"
         rows={1}
         onKeyDown={(event) => {
           if (event.key === 'Enter' && !event.shiftKey) {
@@ -87,7 +93,7 @@ export function MultimodalInput({
         }}
       />
 
-      <div className="absolute bottom-2 right-2 flex space-x-2 items-center">
+      <div className="absolute bottom-2 right-2 flex items-center">
         {isLoading ? (
           <Button
             className="rounded-full p-1.5 h-fit m-0.5"
@@ -111,6 +117,6 @@ export function MultimodalInput({
           </Button>
         )}
       </div>
-    </div>
+    </motion.div>
   );
 }
