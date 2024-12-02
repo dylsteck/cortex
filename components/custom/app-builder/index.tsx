@@ -256,12 +256,6 @@ export default function AppBuilder() {
           >
             <div className="flex justify-start">
               <div className="flex gap-3 items-center bg-muted/90 rounded-full p-2 shadow-lg backdrop-blur-md">
-                {/* <div className="pl-1 mr-2 flex flex-row gap-2 items-center">
-                  <Link href="/">
-                    <ArrowLeftCircleIcon className="size-7" />
-                  </Link>
-                  <p className="text-lg">Untitled</p>
-                </div> */}
                 <WidgetDrawer onAdd={addWidget} />
                 {!isMobile && (
                   <motion.div

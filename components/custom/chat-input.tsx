@@ -10,7 +10,7 @@ import useWindowSize from './use-window-size';
 import { Button } from '../ui/button';
 import { Textarea } from '../ui/textarea';
 
-export function MultimodalInput({
+export function ChatInput({
   input,
   setInput,
   isLoading,
@@ -66,7 +66,7 @@ export function MultimodalInput({
 
   return (
     <motion.div
-      key="multimodal-input"
+      key="chat-input"
       className="relative min-w-[33.33%] max-w-[50%] mx-auto flex flex-col gap-4 mb-2"
       initial={{ opacity: 0, scale: 0.98 }}
       animate={{ opacity: 1, scale: 1 }}

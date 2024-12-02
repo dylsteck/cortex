@@ -8,7 +8,7 @@ import { useScrollToBottom } from '@/components/custom/use-scroll-to-bottom';
 import { Model } from '@/lib/model';
 
 import { ChatHeader } from './chat-header';
-import { MultimodalInput } from './multimodal-input';
+import { ChatInput } from './chat-input';
 import { Overview } from './overview';
 
 export function Chat({
@@ -48,8 +48,8 @@ export function Chat({
         ))}
         <div ref={endRef} />
       </div>
-      <form className="flex m-0 bg-background w-full fixed bottom-0 inset-x-0">
-        <MultimodalInput
+      <form className="flex m-0 bg-background w-full relative bottom-0 inset-x-0">
+        <ChatInput
           input={input}
           setInput={setInput}
           handleSubmit={handleSubmit}

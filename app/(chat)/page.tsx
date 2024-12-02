@@ -1,29 +1,66 @@
 "use client"
-import { motion } from 'framer-motion';
+import { ChevronUp, ChevronDown } from 'lucide-react';
+import React, { useState, useRef, useEffect } from 'react';
 
 import { ChatHeader } from '@/components/custom/chat-header';
-import { CortexIcon } from '@/components/custom/icons';
+
+const CONTENT = [1, 2, 3];
 
 export default function Page() {
-  return(
-    <div>
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const scrollContainerRef = useRef<HTMLDivElement | null>(null);
+
+  const handlePrev = () => {
+    if (currentIndex > 0) {
+      setCurrentIndex((prevIndex) => prevIndex - 1);
+    }
+  };
+
+  const handleNext = () => {
+    if (currentIndex < CONTENT.length - 1) {
+      setCurrentIndex((prevIndex) => prevIndex + 1);
+    }
+  };
+
+  useEffect(() => {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollTo({
+        top: currentIndex * window.innerHeight,
+        behavior: 'smooth',
+      });
+    }
+  }, [currentIndex]);
+
+  return (
+    <>
       <ChatHeader />
-      <motion.div
-        key="homepage"
-        className="max-w-3xl mx-auto md:mt-20 flex justify-center items-center"
-        initial={{ opacity: 0, scale: 0.98 }}
-        animate={{ opacity: 1, scale: 1 }}
-        exit={{ opacity: 0, scale: 0.98 }}
-        transition={{ delay: 0.5 }}
+      <div
+        ref={scrollContainerRef}
+        className="h-screen w-screen overflow-y-scroll snap-y snap-mandatory bg-transparent relative"
       >
-        <div className="rounded-xl p-6 flex flex-col gap-4 leading-relaxed text-center max-w-xl">
-          <p className="flex flex-row justify-center gap-1 items-center">
-            <CortexIcon size={40} />
-            <span className="text-2xl font-semibold">Cortex</span>
-          </p>
-          <span className="text-xl font-medium">Home</span>
+        {CONTENT.map((_, index) => (
+          <div
+            key={index}
+            className="h-screen w-screen snap-center flex items-center justify-center"
+          >
+            <div className="relative w-[360px] h-[640px] border-2 border-white rounded-lg flex items-center justify-center"></div>
+          </div>
+        ))}
+        <div className="hidden lg:block">
+          <div
+            className="absolute top-1/3 right-4 cursor-pointer z-10"
+            onClick={handlePrev}
+          >
+            <ChevronUp className="text-white/70 hover:text-white" size={48} />
+          </div>
+          <div
+            className="absolute bottom-1/3 right-4 cursor-pointer z-10"
+            onClick={handleNext}
+          >
+            <ChevronDown className="text-white/70 hover:text-white" size={48} />
+          </div>
         </div>
-      </motion.div>
-    </div>
+      </div>
+    </>
   );
 }
