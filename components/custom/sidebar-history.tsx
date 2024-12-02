@@ -67,7 +67,6 @@ export function SidebarHistory({ user }: { user: User | undefined }) {
     const deletePromise = fetch(`/api/chat?id=${deleteId}`, {
       method: 'DELETE',
     });
-
     toast.promise(deletePromise, {
       loading: 'Deleting chat...',
       success: () => {
@@ -76,15 +75,15 @@ export function SidebarHistory({ user }: { user: User | undefined }) {
             return history.filter((h) => h.id !== id);
           }
         });
+        if(pathname !== '/chat'){
+          router.push('/chat');
+        }
         return 'Chat deleted successfully';
       },
       error: 'Failed to delete chat',
     });
 
     setShowDeleteDialog(false);
-    if (deleteId === id) {
-      router.push('/');
-    }
   };
 
   if (!user) {
@@ -108,19 +107,23 @@ export function SidebarHistory({ user }: { user: User | undefined }) {
             </Link>
           </SidebarMenuItem>
           <SidebarMenuItem>
-            <SidebarMenuButton>
-              <PlusIcon size={10} />
-              <span>New Frame</span>
-            </SidebarMenuButton>
+            <Link href="/frame">
+              <SidebarMenuButton>
+                <PlusIcon size={10} />
+                <span>New Frame</span>
+              </SidebarMenuButton>
+            </Link>
           </SidebarMenuItem>
           <SidebarMenuItem>
-            <SidebarMenuButton>
-              <UserIcon />
-              <span>Profile</span>
-            </SidebarMenuButton>
+            <Link href="/profile">
+              <SidebarMenuButton>
+                <UserIcon />
+                <span>Profile</span>
+              </SidebarMenuButton>
+            </Link>
           </SidebarMenuItem>
         </SidebarMenu>
-        <SidebarGroupLabel>History</SidebarGroupLabel>
+        <SidebarGroupLabel>Chat History</SidebarGroupLabel>
         <SidebarGroupContent>
           <div className="text-zinc-500 h-dvh w-full flex flex-row justify-center items-center text-sm gap-2">
             <InfoIcon />
@@ -152,19 +155,23 @@ export function SidebarHistory({ user }: { user: User | undefined }) {
             </Link>
           </SidebarMenuItem>
           <SidebarMenuItem>
-            <SidebarMenuButton>
-              <PlusIcon size={10} />
-              <span>New Frame</span>
-            </SidebarMenuButton>
+            <Link href="/frame">
+              <SidebarMenuButton>
+                <PlusIcon size={10} />
+                <span>New Frame</span>
+              </SidebarMenuButton>
+            </Link>
           </SidebarMenuItem>
           <SidebarMenuItem>
-            <SidebarMenuButton>
-              <UserIcon />
-              <span>Profile</span>
-            </SidebarMenuButton>
+            <Link href="/profile">
+              <SidebarMenuButton>
+                <UserIcon />
+                <span>Profile</span>
+              </SidebarMenuButton>
+            </Link>
           </SidebarMenuItem>
         </SidebarMenu>
-        <SidebarGroupLabel>History</SidebarGroupLabel>
+        <SidebarGroupLabel>Chat History</SidebarGroupLabel>
         <SidebarGroupContent>
           <div className="flex flex-col">
             {[44, 32, 28, 64, 52].map((item) => (
@@ -209,19 +216,23 @@ export function SidebarHistory({ user }: { user: User | undefined }) {
             </Link>
           </SidebarMenuItem>
           <SidebarMenuItem>
-            <SidebarMenuButton>
-              <PlusIcon size={10} />
-              <span>New Frame</span>
-            </SidebarMenuButton>
+            <Link href="/frame">
+              <SidebarMenuButton>
+                <PlusIcon size={10} />
+                <span>New Frame</span>
+              </SidebarMenuButton>
+            </Link>
           </SidebarMenuItem>
           <SidebarMenuItem>
-            <SidebarMenuButton>
-              <UserIcon />
-              <span>Profile</span>
-            </SidebarMenuButton>
+            <Link href="/profile">
+              <SidebarMenuButton>
+                <UserIcon />
+                <span>Profile</span>
+              </SidebarMenuButton>
+            </Link>
           </SidebarMenuItem>
         </SidebarMenu>
-        <SidebarGroupLabel>History</SidebarGroupLabel>
+        <SidebarGroupLabel>Chat History</SidebarGroupLabel>
         <SidebarGroupContent>
           <SidebarMenu>
             <SidebarMenuItem>
@@ -257,19 +268,23 @@ export function SidebarHistory({ user }: { user: User | undefined }) {
             </Link>
           </SidebarMenuItem>
           <SidebarMenuItem>
-            <SidebarMenuButton>
-              <PlusIcon size={10} />
-              <span>New Frame</span>
-            </SidebarMenuButton>
+            <Link href="/frame">
+              <SidebarMenuButton>
+                <PlusIcon size={10} />
+                <span>New Frame</span>
+              </SidebarMenuButton>
+            </Link>
           </SidebarMenuItem>
           <SidebarMenuItem>
-            <SidebarMenuButton>
-              <UserIcon />
-              <span>Profile</span>
-            </SidebarMenuButton>
+            <Link href="/profile">
+              <SidebarMenuButton>
+                <UserIcon />
+                <span>Profile</span>
+              </SidebarMenuButton>
+            </Link>
           </SidebarMenuItem>
         </SidebarMenu>
-        <SidebarGroupLabel>History</SidebarGroupLabel>
+        <SidebarGroupLabel>Chat History</SidebarGroupLabel>
         <SidebarGroupContent>
           <SidebarMenu>
             {history &&

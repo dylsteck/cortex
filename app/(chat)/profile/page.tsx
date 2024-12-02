@@ -21,7 +21,7 @@ export default function Page() {
             <CortexIcon size={40} />
             <span className="text-2xl font-semibold">Cortex</span>
           </p>
-          <span className="text-xl font-medium">Home</span>
+          <span className="text-xl font-medium">Profile</span>
         </div>
       </motion.div>
     </div>
