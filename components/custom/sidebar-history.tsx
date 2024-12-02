@@ -92,16 +92,20 @@ export function SidebarHistory({ user }: { user: User | undefined }) {
       <SidebarGroup>
         <SidebarMenu className="mb-5">
           <SidebarMenuItem>
-            <SidebarMenuButton>
-              <HomeIcon size={10} />
-              <span>Home</span>
-            </SidebarMenuButton>
+            <Link href="/">
+              <SidebarMenuButton>
+                <HomeIcon size={10} />
+                <span>Home</span>
+              </SidebarMenuButton>
+            </Link>
           </SidebarMenuItem>
           <SidebarMenuItem>
-            <SidebarMenuButton>
-              <MessageIcon size={10} />
-              <span>Chat</span>
-            </SidebarMenuButton>
+            <Link href="/chat">
+              <SidebarMenuButton>
+                <MessageIcon size={10} />
+                <span>Chat</span>
+              </SidebarMenuButton>
+            </Link>
           </SidebarMenuItem>
           <SidebarMenuItem>
             <SidebarMenuButton>
@@ -131,17 +135,21 @@ export function SidebarHistory({ user }: { user: User | undefined }) {
     return (
       <SidebarGroup>
        <SidebarMenu className="mb-5">
-          <SidebarMenuItem>
-            <SidebarMenuButton>
-              <HomeIcon size={10} />
-              <span>Home</span>
-            </SidebarMenuButton>
+        <SidebarMenuItem>
+            <Link href="/">
+              <SidebarMenuButton>
+                <HomeIcon size={10} />
+                <span>Home</span>
+              </SidebarMenuButton>
+            </Link>
           </SidebarMenuItem>
           <SidebarMenuItem>
-            <SidebarMenuButton>
-              <MessageIcon size={10} />
-              <span>Chat</span>
-            </SidebarMenuButton>
+            <Link href="/chat">
+              <SidebarMenuButton>
+                <MessageIcon size={10} />
+                <span>Chat</span>
+              </SidebarMenuButton>
+            </Link>
           </SidebarMenuItem>
           <SidebarMenuItem>
             <SidebarMenuButton>
@@ -185,16 +193,20 @@ export function SidebarHistory({ user }: { user: User | undefined }) {
       <SidebarGroup>
         <SidebarMenu className="mb-5">
           <SidebarMenuItem>
-            <SidebarMenuButton>
-              <HomeIcon size={10} />
-              <span>Home</span>
-            </SidebarMenuButton>
+            <Link href="/">
+              <SidebarMenuButton>
+                <HomeIcon size={10} />
+                <span>Home</span>
+              </SidebarMenuButton>
+            </Link>
           </SidebarMenuItem>
           <SidebarMenuItem>
-            <SidebarMenuButton>
-              <MessageIcon size={10} />
-              <span>Chat</span>
-            </SidebarMenuButton>
+            <Link href="/chat">
+              <SidebarMenuButton>
+                <MessageIcon size={10} />
+                <span>Chat</span>
+              </SidebarMenuButton>
+            </Link>
           </SidebarMenuItem>
           <SidebarMenuItem>
             <SidebarMenuButton>
@@ -229,16 +241,20 @@ export function SidebarHistory({ user }: { user: User | undefined }) {
       <SidebarGroup>
         <SidebarMenu className="mb-5">
           <SidebarMenuItem>
-            <SidebarMenuButton>
-              <HomeIcon size={10} />
-              <span>Home</span>
-            </SidebarMenuButton>
+            <Link href="/">
+              <SidebarMenuButton>
+                <HomeIcon size={10} />
+                <span>Home</span>
+              </SidebarMenuButton>
+            </Link>
           </SidebarMenuItem>
           <SidebarMenuItem>
-            <SidebarMenuButton>
-              <MessageIcon size={10} />
-              <span>Chat</span>
-            </SidebarMenuButton>
+            <Link href="/chat">
+              <SidebarMenuButton>
+                <MessageIcon size={10} />
+                <span>Chat</span>
+              </SidebarMenuButton>
+            </Link>
           </SidebarMenuItem>
           <SidebarMenuItem>
             <SidebarMenuButton>
