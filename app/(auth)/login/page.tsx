@@ -6,10 +6,10 @@ import { useActionState, useEffect, useState } from "react";
 import { toast } from "sonner";
 
 import { AuthForm } from "@/components/custom/auth-form";
+import { CortexIcon } from "@/components/custom/icons";
 import { SubmitButton } from "@/components/custom/submit-button";
 
 import { login, LoginActionState } from "../actions";
-import { CortexIcon } from "@/components/custom/icons";
 
 export default function Page() {
   const router = useRouter();
