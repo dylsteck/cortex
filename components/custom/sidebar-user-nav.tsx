@@ -87,7 +87,7 @@ export function SidebarUserNav({ user, selectedModelName }: { user: User, select
         </DropdownMenu>
       </SidebarMenuItem>
 
-      <SidebarSettingsDialog email={user?.email ?? ""} isOpen={isSettingsOpen} selectedModelName={selectedModelName} onClose={() => setIsSettingsOpen(false)} />
+      <SidebarSettingsDialog username={(user as any).username} isOpen={isSettingsOpen} selectedModelName={selectedModelName} onClose={() => setIsSettingsOpen(false)} />
     </SidebarMenu>
   );
 }

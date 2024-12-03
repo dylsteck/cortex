@@ -13,12 +13,12 @@ import { Model } from '@/lib/model';
 import { ModelSelector } from './model-selector';
 
 export function SidebarSettingsDialog({
-  email,
+  username,
   isOpen,
   selectedModelName,
   onClose,
 }: {
-  email: string;
+  username: string;
   isOpen: boolean;
   selectedModelName: Model['name'];
   onClose: () => void;
@@ -32,14 +32,14 @@ export function SidebarSettingsDialog({
         </DialogHeader>
         <div className="space-y-4 mt-4">
           <div>
-            <Label className="text-sm font-medium text-gray-700 dark:text-gray-300">Email</Label>
+            <Label className="text-sm font-medium text-gray-700 dark:text-gray-300">Username</Label>
             <Input
-              type="email"
-              value={email ?? "example@email.com"}
+              type="text"
+              value={username ?? "username"}
               disabled
               className="mt-1 w-full cursor-not-allowed bg-gray-100 text-gray-900 dark:bg-gray-800 dark:text-gray-300 dark:placeholder:text-gray-500"
             />
-            <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">Email cannot be edited at this time</p>
+            <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">Username cannot be edited at this time</p>
           </div>
           <div className="flex flex-col gap-2 items-start">
             <Label className="text-sm font-medium text-gray-700 dark:text-gray-300">Model</Label>
