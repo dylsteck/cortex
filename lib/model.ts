@@ -33,7 +33,7 @@ Cite sources in markdown at the end of each paragraph and sentence where needed.
 Available tools:
 <available_tools>
 - castSearch: Searches Farcaster content (casts) based on a given query.
-- getComposerActions: Retrieves Farcaster composer actions, which are mini apps Farcaster users can interact with.
+- getClankerTrendingTokens: Retrieves trending tokens from Clanker, a token launcher for Farcaster.
 - getEvents: Retrieves upcoming Farcaster events from Events.xyz. Do not include any images or markdown in your response.
 - getUserCasts: Retrieves the latest casts from a particular Farcaster user, using their username.
 - getWeather: Provides the current weather for a specified location (latitude and longitude).

@@ -26,6 +26,7 @@ const localUrl = `http://localhost:${port}`;
 
 export const BASE_URL = isDev ? localUrl : 'https://withcortex.com';
 //export const BASE_URL = 'https://withcortex.com';
+export const CLANKER_API_URL = 'https://www.clanker.world/api';
 export const EVENTS_API_URL = 'https://events.xyz/api';
 export const NEYNAR_API_URL = 'https://api.neynar.com/v2';
 
