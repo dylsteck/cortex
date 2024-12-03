@@ -8,17 +8,17 @@ export async function GET(request: Request) {
     return authResponse;
   }
 
-  const url = new URL(request.url);
-  const id = url.searchParams.get("id");
+  const { pathname } = new URL(request.url);
+  const name = pathname.split("/").pop();
 
-  if (!id) {
-    return new Response(JSON.stringify("Query parameter 'id' is required!"), { status: 400 });
+  if (!name) {
+    return new Response(JSON.stringify("Query parameter 'name' is required!"), { status: 400 });
   }
 
-  const cacheKey = `event:${id}`
+  const cacheKey = `events:channel:${name}`
   let data = await redis.get(cacheKey);
   if (!data) {
-    const response = await fetch(`${EVENTS_API_URL}/events/${id}`);
+    const response = await fetch(`${EVENTS_API_URL}/channels/${name}/events`);
     if (!response.ok) return new Response("Failed to fetch data from Events.xyz API!", { status: response.status });
     data = await response.json();
     await redis.set(cacheKey, JSON.stringify(data), { ex: 60 * 60 });

@@ -29,14 +29,24 @@ class CortexAPI {
   }
 
   async getEvent(id: string): Promise<any> {
-    const response = await fetch(`${this.BASE_URL}/api/farcaster/event?id=${id}`)
+    const response = await fetch(`${this.BASE_URL}/api/farcaster/event/${id}`)
     if (!response.ok) throw new Error('Failed to fetch Farcaster event')
     const json = await response.json();
     return json
   }
 
   async getEvents(): Promise<any> {
-    const response = await fetch(`${this.BASE_URL}/api/farcaster/event/feed`)
+    const response = await fetch(`${this.BASE_URL}/api/farcaster/events`)
+    if (!response.ok) throw new Error('Failed to fetch Farcaster events')
+    const json = await response.json();
+    return json
+  }
+
+  async getEventsByChannel(name: string): Promise<any> {
+    if (!name || name.length === 0) {
+      throw new Error("Channel name is required");
+    }
+    const response = await fetch(`${this.BASE_URL}/api/farcaster/events/channel/${name}`)
     if (!response.ok) throw new Error('Failed to fetch Farcaster events')
     const json = await response.json();
     return json

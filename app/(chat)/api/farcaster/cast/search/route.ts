@@ -1,5 +1,5 @@
 import { auth } from "@/app/(auth)/auth";
-import { authMiddleware, redis } from "@/lib/utils";
+import { authMiddleware, NEYNAR_API_URL, redis } from "@/lib/utils";
 
 export async function GET(request: Request) {
   const session = await auth();
@@ -27,7 +27,7 @@ export async function GET(request: Request) {
     return new Response("NEYNAR_API_KEY is not set in the environment variables", { status: 500 });
   }
 
-  const response = await fetch(`https://api.neynar.com/v2/farcaster/cast/search?q=${encodeURIComponent(query)}&priority_mode=true&limit=25`, {
+  const response = await fetch(`${NEYNAR_API_URL}/farcaster/cast/search?q=${encodeURIComponent(query)}&priority_mode=true&limit=25`, {
     method: "GET",
     headers: {
       'accept': 'application/json',
