@@ -2,65 +2,65 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useActionState, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
-import { AuthForm } from "@/components/custom/auth-form";
 import { CortexIcon } from "@/components/custom/icons";
-import { SubmitButton } from "@/components/custom/submit-button";
+import SignInWithNeynar, { SIWNResponseData } from "@/components/custom/sign-in-with-neynar";
 
-import { login, LoginActionState } from "../actions";
+import { ActionState, login } from "../actions";
 
 export default function Page() {
   const router = useRouter();
+  // const [state, setState] = useState<ActionState>({ status: "idle" });
 
-  const [email, setEmail] = useState("");
+  // useEffect(() => {
+  //   if (state.status === "failed") {
+  //     toast.error("Invalid credentials!");
+  //   } else if (state.status === "invalid_data") {
+  //     toast.error("Failed validating your submission!");
+  //   } else if (state.status === "success") {
+  //     router.refresh();
+  //   }
+  // }, [state.status, router]);
 
-  const [state, formAction] = useActionState<LoginActionState, FormData>(
-    login,
-    {
-      status: "idle",
-    },
-  );
-
-  useEffect(() => {
-    if (state.status === "failed") {
-      toast.error("Invalid credentials!");
-    } else if (state.status === "invalid_data") {
-      toast.error("Failed validating your submission!");
-    } else if (state.status === "success") {
-      router.refresh();
-    }
-  }, [state.status, router]);
-
-  const handleSubmit = (formData: FormData) => {
-    setEmail(formData.get("email") as string);
-    formAction(formData);
+  const handleSubmit = async (siwnData: SIWNResponseData) => {
+    const result = await login(siwnData);
+    // console.log(result);
+    router.refresh();
+    return result;
+    // if (result.status === "failed") {
+    //   toast.error("Invalid credentials!");
+    // } else if (result.status === "invalid_data") {
+    //   toast.error("Failed validating your submission!");
+    // } else if (result.status === "success") {
+    //   router.refresh();
+    // }
+    // setState({ status: "in_progress" });
+    // try {
+    //   const result = await login(siwnData);
+    //   console.log(result);
+    //   setState(result);
+    // } catch (error) {
+    //   setState({ status: (error as ActionState).status || "failed" });
+    // }
   };
 
   return (
     <div className="flex h-screen w-screen items-center justify-center bg-background">
       <div className="w-full max-w-md overflow-hidden rounded-2xl flex flex-col gap-12">
         <div className="flex flex-col items-center justify-center gap-2 px-4 text-center sm:px-16">
-          <CortexIcon size={60} />
-          <h3 className="text-xl font-semibold dark:text-zinc-50">Sign In</h3>
-          <p className="text-sm text-gray-500 dark:text-zinc-400">
-            Use your email and password to sign in
+          <div className="flex flex-col items-center justify-center gap-0">
+            <CortexIcon size={60} />
+            <h3 className="text-xl font-semibold dark:text-zinc-50">Cortex</h3>
+          </div>
+          <p className="text-md text-gray-500 dark:text-zinc-400">
+           An agent and actions built around your Farcaster profile
           </p>
+          <div className="pt-3">
+            <SignInWithNeynar handleSignInSuccess={(siwnData) => handleSubmit(siwnData)} />
+          </div>
         </div>
-        <AuthForm action={handleSubmit} defaultEmail={email}>
-          <SubmitButton>Sign in</SubmitButton>
-          <p className="text-center text-sm text-gray-600 mt-4 dark:text-zinc-400">
-            {"Don't have an account? "}
-            <Link
-              href="/register"
-              className="font-semibold text-gray-800 hover:underline dark:text-zinc-200"
-            >
-              Sign up
-            </Link>
-            {" for free."}
-          </p>
-        </AuthForm>
       </div>
     </div>
   );

@@ -1,9 +1,10 @@
 "server-only";
 
-import { genSaltSync, hashSync } from "bcrypt-ts";
 import { desc, eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
+
+import { SIWNResponseData } from "@/components/custom/sign-in-with-neynar";
 
 import { user, chat, User } from "./schema";
 
@@ -13,21 +14,35 @@ import { user, chat, User } from "./schema";
 let client = postgres(`${process.env.POSTGRES_URL!}?sslmode=require`);
 let db = drizzle(client);
 
-export async function getUser(email: string): Promise<Array<User>> {
+export async function getUserById(id: string): Promise<Array<User>> {
   try {
-    return await db.select().from(user).where(eq(user.email, email));
+    return await db.select().from(user).where(eq(user.id, id));
   } catch (error) {
     console.error("Failed to get user from database");
     throw error;
   }
 }
 
-export async function createUser(email: string, password: string) {
-  let salt = genSaltSync(10);
-  let hash = hashSync(password, salt);
-
+export async function getUserByFid(fid: number): Promise<Array<User>> {
   try {
-    return await db.insert(user).values({ email, password: hash });
+    return await db.select().from(user).where(eq(user.fid, `${fid}`));
+  } catch (error) {
+    console.error("Failed to get user from database");
+    throw error;
+  }
+}
+
+export async function createUser(userData: SIWNResponseData) {
+  try {
+    return await db.insert(user).values({
+        fid: userData.fid,
+        username: userData.user.username,
+        name: userData.user.display_name,
+        bio: userData.user.profile.bio.text,
+        verified_address: userData.user.verifications[0] ?? '',
+        signer_uuid: userData.signer_uuid,
+        pfp_url: userData.user.pfp_url,
+    });
   } catch (error) {
     console.error("Failed to create user in database");
     throw error;

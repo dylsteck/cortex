@@ -21,6 +21,7 @@ import {
 import { Model } from '@/lib/model';
 
 import { SidebarSettingsDialog } from './sidebar-settings-dialog';
+import { SIWNResponseData } from './sign-in-with-neynar';
 
 
 export function SidebarUserNav({ user, selectedModelName }: { user: User, selectedModelName: Model['name'] }) {
@@ -34,13 +35,13 @@ export function SidebarUserNav({ user, selectedModelName }: { user: User, select
           <DropdownMenuTrigger asChild>
             <SidebarMenuButton className="data-[state=open]:bg-sidebar-accent bg-background data-[state=open]:text-sidebar-accent-foreground h-10">
               <Image
-                src={`https://avatar.vercel.sh/${user.email}`}
-                alt={user.email ?? 'User Avatar'}
+                src={(user as any).pfp_url}
+                alt={(user as any).username ?? 'User Avatar'}
                 width={24}
                 height={24}
                 className="rounded-full"
               />
-              <span>{user?.email}</span>
+              <span>{(user as any).username}</span>
               <ChevronUp className="ml-auto" />
             </SidebarMenuButton>
           </DropdownMenuTrigger>
