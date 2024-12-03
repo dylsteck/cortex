@@ -48,6 +48,11 @@ export function SidebarSettingsDialog({
               className="mt-1 w-auto bg-white dark:bg-gray-800 text-black dark:text-gray-300"
             />
           </div>
+          {/* TODO: Add delete chat history functionality */}
+          {/* <div className="flex flex-col gap-2 items-start">
+            <Label className="text-sm font-medium text-gray-700 dark:text-gray-300">History</Label>
+            <Button variant="default" className="text-white bg-red-600 dark:bg-red-500">Delete Chat History</Button>
+          </div> */}
           <div className="flex justify-end space-x-2 mt-6">
             <Button variant="outline" className="text-gray-700 dark:text-gray-300 bg-white dark:bg-black" onClick={onClose}>Cancel</Button>
             <Button variant="default" className="text-white bg-gray-900 dark:bg-gray-600">Save</Button>

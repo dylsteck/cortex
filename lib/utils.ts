@@ -25,10 +25,12 @@ const port = process.env.PORT || 3000;
 const localUrl = `http://localhost:${port}`;
 
 export const BASE_URL = isDev ? localUrl : 'https://withcortex.com';
-//export const BASE_URL = 'https://withcortex.com';
 export const CLANKER_API_URL = 'https://www.clanker.world/api';
 export const EVENTS_API_URL = 'https://events.xyz/api';
+export const FARCASTER_INDEX_API_URL = 'https://www.farcaster.in/api';
+export const ICEBREAKER_API_URL = 'https://app.icebreaker.xyz/api/v1';
 export const NEYNAR_API_URL = 'https://api.neynar.com/v2';
+export const NOUNS_BUILDER_GOLDSKY_SUBGRAPH_URL = 'https://api.goldsky.com/api/public/project_clkk1ucdyf6ak38svcatie9tf/subgraphs/nouns-builder-ethereum-mainnet/stable/gn';
 
 export const cortexAPI = new CortexAPI();
 
