@@ -1,14 +1,30 @@
+import './globals.css';
 import { Metadata } from 'next';
 import { Toaster } from 'sonner';
 
+import FrameProvider from '@/components/custom/frame-provider';
 import { ThemeProvider } from '@/components/custom/theme-provider';
+import { frame } from '@/lib/frame';
+import { BANNER_IMG_URL, BASE_URL } from '@/lib/utils';
 
-import './globals.css';
-
-export const metadata: Metadata = {
-  metadataBase: new URL('https://withcortex.vercel.app'),
-  title: 'Cortex',
-  description: 'Cortex',
+export function generateMetadata() {
+  return {
+    metadataBase: new URL(BASE_URL),
+    title: 'Cortex',
+    description: 'Cortex',
+    openGraph: {
+      title: 'Cortex',
+      description: 'Cortex',
+      images: [BANNER_IMG_URL],
+      url: BASE_URL,
+      siteName: 'Cortex',
+      locale: 'en_US',
+      type: 'website',
+    },
+    other: {
+      "fc:frame": JSON.stringify(frame)
+    }
+  }
 };
 
 export const viewport = {
@@ -64,7 +80,9 @@ export default async function RootLayout({
           disableTransitionOnChange
         >
           <Toaster position="top-center" />
-          {children}
+          <FrameProvider>
+            {children}
+          </FrameProvider>
         </ThemeProvider>
       </body>
     </html>

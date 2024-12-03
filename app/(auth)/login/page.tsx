@@ -6,6 +6,7 @@ import { useActionState, useEffect, useState } from "react";
 import { toast } from "sonner";
 
 import { AuthForm } from "@/components/custom/auth-form";
+import { CortexIcon } from "@/components/custom/icons";
 import { SubmitButton } from "@/components/custom/submit-button";
 
 import { login, LoginActionState } from "../actions";
@@ -41,6 +42,7 @@ export default function Page() {
     <div className="flex h-screen w-screen items-center justify-center bg-background">
       <div className="w-full max-w-md overflow-hidden rounded-2xl flex flex-col gap-12">
         <div className="flex flex-col items-center justify-center gap-2 px-4 text-center sm:px-16">
+          <CortexIcon size={60} />
           <h3 className="text-xl font-semibold dark:text-zinc-50">Sign In</h3>
           <p className="text-sm text-gray-500 dark:text-zinc-400">
             Use your email and password to sign in

@@ -14,12 +14,12 @@ export const tools = {
       return castSearchData.result.casts
     },
   }),
-  getComposerActions: tool({
-    description: 'Get Farcaster composer actions, which are mini apps Farcaster users can interact with',
+  getClankerTrendingTokens: tool({
+    description: 'Gets trending crypto tokens from Clanker, a token launcher built on top of Farcaster',
     parameters: z.object({}),
     execute: async ({}) => {
-      const composerActionData = await cortexAPI.getComposerActions();
-      return composerActionData;
+      const trendingTokenData = await cortexAPI.getClankerTrendingTokens();
+      return trendingTokenData;
     },
   }),
   getEvents: tool({

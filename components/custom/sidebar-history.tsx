@@ -1,5 +1,6 @@
 'use client';
 
+import { HomeIcon, PlusIcon } from 'lucide-react';
 import Link from 'next/link';
 import { useParams, usePathname, useRouter } from 'next/navigation';
 import { type User } from 'next-auth';
@@ -9,8 +10,10 @@ import useSWR from 'swr';
 
 import {
   InfoIcon,
+  MessageIcon,
   MoreHorizontalIcon,
   TrashIcon,
+  UserIcon,
 } from '@/components/custom/icons';
 import {
   AlertDialog,
@@ -64,7 +67,6 @@ export function SidebarHistory({ user }: { user: User | undefined }) {
     const deletePromise = fetch(`/api/chat?id=${deleteId}`, {
       method: 'DELETE',
     });
-
     toast.promise(deletePromise, {
       loading: 'Deleting chat...',
       success: () => {
@@ -73,21 +75,55 @@ export function SidebarHistory({ user }: { user: User | undefined }) {
             return history.filter((h) => h.id !== id);
           }
         });
+        if(pathname !== '/chat'){
+          router.push('/chat');
+        }
         return 'Chat deleted successfully';
       },
       error: 'Failed to delete chat',
     });
 
     setShowDeleteDialog(false);
-    if (deleteId === id) {
-      router.push('/');
-    }
   };
 
   if (!user) {
     return (
       <SidebarGroup>
-        <SidebarGroupLabel>History</SidebarGroupLabel>
+        <SidebarMenu className="mb-5">
+          <SidebarMenuItem>
+            <Link href="/">
+              <SidebarMenuButton>
+                <HomeIcon size={10} />
+                <span>Home</span>
+              </SidebarMenuButton>
+            </Link>
+          </SidebarMenuItem>
+          <SidebarMenuItem>
+            <Link href="/chat">
+              <SidebarMenuButton>
+                <MessageIcon size={10} />
+                <span>Chat</span>
+              </SidebarMenuButton>
+            </Link>
+          </SidebarMenuItem>
+          <SidebarMenuItem>
+            <Link href="/frame">
+              <SidebarMenuButton>
+                <PlusIcon size={10} />
+                <span>New Frame</span>
+              </SidebarMenuButton>
+            </Link>
+          </SidebarMenuItem>
+          <SidebarMenuItem>
+            <Link href="/profile">
+              <SidebarMenuButton>
+                <UserIcon />
+                <span>Profile</span>
+              </SidebarMenuButton>
+            </Link>
+          </SidebarMenuItem>
+        </SidebarMenu>
+        <SidebarGroupLabel>Chat History</SidebarGroupLabel>
         <SidebarGroupContent>
           <div className="text-zinc-500 h-dvh w-full flex flex-row justify-center items-center text-sm gap-2">
             <InfoIcon />
@@ -101,7 +137,41 @@ export function SidebarHistory({ user }: { user: User | undefined }) {
   if (isLoading) {
     return (
       <SidebarGroup>
-        <SidebarGroupLabel>History</SidebarGroupLabel>
+       <SidebarMenu className="mb-5">
+        <SidebarMenuItem>
+            <Link href="/">
+              <SidebarMenuButton>
+                <HomeIcon size={10} />
+                <span>Home</span>
+              </SidebarMenuButton>
+            </Link>
+          </SidebarMenuItem>
+          <SidebarMenuItem>
+            <Link href="/chat">
+              <SidebarMenuButton>
+                <MessageIcon size={10} />
+                <span>Chat</span>
+              </SidebarMenuButton>
+            </Link>
+          </SidebarMenuItem>
+          <SidebarMenuItem>
+            <Link href="/frame">
+              <SidebarMenuButton>
+                <PlusIcon size={10} />
+                <span>New Frame</span>
+              </SidebarMenuButton>
+            </Link>
+          </SidebarMenuItem>
+          <SidebarMenuItem>
+            <Link href="/profile">
+              <SidebarMenuButton>
+                <UserIcon />
+                <span>Profile</span>
+              </SidebarMenuButton>
+            </Link>
+          </SidebarMenuItem>
+        </SidebarMenu>
+        <SidebarGroupLabel>Chat History</SidebarGroupLabel>
         <SidebarGroupContent>
           <div className="flex flex-col">
             {[44, 32, 28, 64, 52].map((item) => (
@@ -128,7 +198,41 @@ export function SidebarHistory({ user }: { user: User | undefined }) {
   if (history?.length === 0) {
     return (
       <SidebarGroup>
-        <SidebarGroupLabel>History</SidebarGroupLabel>
+        <SidebarMenu className="mb-5">
+          <SidebarMenuItem>
+            <Link href="/">
+              <SidebarMenuButton>
+                <HomeIcon size={10} />
+                <span>Home</span>
+              </SidebarMenuButton>
+            </Link>
+          </SidebarMenuItem>
+          <SidebarMenuItem>
+            <Link href="/chat">
+              <SidebarMenuButton>
+                <MessageIcon size={10} />
+                <span>Chat</span>
+              </SidebarMenuButton>
+            </Link>
+          </SidebarMenuItem>
+          <SidebarMenuItem>
+            <Link href="/frame">
+              <SidebarMenuButton>
+                <PlusIcon size={10} />
+                <span>New Frame</span>
+              </SidebarMenuButton>
+            </Link>
+          </SidebarMenuItem>
+          <SidebarMenuItem>
+            <Link href="/profile">
+              <SidebarMenuButton>
+                <UserIcon />
+                <span>Profile</span>
+              </SidebarMenuButton>
+            </Link>
+          </SidebarMenuItem>
+        </SidebarMenu>
+        <SidebarGroupLabel>Chat History</SidebarGroupLabel>
         <SidebarGroupContent>
           <SidebarMenu>
             <SidebarMenuItem>
@@ -146,7 +250,41 @@ export function SidebarHistory({ user }: { user: User | undefined }) {
   return (
     <>
       <SidebarGroup>
-        <SidebarGroupLabel>History</SidebarGroupLabel>
+        <SidebarMenu className="mb-5">
+          <SidebarMenuItem>
+            <Link href="/">
+              <SidebarMenuButton>
+                <HomeIcon size={10} />
+                <span>Home</span>
+              </SidebarMenuButton>
+            </Link>
+          </SidebarMenuItem>
+          <SidebarMenuItem>
+            <Link href="/chat">
+              <SidebarMenuButton>
+                <MessageIcon size={10} />
+                <span>Chat</span>
+              </SidebarMenuButton>
+            </Link>
+          </SidebarMenuItem>
+          <SidebarMenuItem>
+            <Link href="/frame">
+              <SidebarMenuButton>
+                <PlusIcon size={10} />
+                <span>New Frame</span>
+              </SidebarMenuButton>
+            </Link>
+          </SidebarMenuItem>
+          <SidebarMenuItem>
+            <Link href="/profile">
+              <SidebarMenuButton>
+                <UserIcon />
+                <span>Profile</span>
+              </SidebarMenuButton>
+            </Link>
+          </SidebarMenuItem>
+        </SidebarMenu>
+        <SidebarGroupLabel>Chat History</SidebarGroupLabel>
         <SidebarGroupContent>
           <SidebarMenu>
             {history &&
@@ -172,7 +310,7 @@ export function SidebarHistory({ user }: { user: User | undefined }) {
                     </DropdownMenuTrigger>
                     <DropdownMenuContent side="bottom" align="end">
                       <DropdownMenuItem
-                        className="text-destructive focus:bg-destructive/15 focus:text-destructive"
+                        className="text-destructive focus:bg-destructive/15 focus:text-destructive cursor-pointer"
                         onSelect={() => {
                           setDeleteId(chat.id);
                           setShowDeleteDialog(true);

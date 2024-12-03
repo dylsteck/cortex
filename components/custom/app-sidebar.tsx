@@ -27,7 +27,6 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from '@/components/ui/sidebar';
-import { BetterTooltip } from '@/components/ui/tooltip';
 import { Model } from '@/lib/model';
 
 import { CortexIcon } from './icons';
@@ -48,13 +47,6 @@ export function AppSidebar({ user, selectedModelName }: { user: User | undefined
                 </span>
               </Link>
             </SidebarMenuButton>
-            <BetterTooltip content="New Chat">
-              <SidebarMenuAction asChild>
-                <Link href="/" onClick={() => setOpenMobile(false)}>
-                  <Plus />
-                </Link>
-              </SidebarMenuAction>
-            </BetterTooltip>
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>

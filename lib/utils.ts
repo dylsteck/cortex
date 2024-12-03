@@ -16,7 +16,17 @@ import CortexAPI from './api';
 
 export const redis = Redis.fromEnv()
 
-export const BASE_URL = process.env.VERCEL_URL || process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
+// TODO: create a new banner image
+export const BANNER_IMG_URL = 'https://i.imgur.com/hJKzrtx.png'
+export const ICON_IMG_URL = 'https://i.imgur.com/Pwf5x4V.png'
+
+const isDev = process.env.NODE_ENV === 'development';
+const port = process.env.PORT || 3000;
+const localUrl = `http://localhost:${port}`;
+
+export const BASE_URL = isDev ? localUrl : 'https://withcortex.com';
+//export const BASE_URL = 'https://withcortex.com';
+export const CLANKER_API_URL = 'https://www.clanker.world/api';
 export const EVENTS_API_URL = 'https://events.xyz/api';
 export const NEYNAR_API_URL = 'https://api.neynar.com/v2';
 
@@ -32,13 +42,14 @@ interface ApplicationError extends Error {
 }
 
 export const authMiddleware = (session: Session | null, url: Request['url'], headers: Request['headers']): Response | void => {
-  if (!session?.user) {
-    const hostHeader = headers.get("host");
-    const expectedHost = new URL(BASE_URL).host;
-    if (hostHeader !== expectedHost) {
-      return Response.redirect(new URL(`/login?callbackUrl=${encodeURIComponent(url)}`, url));
-    }
-  }
+  // TODO: fix authMiddleware and add the commented out logic below back in
+  // if (!session?.user) {
+  //   const hostHeader = headers.get("host");
+  //   const expectedHost = new URL(BASE_URL).host;
+  //   if (hostHeader !== expectedHost) {
+  //     return Response.redirect(new URL(`/login?callbackUrl=${encodeURIComponent(url)}`, url));
+  //   }
+  // }
 }
 
 // TODO: fix fetcher, which should be used in `lib/api`

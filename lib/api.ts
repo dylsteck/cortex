@@ -14,26 +14,19 @@ class CortexAPI {
     return json
   }
 
-  async getComposerActions(cursor?: string, list: 'top' | 'featured' = 'top'): Promise<any> {
-    const url = new URL(`${this.BASE_URL}/api/farcaster/composer-actions`);
-    url.searchParams.append("list", list);
-    if (cursor) {
-      url.searchParams.append("cursor", cursor);
-    }
-  
-    const response = await fetch(url.toString(), {
-      method: "GET",
-      headers: {
-        'accept': 'application/json'
-      }
-    });
-  
-    if (!response.ok) {
-      throw new Error(`Failed to fetch data from API route: ${response.status}`);
-    }
-  
-    return await response.json();
-  }  
+  async getClankerTrendingTokens(): Promise<any>{
+    const response = await fetch(`${this.BASE_URL}/api/farcaster/clanker/tokens/trending`)
+    if (!response.ok) throw new Error('Failed to fetch Clanker trending tokens')
+    const json = await response.json();
+    return json
+  }
+
+  async getClankerTokens(page?: number): Promise<any>{
+    const response = await fetch(`${this.BASE_URL}/api/farcaster/clanker/tokens${page ? `?page=${page}` : ''}`)
+    if (!response.ok) throw new Error('Failed to fetch Clanker tokens')
+    const json = await response.json();
+    return json
+  }
 
   async getEvent(id: string): Promise<any> {
     const response = await fetch(`${this.BASE_URL}/api/farcaster/event?id=${id}`)
