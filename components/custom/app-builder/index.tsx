@@ -42,9 +42,6 @@ export interface ExtendedWidget extends Widget {
 }
 
 export default function AppBuilder() {
-  const [viewMode, setViewMode] = React.useState<"desktop" | "mobile">(
-    "mobile"
-  );
   const [placedWidgets, setPlacedWidgets] = React.useState<ExtendedWidget[]>(
     []
   );
@@ -60,20 +57,6 @@ export default function AppBuilder() {
       },
     })
   );
-
-  React.useEffect(() => {
-    const checkMobile = () => {
-      const isMobileView = window.innerWidth <= 768;
-      setIsMobile(isMobileView);
-      if (isMobileView) {
-        setViewMode("mobile");
-      }
-    };
-
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
-    return () => window.removeEventListener("resize", checkMobile);
-  }, []);
 
   const addWidget = (widget: ExtendedWidget) => {
     const lastWidget = placedWidgets[placedWidgets.length - 1];
@@ -167,7 +150,7 @@ export default function AppBuilder() {
         {...listeners}
         className={cn(
           "relative rounded-xl shadow-sm overflow-visible group",
-          viewMode === "desktop" ? "w-[calc(33%-1rem)]" : "w-full",
+          "w-full",
           "opacity-100"
         )}
         layout
@@ -218,7 +201,7 @@ export default function AppBuilder() {
               layout
               className={cn(
                 "transition-all duration-300 relative min-h-[618px]",
-                viewMode === "desktop" ? "w-[1024px]" : "w-full min-w-[375px]"
+                "w-full min-w-[375px]"
               )}
               style={{
                 borderRadius: "1rem",
@@ -235,9 +218,7 @@ export default function AppBuilder() {
                   <div
                     className={cn(
                       "grid gap-4 w-full",
-                      viewMode === "desktop"
-                        ? "grid-cols-3 auto-rows-min"
-                        : "grid-cols-1"
+                      "grid-cols-1"
                     )}
                   >
                     <AnimatePresence>
@@ -257,30 +238,9 @@ export default function AppBuilder() {
             <div className="flex justify-start">
               <div className="flex gap-3 items-center bg-muted/90 rounded-full p-2 shadow-lg backdrop-blur-md">
                 <WidgetDrawer onAdd={addWidget} />
-                {!isMobile && (
-                  <motion.div
-                    onClick={() => setViewMode("desktop")}
-                    className={cn(
-                      "bg-transparent rounded-xl border border-white px-2 py-1.5 cursor-pointer",
-                      viewMode === "desktop" ? "bg-white text-black" : ""
-                    )}
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                  >
-                    Desktop
-                  </motion.div>
-                )}
-                <motion.div
-                  onClick={() => setViewMode("mobile")}
-                  className={cn(
-                    "bg-transparent rounded-xl border border-white px-2 py-1.5 cursor-pointer",
-                    viewMode === "mobile" ? "bg-white text-black" : ""
-                  )}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  Mobile
-                </motion.div>
+                <p className="text-xl pr-2">
+                  Unnamed
+                </p>
               </div>
             </div>
           </motion.div>
