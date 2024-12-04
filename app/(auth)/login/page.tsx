@@ -8,42 +8,26 @@ import { toast } from "sonner";
 import { CortexIcon } from "@/components/custom/icons";
 import SignInWithNeynar, { SIWNResponseData } from "@/components/custom/sign-in-with-neynar";
 
-import { ActionState, login } from "../actions";
+import { login } from "../actions";
 
 export default function Page() {
   const router = useRouter();
-  // const [state, setState] = useState<ActionState>({ status: "idle" });
-
-  // useEffect(() => {
-  //   if (state.status === "failed") {
-  //     toast.error("Invalid credentials!");
-  //   } else if (state.status === "invalid_data") {
-  //     toast.error("Failed validating your submission!");
-  //   } else if (state.status === "success") {
-  //     router.refresh();
-  //   }
-  // }, [state.status, router]);
 
   const handleSubmit = async (siwnData: SIWNResponseData) => {
-    const result = await login(siwnData);
-    // console.log(result);
-    router.refresh();
-    return result;
-    // if (result.status === "failed") {
-    //   toast.error("Invalid credentials!");
-    // } else if (result.status === "invalid_data") {
-    //   toast.error("Failed validating your submission!");
-    // } else if (result.status === "success") {
-    //   router.refresh();
-    // }
-    // setState({ status: "in_progress" });
-    // try {
-    //   const result = await login(siwnData);
-    //   console.log(result);
-    //   setState(result);
-    // } catch (error) {
-    //   setState({ status: (error as ActionState).status || "failed" });
-    // }
+    try {
+      const result = await login(siwnData);
+      if (result.status === "failed") {
+        toast.error("Invalid credentials!");
+      } else if (result.status === "invalid_data") {
+        toast.error("Failed validating your submission!");
+      } else if (result.status === "success") {
+        router.refresh();
+      }
+      return result;
+    } catch (error) {
+      toast.error("An unexpected error occurred");
+      return { status: "failed" };
+    }
   };
 
   return (

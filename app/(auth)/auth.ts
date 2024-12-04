@@ -33,7 +33,8 @@ export const {
       async authorize(credentials: any) {
         if (!credentials) return null;
         let users = await getUserByFid(credentials.fid);
-        if (users.length === 0) return null;
+        // Return credentials for new users since they're already validated
+        if (users.length === 0) return credentials;
         return users[0] as any;
       },
     }),
