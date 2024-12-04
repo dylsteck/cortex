@@ -15,6 +15,7 @@ import { Button } from '@/components/ui/button';
 import {
   Drawer,
   DrawerContent,
+  DrawerDescription,
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
@@ -95,7 +96,7 @@ export default function WidgetDrawer({ onAdd }: { onAdd: (widget: ExtendedWidget
                 <p className="text-sm text-light">{filteredWidgets[currentSlide]?.description}</p>
               </div>
               <Button className="bg-black text-white rounded-xl hover:bg-black" onClick={() => handleAddWidget(filteredWidgets[currentSlide])}>
-                Submit
+                Add
               </Button>
             </div>
             <div className="relative mt-4 overflow-hidden p-3">
@@ -130,10 +131,11 @@ export default function WidgetDrawer({ onAdd }: { onAdd: (widget: ExtendedWidget
           </div>
         ) : (
           <>
-            <DrawerHeader className="p-0">
+            <DrawerHeader className="p-0 pl-3 gap-0">
               <DrawerTitle className="text-2xl font-medium">Apps</DrawerTitle>
+              <DrawerDescription className="p-0 m-0">View widgets across crypto apps</DrawerDescription>
             </DrawerHeader>
-            <div className="mt-4 mx-1 overflow-y-scroll max-h-[50vh]">
+            <div className="mt-2.5 mx-1 overflow-y-scroll max-h-[50vh] pl-2 pr-2">
               {APPS.map((app) => (
                 <div key={app.id} className="mb-4">
                   <div className="flex items-center justify-between mb-2">
@@ -164,9 +166,9 @@ export default function WidgetDrawer({ onAdd }: { onAdd: (widget: ExtendedWidget
                           setCurrentSlide(0);
                         }
                       }}
-                      className="max-w-[30%] w-auto"
+                      className="max-w-[30%] w-auto rounded-xl"
                     >
-                      Add
+                      View
                     </Button>
                   </div>
                 </div>
