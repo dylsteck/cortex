@@ -2,6 +2,7 @@ import React from 'react';
 import { z } from 'zod';
 
 import FarcasterCast from './farcaster/farcaster-cast';
+import FarcasterFeed from './farcaster/farcaster-feed';
 import IcebreakerProfile from './icebreaker/icebreaker-profile';
 import IcebreakerSocials from './icebreaker/icebreaker-socials';
 
@@ -71,6 +72,20 @@ export const WIDGETS = [
         },
         paramsSchema: z.object({
             castUrl: z.string().url('Must be a valid Warpcast URL')
+        })
+    },
+    {
+        id: 'farcaster-feed',
+        appId: 'farcaster',
+        name: 'Feed',
+        description: 'View casts from a specific user',
+        component: FarcasterFeed,
+        preview: <FarcasterFeed fid="616" />,
+        defaultParams: {
+            fid: '616'
+        },
+        paramsSchema: z.object({
+            fid: z.string().min(1, 'FID is required')
         })
     },
     {
