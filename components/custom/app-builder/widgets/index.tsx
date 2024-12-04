@@ -23,6 +23,12 @@ export type Widget = {
 
 export const APPS: App[] = [
     {
+        id: 'general',
+        iconUrl: 'https://i.imgur.com/uAvnFSF.png',
+        name: 'General',
+        description: 'Essentials such as text and navigation'
+    },
+    {
         id: 'farcaster',
         iconUrl: 'https://i.imgur.com/I2rEbPF.png',
         name: 'Farcaster',
@@ -33,6 +39,18 @@ export const APPS: App[] = [
         iconUrl: 'https://i.imgur.com/JZMb574.jpg',
         name: 'Icebreaker',
         description: 'The open professional network'
+    },
+    {
+        id: 'nouns-builder',
+        iconUrl: 'https://i.imgur.com/PUPG9N5.png',
+        name: 'Nouns Builder',
+        description: 'A tool for creating Nounish DAOs on Ethereum'
+    },
+    {
+        id: 'onchain',
+        iconUrl: 'https://i.imgur.com/KaDZOjF.png',
+        name: 'Onchain',
+        description: 'Mints, swaps, and more onchain widgets'
     }
 ]
 

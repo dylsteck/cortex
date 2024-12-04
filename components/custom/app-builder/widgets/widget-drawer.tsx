@@ -146,6 +146,7 @@ export default function WidgetDrawer({ onAdd }: { onAdd: (widget: ExtendedWidget
                         className="size-10 rounded-lg mr-3"
                         width={10}
                         height={10}
+                        loading="lazy"
                       />
                       <div>
                         <p className="font-medium">{app.name}</p>
