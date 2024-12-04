@@ -1,6 +1,8 @@
 import React from 'react';
+import { z } from 'zod';
 
 import FarcasterCast from './farcaster/farcaster-cast';
+import FarcasterFeed from './farcaster/farcaster-feed';
 import IcebreakerProfile from './icebreaker/icebreaker-profile';
 import IcebreakerSocials from './icebreaker/icebreaker-socials';
 
@@ -13,15 +15,24 @@ export type App = {
     description: string;
 }
 
-export type Widget = {
+export type Widget<T = any> = {
     id: string;
     appId: typeof APPS[number]['id']
-    component: React.ReactNode;
     name: string;
     description: string;
+    defaultParams?: T;
+    paramsSchema?: z.ZodType<T>;
+    preview: React.ReactNode;
+    component: React.ComponentType<T>;
 }
 
 export const APPS: App[] = [
+    {
+        id: 'general',
+        iconUrl: 'https://i.imgur.com/uAvnFSF.png',
+        name: 'General',
+        description: 'Essentials such as text and navigation'
+    },
     {
         id: 'farcaster',
         iconUrl: 'https://i.imgur.com/I2rEbPF.png',
@@ -33,29 +44,64 @@ export const APPS: App[] = [
         iconUrl: 'https://i.imgur.com/JZMb574.jpg',
         name: 'Icebreaker',
         description: 'The open professional network'
+    },
+    {
+        id: 'nouns-builder',
+        iconUrl: 'https://i.imgur.com/PUPG9N5.png',
+        name: 'Nouns Builder',
+        description: 'A tool for creating Nounish DAOs on Ethereum'
+    },
+    {
+        id: 'onchain',
+        iconUrl: 'https://i.imgur.com/KaDZOjF.png',
+        name: 'Onchain',
+        description: 'Build with onchain data'
     }
-]
+];
 
-export const WIDGETS: Widget[] = [
+export const WIDGETS = [
     {
         id: 'farcaster-cast',
         appId: 'farcaster',
-        component: <FarcasterCast />,
         name: 'Cast',
-        description: 'View a cast given a url or hash'
+        description: 'View a cast given a url or hash',
+        component: FarcasterCast,
+        preview: <FarcasterCast castUrl="https://warpcast.com/dylsteck.eth/0x1f459eb2" />,
+        defaultParams: {
+            castUrl: 'https://warpcast.com/dylsteck.eth/0x1f459eb2'
+        },
+        paramsSchema: z.object({
+            castUrl: z.string().url('Must be a valid Warpcast URL')
+        })
+    },
+    {
+        id: 'farcaster-feed',
+        appId: 'farcaster',
+        name: 'Feed',
+        description: 'View casts from a specific user',
+        component: FarcasterFeed,
+        preview: <FarcasterFeed fid="616" />,
+        defaultParams: {
+            fid: '616'
+        },
+        paramsSchema: z.object({
+            fid: z.string().min(1, 'FID is required')
+        })
     },
     {
         id: 'icebreaker-profile',
         appId: 'icebreaker',
-        component: <IcebreakerProfile />,
         name: 'Profile',
-        description: 'View network info per a fid'
+        description: 'View network info per a fid',
+        component: IcebreakerProfile,
+        preview: <IcebreakerProfile />
     },
     {
         id: 'icebreaker-socials',
         appId: 'icebreaker',
-        component: <IcebreakerSocials />,
         name: 'Socials',
-        description: 'View social profiles per a fid'
+        description: 'View social profiles per a fid',
+        component: IcebreakerSocials,
+        preview: <IcebreakerSocials />
     }
-]
+];

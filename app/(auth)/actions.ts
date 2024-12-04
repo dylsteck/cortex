@@ -2,46 +2,12 @@
 
 import { z } from "zod";
 
-import { createUser, getUser } from "@/db/queries";
+import { SIWNResponseData } from "@/components/custom/sign-in-with-neynar";
+import { createUser, getUserByFid } from "@/db/queries";
 
 import { signIn } from "./auth";
 
-const authFormSchema = z.object({
-  email: z.string().email(),
-  password: z.string().min(6),
-});
-
-export interface LoginActionState {
-  status: "idle" | "in_progress" | "success" | "failed" | "invalid_data";
-}
-
-export const login = async (
-  _: LoginActionState,
-  formData: FormData,
-): Promise<LoginActionState> => {
-  try {
-    const validatedData = authFormSchema.parse({
-      email: formData.get("email"),
-      password: formData.get("password"),
-    });
-
-    await signIn("credentials", {
-      email: validatedData.email,
-      password: validatedData.password,
-      redirect: false,
-    });
-
-    return { status: "success" };
-  } catch (error) {
-    if (error instanceof z.ZodError) {
-      return { status: "invalid_data" };
-    }
-
-    return { status: "failed" };
-  }
-};
-
-export interface RegisterActionState {
+export interface ActionState {
   status:
     | "idle"
     | "in_progress"
@@ -51,35 +17,36 @@ export interface RegisterActionState {
     | "invalid_data";
 }
 
-export const register = async (
-  _: RegisterActionState,
-  formData: FormData,
-): Promise<RegisterActionState> => {
+export const login = async (siwnData: SIWNResponseData): Promise<ActionState> => {
   try {
-    const validatedData = authFormSchema.parse({
-      email: formData.get("email"),
-      password: formData.get("password"),
+    let [user] = await getUserByFid(parseInt(siwnData.fid));
+    const credentials = {
+      fid: parseInt(siwnData.fid),
+      username: siwnData.user.username,
+      name: siwnData.user.display_name,
+      bio: siwnData.user.profile.bio.text,
+      verified_address: siwnData.user.verifications[0] ?? '',
+      signer_uuid: siwnData.signer_uuid,
+      pfp_url: siwnData.user.pfp_url,
+      is_authenticated: siwnData.is_authenticated,
+    };
+
+    if (!user) {
+      await createUser(siwnData);
+    }
+
+    const signInResult = await signIn("credentials", {
+      ...credentials,
+      redirect: false
     });
 
-    let [user] = await getUser(validatedData.email);
-
-    if (user) {
-      return { status: "user_exists" } as RegisterActionState;
-    } else {
-      await createUser(validatedData.email, validatedData.password);
-      await signIn("credentials", {
-        email: validatedData.email,
-        password: validatedData.password,
-        redirect: false,
-      });
-
-      return { status: "success" };
+    if (signInResult?.error) {
+      return { status: "failed" };
     }
+
+    return { status: "success" };
   } catch (error) {
-    if (error instanceof z.ZodError) {
-      return { status: "invalid_data" };
-    }
-
+    console.error("Login error:", error);
     return { status: "failed" };
   }
 };

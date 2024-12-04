@@ -1,29 +1,24 @@
-"use client"
-import { motion } from 'framer-motion';
+import Image from 'next/image';
 
+import { auth } from '@/app/(auth)/auth';
 import { ChatHeader } from '@/components/custom/chat-header';
-import { CortexIcon } from '@/components/custom/icons';
 
-export default function Page() {
+export default async function Page() {
+  const session = await auth();
+  
   return(
     <div>
       <ChatHeader />
-      <motion.div
-        key="homepage"
-        className="max-w-3xl mx-auto md:mt-20 flex justify-center items-center"
-        initial={{ opacity: 0, scale: 0.98 }}
-        animate={{ opacity: 1, scale: 1 }}
-        exit={{ opacity: 0, scale: 0.98 }}
-        transition={{ delay: 0.5 }}
-      >
-        <div className="rounded-xl p-6 flex flex-col gap-4 leading-relaxed text-center max-w-xl">
-          <p className="flex flex-row justify-center gap-1 items-center">
-            <CortexIcon size={40} />
-            <span className="text-2xl font-semibold">Cortex</span>
-          </p>
-          <span className="text-xl font-medium">Profile</span>
+      {session && session.user ? 
+      <div>
+        <div className="p-3 pl-5 flex flex-row gap-2 items-center">
+          <Image className="size-15 rounded-full" src={(session.user as any).pfp_url} width={50} height={50} alt={`${(session.user as any).username ?? 'User'} PFP`} />
+          <p className="text-xl font-medium">{(session.user as any).username}</p>
         </div>
-      </motion.div>
+        <hr/>
+      </div>
+      : null
+      }
     </div>
   );
 }
