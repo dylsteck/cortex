@@ -8,11 +8,15 @@ import { Widget } from "../widget";
 
 import "react-farcaster-embed/dist/styles.css";
 
-export default function FarcasterCast() {
+interface FarcasterCastProps {
+    castUrl: string;
+}
+
+export default function FarcasterCast({ castUrl }: FarcasterCastProps) {
     const farcasterApp = APPS.find((app) => app.id === "farcaster");
     return (
         <Widget>
-           <FarcasterEmbed url="https://warpcast.com/dylsteck.eth/0x1f459eb2" />
+           <FarcasterEmbed url={castUrl} />
         </Widget>
     );
 }

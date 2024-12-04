@@ -1,4 +1,5 @@
 import React from 'react';
+import { z } from 'zod';
 
 import FarcasterCast from './farcaster/farcaster-cast';
 import IcebreakerProfile from './icebreaker/icebreaker-profile';
@@ -13,12 +14,15 @@ export type App = {
     description: string;
 }
 
-export type Widget = {
+export type Widget<T = any> = {
     id: string;
     appId: typeof APPS[number]['id']
-    component: React.ReactNode;
     name: string;
     description: string;
+    defaultParams?: T;
+    paramsSchema?: z.ZodType<T>;
+    preview: React.ReactNode;
+    component: React.ComponentType<T>;
 }
 
 export const APPS: App[] = [
@@ -50,30 +54,39 @@ export const APPS: App[] = [
         id: 'onchain',
         iconUrl: 'https://i.imgur.com/KaDZOjF.png',
         name: 'Onchain',
-        description: 'Mints, swaps, and more onchain widgets'
+        description: 'Build with onchain data'
     }
-]
+];
 
-export const WIDGETS: Widget[] = [
+export const WIDGETS = [
     {
         id: 'farcaster-cast',
         appId: 'farcaster',
-        component: <FarcasterCast />,
         name: 'Cast',
-        description: 'View a cast given a url or hash'
+        description: 'View a cast given a url or hash',
+        component: FarcasterCast,
+        preview: <FarcasterCast castUrl="https://warpcast.com/dylsteck.eth/0x1f459eb2" />,
+        defaultParams: {
+            castUrl: 'https://warpcast.com/dylsteck.eth/0x1f459eb2'
+        },
+        paramsSchema: z.object({
+            castUrl: z.string().url('Must be a valid Warpcast URL')
+        })
     },
     {
         id: 'icebreaker-profile',
         appId: 'icebreaker',
-        component: <IcebreakerProfile />,
         name: 'Profile',
-        description: 'View network info per a fid'
+        description: 'View network info per a fid',
+        component: IcebreakerProfile,
+        preview: <IcebreakerProfile />
     },
     {
         id: 'icebreaker-socials',
         appId: 'icebreaker',
-        component: <IcebreakerSocials />,
         name: 'Socials',
-        description: 'View social profiles per a fid'
+        description: 'View social profiles per a fid',
+        component: IcebreakerSocials,
+        preview: <IcebreakerSocials />
     }
-]
+];
