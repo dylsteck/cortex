@@ -21,6 +21,7 @@ export interface ExtendedWidget extends Widget {
   visible: boolean;
   preview: React.ReactNode;
   props?: Record<string, any>;
+  appId?: string;
 }
 
 export interface Widget {

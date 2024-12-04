@@ -48,11 +48,9 @@ export default function WidgetDrawer({ onAdd }: { onAdd: (widget: ExtendedWidget
   const filteredWidgets = currentWidget
     ? WIDGETS.filter((widget) => widget.appId === currentWidget.appId).map((widget) => ({
         ...widget,
-        position: { x: 0, y: 0, w: 10, h: 3 },
+        layout: { x: 0, y: 0, w: 10, h: 3 },
         visible: true,
         preview: widget.component,
-        desktop: { x: 0, y: 0 },
-        mobile: { x: 0, y: 0 },
       }))
     : [];
 
@@ -157,11 +155,9 @@ export default function WidgetDrawer({ onAdd }: { onAdd: (widget: ExtendedWidget
                       onClick={() => {
                         const widgets = WIDGETS.filter((w) => w.appId === app.id).map((widget) => ({
                           ...widget,
-                          position: { x: 0, y: 0, w: 10, h: 3 },
+                          layout: { x: 0, y: 0, w: 10, h: 3 },
                           visible: true,
                           preview: widget.component,
-                          desktop: { x: 0, y: 0 },
-                          mobile: { x: 0, y: 0 },
                         }));
                         if (widgets.length) {
                           setCurrentWidget(widgets[0]);
