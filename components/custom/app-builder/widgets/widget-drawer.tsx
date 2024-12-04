@@ -18,6 +18,7 @@ import { Label } from '@/components/ui/label';
 import { cn } from '@/lib/utils';
 
 import { type ExtendedWidget } from '..';
+
 import { APPS, WIDGETS, type Widget } from './index';
 
 interface GridPosition {
@@ -168,7 +169,7 @@ export default function WidgetDrawer({ onAdd }: { onAdd: (widget: ExtendedWidget
                     className={`size-6 cursor-pointer ${currentSlide === 0 ? 'opacity-50' : 'opacity-100'}`}
                     onClick={handlePrev}
                   />
-                  <div className="flex justify-center size-[55%] md:size-[40%]">
+                  <div className="flex justify-center size-[55%] md:size-2/5">
                     {currentWidgetDef?.preview}
                   </div>
                   <ChevronRightCircle
@@ -187,7 +188,7 @@ export default function WidgetDrawer({ onAdd }: { onAdd: (widget: ExtendedWidget
               <DrawerTitle className="text-2xl font-medium">Apps</DrawerTitle>
               <DrawerDescription className="p-0 m-0">View widgets across crypto apps</DrawerDescription>
             </DrawerHeader>
-            <div className="mt-2.5 mx-1 overflow-y-scroll max-h-[50vh] pl-2 pr-2">
+            <div className="mt-2.5 mx-1 overflow-y-scroll max-h-[50vh] px-2">
               {APPS.map((app) => (
                 <div key={app.id} className="mb-4">
                   <div className="flex items-center justify-between mb-2">
