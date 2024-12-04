@@ -71,7 +71,7 @@ export default function AppBuilder() {
             layout
             className={cn(
               "transition-all duration-300 relative min-h-[618px]",
-              "w-full min-w-[375px]"
+              "w-full min-w-[400px]"
             )}
             style={{ borderRadius: "1rem" }}
           >
@@ -79,7 +79,7 @@ export default function AppBuilder() {
               className="layout"
               cols={1}
               rowHeight={200}
-              width={375}
+              width={400}
               isResizable={false}
               margin={[0, 24]}
               containerPadding={[0, 12]}

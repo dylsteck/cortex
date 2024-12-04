@@ -77,7 +77,7 @@ export default function WidgetDrawer({ onAdd }: { onAdd: (widget: ExtendedWidget
       </DrawerTrigger>
       <DrawerContent
         className={cn(
-          'fixed bottom-0 left-0 right-0 w-full bg-black dark:bg-white text-white dark:text-black rounded-t-xl shadow-lg border border-gray-200 mx-auto max-w-auto md:max-w-[60%] xl:max-w-[40%] max-h-[55%]',
+          'fixed bottom-0 left-0 right-0 w-full bg-black dark:bg-white text-white dark:text-black rounded-t-xl shadow-lg border border-gray-200 mx-auto max-w-auto md:max-w-[60%] xl:max-w-[40%]',
           'outline-none'
         )}
       >
@@ -107,7 +107,7 @@ export default function WidgetDrawer({ onAdd }: { onAdd: (widget: ExtendedWidget
                   }`}
                   onClick={handlePrev}
                 />
-                <div className="flex justify-center w-[85%]">
+                <div className="flex justify-center size-[55%] md:size-[40%]">
                   {filteredWidgets[currentSlide]?.component}
                 </div>
                 <ChevronRightCircle
