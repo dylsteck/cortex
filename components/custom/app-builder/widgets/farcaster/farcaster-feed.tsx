@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useCallback, memo } from "react";
 import { FarcasterEmbed } from "react-farcaster-embed/dist/client";
+
 import { Widget } from "../widget";
 
 import "react-farcaster-embed/dist/styles.css";
@@ -250,7 +251,7 @@ export default function FarcasterFeed({ fid }: FarcasterFeedProps) {
     return (
       <Widget>
         <div className="flex items-center justify-center p-4">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-500" />
+          <div className="animate-spin rounded-full size-8 border-b-2 border-purple-500" />
         </div>
       </Widget>
     );
