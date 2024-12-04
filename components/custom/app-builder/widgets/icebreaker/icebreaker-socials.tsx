@@ -1,23 +1,61 @@
 import Image from "next/image";
+import { useMemo, useState, useEffect } from "react";
 
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { type IcebreakerProfile, type IcebreakerGuildMembership, type IcebreakerChannel, IcebreakerWidgetPropsSchema } from "@/lib/types";
+import { cortexAPI } from "@/lib/utils";
 
 import { APPS } from "..";
-import sampleProfile from "./sample-profile.json";
-import { type IcebreakerProfile, type IcebreakerGuildMembership } from "./types";
 import { Widget } from "../widget";
 
-export default function IcebreakerSocials({
-    profile = sampleProfile as unknown as IcebreakerProfile,
-}: {
-    profile?: IcebreakerProfile;
-}) {
-    const icebreakerApp = APPS.find((app) => app.id === "icebreaker");
+export default function IcebreakerSocials({ fname, fid }: { fname?: string; fid?: string }) {
+    const [profile, setProfile] = useState<IcebreakerProfile | null>(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+
+    const props = useMemo(() => {
+        try {
+            return IcebreakerWidgetPropsSchema.parse({ fname, fid });
+        } catch (error) {
+            return { fname: "dylsteck.eth" };
+        }
+    }, [fname, fid]);
+    
+    useEffect(() => {
+        if (props.fname || props.fid) {
+            setLoading(true);
+            cortexAPI.getIcebreakerProfile(props.fname, props.fid)
+                .then(setProfile)
+                .catch(err => setError(err instanceof Error ? err.message : 'Failed to fetch profile'))
+                .finally(() => setLoading(false));
+        }
+    }, [props.fname, props.fid]);
+
+    const icebreakerApp = useMemo(() => APPS.find((app) => app.id === "icebreaker"), []);
+
+    if (loading) {
+        return (
+            <Widget className="relative">
+                <div className="flex items-center justify-center h-full">
+                    <div className="animate-spin rounded-full size-8 border-b-2 border-gray-400" />
+                </div>
+            </Widget>
+        );
+    }
+
+    if (error) {
+        return (
+            <Widget className="relative">
+                <div className="p-4 text-red-500">Error: {error}</div>
+            </Widget>
+        );
+    }
+
+    if (!profile) return null;
 
     const safeChannels = profile?.channels ?? [];
-    const safeGuilds: IcebreakerGuildMembership[] = (profile?.guilds ?? []).map((guild) => ({
+    const safeGuilds: IcebreakerGuildMembership[] = (profile?.guilds ?? []).map((guild: IcebreakerGuildMembership) => ({
         ...guild,
-        joinedAt: new Date(guild.joinedAt),
+        joinedAt: guild.joinedAt
     }));
 
     return (
@@ -33,7 +71,7 @@ export default function IcebreakerSocials({
             )}
             <div className="absolute inset-0 flex flex-col gap-1 justify-start items-start p-3 text-black dark:text-white overflow-y-auto">
                 {safeChannels.length > 0 ? (
-                    safeChannels.filter((channel) => channel.url).map((channel, index) => (
+                    safeChannels.filter((channel: IcebreakerChannel) => channel.url).map((channel: IcebreakerChannel, index: number) => (
                         <a key={`channel=${channel.type}`} className="cursor-pointer w-full" href={channel.url} target="_blank">
                             <p className="truncate">{channel.type}</p>
                             {index < safeChannels.length - 1 && <hr className="border-gray-600 w-full" />}

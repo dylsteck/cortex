@@ -157,6 +157,17 @@ class CortexAPI {
     return json
   }
 
+  async getIcebreakerProfile(fname?: string, fid?: string): Promise<any> {
+    if (!fname && !fid) {
+      throw new Error("Either fname or fid must be provided");
+    }
+    const endpoint = fname ? `/api/icebreaker/fname?fname=${fname}` : `/api/icebreaker/fid?fid=${fid}`;
+    const response = await fetch(`${this.BASE_URL}${endpoint}`);
+    if (!response.ok) throw new Error('Failed to fetch Icebreaker profile');
+    const data = await response.json();
+    return data.profiles?.[0] ?? null;
+  }
+
   async getNounsBuilderProposals(contractAddress: string, first?: number, skip?: number): Promise<any> {
     if (!contractAddress || contractAddress.length === 0) {
         throw new Error("Contract address is required");
