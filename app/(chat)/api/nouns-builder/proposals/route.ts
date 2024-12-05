@@ -56,7 +56,16 @@ export async function GET(request: Request) {
 
   try {
     const proposalsCacheKey = `nouns-builder:proposals:${contractAddress}&first=${first}&skip=${skip}`;
-    let proposalsData: GoldskyResponse | null = await redis.get(proposalsCacheKey);
+    let proposalsData: GoldskyResponse | null = null;
+    const cachedData = await redis.get(proposalsCacheKey);
+    
+    if (cachedData && typeof cachedData === 'string') {
+      try {
+        proposalsData = JSON.parse(cachedData);
+      } catch (e) {
+        console.error('Error parsing cached data:', e);
+      }
+    }
 
     if (!proposalsData) {
       const query = `
@@ -133,8 +142,6 @@ export async function GET(request: Request) {
       const jsonData: GoldskyResponse = await response.json();
       proposalsData = jsonData;
       await redis.set(proposalsCacheKey, JSON.stringify(proposalsData), { ex: 30 * 60 });
-    } else {
-      proposalsData = JSON.parse(proposalsData as unknown as string);
     }
 
     if (!proposalsData) {

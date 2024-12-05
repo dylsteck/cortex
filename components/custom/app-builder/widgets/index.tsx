@@ -5,6 +5,7 @@ import FarcasterCast from './farcaster/farcaster-cast';
 import FarcasterFeed from './farcaster/farcaster-feed';
 import IcebreakerProfile from './icebreaker/icebreaker-profile';
 import IcebreakerSocials from './icebreaker/icebreaker-socials';
+import NounsBuilderProposals from './nouns-builder/nouns-builder-proposals';
 
 export * from './widget';
 
@@ -94,7 +95,13 @@ export const WIDGETS = [
         name: 'Profile',
         description: 'View network info per a fid',
         component: IcebreakerProfile,
-        preview: <IcebreakerProfile />
+        preview: <IcebreakerProfile fid="616" />,
+        defaultParams: {
+            fid: '616'
+        },
+        paramsSchema: z.object({
+            fid: z.string().min(1, 'FID is required')
+        })
     },
     {
         id: 'icebreaker-socials',
@@ -102,6 +109,26 @@ export const WIDGETS = [
         name: 'Socials',
         description: 'View social profiles per a fid',
         component: IcebreakerSocials,
-        preview: <IcebreakerSocials />
+        preview: <IcebreakerSocials fid="616" />,
+        defaultParams: {
+            fid: '616'
+        },
+        paramsSchema: z.object({
+            fid: z.string().min(1, 'FID is required')
+        })
+    },
+    {
+        id: 'nouns-builder-proposals',
+        appId: 'nouns-builder',
+        name: 'Proposals',
+        description: 'View proposals for a Nouns Builder DAO',
+        component: NounsBuilderProposals,
+        preview: <NounsBuilderProposals contractAddress="0xa45662638e9f3bbb7a6fecb4b17853b7ba0f3a60" />,
+        defaultParams: {
+            contractAddress: '0xa45662638e9f3bbb7a6fecb4b17853b7ba0f3a60'
+        },
+        paramsSchema: z.object({
+            contractAddress: z.string().min(42, 'Must be a valid Ethereum address').max(42, 'Must be a valid Ethereum address')
+        })
     }
 ];

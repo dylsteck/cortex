@@ -131,6 +131,30 @@ export const IcebreakerWidgetPropsSchema = z.object({
 });
 
 // ============================================================================
+// Nouns Builder Types
+// ============================================================================
+
+export interface Proposal {
+    abstainVotes: number;
+    againstVotes: number;
+    calldatas: string[];
+    description: string;
+    descriptionHash: string;
+    executableFrom: string;
+    expiresAt: string;
+    forVotes: number;
+    proposalId: string;
+    proposalNumber: number;
+    proposalThreshold: number;
+    proposer: string;
+    quorumVotes: number;
+    targets: string[];
+    timeCreated: string;
+    title: string;
+    values: string[];
+}
+
+// ============================================================================
 // Farcaster Types
 // ============================================================================
 

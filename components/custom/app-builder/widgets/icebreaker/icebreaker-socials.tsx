@@ -16,7 +16,7 @@ export default function IcebreakerSocials({ fname, fid }: { fname?: string; fid?
         try {
             return IcebreakerWidgetPropsSchema.parse({ fname, fid });
         } catch (error) {
-            return { fname: "dylsteck.eth" };
+            return { fname: "dylsteck.eth", fid };
         }
     }, [fname, fid]);
     
