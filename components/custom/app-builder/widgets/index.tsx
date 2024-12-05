@@ -6,6 +6,8 @@ import FarcasterFeed from './farcaster/farcaster-feed';
 import IcebreakerProfile from './icebreaker/icebreaker-profile';
 import IcebreakerSocials from './icebreaker/icebreaker-socials';
 import NounsBuilderProposals from './nouns-builder/nouns-builder-proposals';
+import { TextWidget, textWidgetSchema } from './general/text';
+import { ImageWidget, imageWidgetSchema } from './general/image';
 
 export * from './widget';
 
@@ -61,6 +63,30 @@ export const APPS: App[] = [
 ];
 
 export const WIDGETS = [
+    {
+        id: 'general-text',
+        appId: 'general',
+        name: 'Text',
+        description: 'Add text content with consistent styling',
+        component: TextWidget,
+        preview: <TextWidget text="Example text widget" />,
+        defaultParams: {
+            text: 'Example text'
+        },
+        paramsSchema: textWidgetSchema
+    },
+    {
+        id: 'general-image',
+        appId: 'general',
+        name: 'Image',
+        description: 'Display an image from a URL',
+        component: ImageWidget,
+        preview: <ImageWidget imageUrl="https://i.imgur.com/uAvnFSF.png" />,
+        defaultParams: {
+            imageUrl: 'https://i.imgur.com/uAvnFSF.png'
+        },
+        paramsSchema: imageWidgetSchema
+    },
     {
         id: 'farcaster-cast',
         appId: 'farcaster',
