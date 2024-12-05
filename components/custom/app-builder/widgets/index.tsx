@@ -3,11 +3,11 @@ import { z } from 'zod';
 
 import FarcasterCast from './farcaster/farcaster-cast';
 import FarcasterFeed from './farcaster/farcaster-feed';
+import { ImageWidget, imageWidgetSchema } from './general/image';
+import { TextWidget, textWidgetSchema } from './general/text';
 import IcebreakerProfile from './icebreaker/icebreaker-profile';
 import IcebreakerSocials from './icebreaker/icebreaker-socials';
 import NounsBuilderProposals from './nouns-builder/nouns-builder-proposals';
-import { TextWidget, textWidgetSchema } from './general/text';
-import { ImageWidget, imageWidgetSchema } from './general/image';
 
 export * from './widget';
 
