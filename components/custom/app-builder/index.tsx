@@ -59,25 +59,38 @@ export default function AppBuilder() {
   };
 
   const removeWidget = (id: string) => {
-    setPlacedWidgets(prev => prev.filter(widget => widget.id !== id));
+    setPlacedWidgets(prev => {
+      const filtered = prev.filter(widget => widget.id !== id);
+      return filtered.map((widget, index) => ({
+        ...widget,
+        layout: {
+          ...widget.layout,
+          y: index
+        }
+      }));
+    });
   };
 
   const duplicateWidget = (id: string) => {
     const widgetToDuplicate = placedWidgets.find(widget => widget.id === id);
     if (!widgetToDuplicate) return;
+    
     const newId = `${widgetToDuplicate.id}-copy-${Date.now()}`;
+    const existingLayout = widgetToDuplicate.layout;
+    
+    const newY = Math.max(...placedWidgets.map(w => w.layout.y)) + 1;
+    
     const newWidget: ExtendedWidget = {
       ...widgetToDuplicate,
       id: newId,
       layout: {
+        ...existingLayout,
         i: newId,
-        x: 0,
-        y: placedWidgets.length,
-        w: 6,
-        h: 1,
-        static: false
+        y: newY,
+        x: existingLayout.x
       },
     };
+    
     setPlacedWidgets(prev => [...prev, newWidget]);
   };
 

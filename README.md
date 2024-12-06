@@ -21,7 +21,6 @@ Cortex currently uses:
 - [Upstash Redis](https://upstash.com)
 - [Neynar](https://neynar.com)
 - [Events.xyz](https://events.xyz)
-- [frames.js](https://framesjs.org)
 - [Tavily](https://tavily.com)
 - [Open-Meteo](https://open-meteo.com)
 - [NextAuth](https://next-auth.js.org)
