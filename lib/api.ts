@@ -178,6 +178,13 @@ class CortexAPI {
     return json;
   }
 
+  async getTrendingCasts(): Promise<any> {
+    const response = await fetch(`${this.BASE_URL}/api/farcaster/feed/trending`)
+    if (!response.ok) throw new Error('Failed to fetch trending casts')
+    const json = await response.json()
+    return json
+  }
+
   async getWeather(latitude: number, longitude: number): Promise<any> {
     const response = await fetch(`${this.BASE_URL}/api/weather?latitude=${latitude}&longitude=${longitude}`)
     if (!response.ok) throw new Error('Failed to fetch weather forecast data')

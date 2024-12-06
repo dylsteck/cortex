@@ -18,7 +18,7 @@ const Tool = ({ result, toolName }: {result: any, toolName: string}) => {
     <div>
       {toolName === 'getWeather' ? (
         <Weather weatherAtLocation={result} />
-      ) : (toolName === 'castSearch' || toolName === 'getUserCasts') ? (
+      ) : (toolName === 'castSearch' || toolName === 'getUserCasts' || toolName === 'getTrendingCasts') ? (
         <Casts casts={result} />
       ) : toolName === 'getClankerTrendingTokens' ? (
         <ClankerTrendingTokens results={result} />
@@ -37,7 +37,7 @@ const ToolPreview = ({ toolName }: {toolName: string}) => {
     <div className="skeleton">
       {toolName === 'getWeather' ? (
         <Weather />
-      ) : (toolName === 'castSearch' || toolName === 'getUserCasts') ? (
+      ) : (toolName === 'castSearch' || toolName === 'getUserCasts' || toolName === 'getTrendingCasts') ? (
         <Casts />
       ) : toolName === 'getClankerTrendingTokens' ? (
         <ClankerTrendingTokens />
@@ -68,52 +68,51 @@ export const Message = ({
 
   return (
     <motion.div
-      className="w-full px-4 md:px-8 lg:px-12 group/message mb-[5%]"
+      className="w-full mb-6"
       initial={{ y: 5, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       data-role={role}
     >
-      <div className="flex flex-col gap-6 max-w-4xl mx-auto">
-        {role === 'user' && (
-          <h2 className="text-xl font-medium mb-4">{content}</h2>
-        )}
-        {role === 'assistant' && (
-          <div className="flex gap-4 w-full">
-            <div className="flex flex-col gap-6 w-full">
-              {content ? (
-                <Markdown>{content as string}</Markdown>
-              ) : null}
-              {toolInvocations && toolInvocations.length > 0 && (
-                <div className="flex flex-col gap-4">
-                  {toolInvocations.map((toolInvocation) => {
-                    const { toolName, toolCallId, state } = toolInvocation;
-                    if (state === 'result') {
-                      const { result } = toolInvocation;
-                      return <Tool key={toolCallId} result={result} toolName={toolName} />
-                    } else {
-                      return <ToolPreview key={toolCallId} toolName={toolName} />
-                    }
-                  })}
-                </div>
-              )}
-              {attachments && (
-                <div className="flex flex-row gap-2">
-                  {attachments.map((attachment) => (
-                    <PreviewAttachment
-                      key={attachment.url}
-                      attachment={attachment}
-                    />
-                  ))}
-                </div>
-              )}
+      {role === 'user' && (
+        <h2 className="text-lg font-medium mb-2 break-words">{content}</h2>
+      )}
+      {role === 'assistant' && (
+        <div className="w-full space-y-4">
+          {content ? (
+            <div className="prose prose-invert max-w-none break-words">
+              <Markdown>{content as string}</Markdown>
             </div>
-          </div>
-        )}
-      </div>
-      {role === 'assistant' && nextRole === 'user' && (
-        <div className="max-w-4xl mx-auto">
-          <hr className="my-7 w-[99%] border-t-0.5 border-white/55" />
+          ) : null}
+          {toolInvocations && toolInvocations.length > 0 && (
+            <div className="space-y-4 overflow-hidden">
+              {toolInvocations.map((toolInvocation) => {
+                const { toolName, toolCallId, state } = toolInvocation;
+                if (state === 'result') {
+                  const { result } = toolInvocation;
+                  return (
+                    <div key={toolCallId} className="overflow-x-auto">
+                      <Tool result={result} toolName={toolName} />
+                    </div>
+                  );
+                }
+                return <ToolPreview key={toolCallId} toolName={toolName} />;
+              })}
+            </div>
+          )}
+          {attachments && (
+            <div className="flex gap-2 overflow-x-auto pb-2">
+              {attachments.map((attachment) => (
+                <PreviewAttachment
+                  key={attachment.url}
+                  attachment={attachment}
+                />
+              ))}
+            </div>
+          )}
         </div>
+      )}
+      {role === 'assistant' && nextRole === 'user' && (
+        <hr className="mt-6 border-t border-white/10" />
       )}
     </motion.div>
   );

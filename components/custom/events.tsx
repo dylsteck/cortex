@@ -259,28 +259,37 @@ function Event({ event }: { event: EventData }) {
   );
 }
 
-export function Events({ events }: { events?: EventData[] }) {
+export const Events = ({ events }: { events?: EventData[] }) => {
   if (!events) {
     return (
-      <ScrollArea className="w-full">
-        <div className="flex space-x-4 pb-4">
-          {[1, 2, 3].map((i) => (
-            <EventSkeleton key={i} />
-          ))}
-        </div>
-        <ScrollBar orientation="horizontal" />
-      </ScrollArea>
+      <div className="-mx-3">
+        <ScrollArea>
+          <div className="flex gap-3 px-3 pb-3">
+            <div className="w-[280px] flex-none">
+              <EventSkeleton />
+            </div>
+            <div className="w-[280px] flex-none">
+              <EventSkeleton />
+            </div>
+          </div>
+          <ScrollBar orientation="horizontal" />
+        </ScrollArea>
+      </div>
     );
   }
 
   return (
-    <ScrollArea className="w-full">
-      <div className="flex space-x-4 pb-0">
-        {events.map((event, index) => {
-          return <Event key={`event-${event.id}`} event={event} />;
-        })}
-      </div>
-      <ScrollBar orientation="horizontal" />
-    </ScrollArea>
+    <div className="-mx-3">
+      <ScrollArea>
+        <div className="flex gap-3 px-3 pb-3">
+          {events.map((event) => (
+            <div key={event.id} className="w-[280px] flex-none">
+              <Event event={event} />
+            </div>
+          ))}
+        </div>
+        <ScrollBar orientation="horizontal" />
+      </ScrollArea>
+    </div>
   );
-}
+};

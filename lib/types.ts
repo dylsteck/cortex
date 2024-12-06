@@ -209,6 +209,65 @@ export interface FarcasterFeedProps {
 }
 
 // ============================================================================
+// Wow.xyz Types
+// ============================================================================
+
+export interface WowGraphQLResponse {
+    data: {
+      wowTrending: {
+        edges: {
+          node: {
+            name: string;
+            address: string;
+            chainId: number;
+            description: string;
+            creator: {
+              __typename: string;
+              avatar: string | null;
+              handle: string;
+              walletAddress: string;
+              __isNode: string;
+              id: string;
+            };
+            hasGraduated: boolean;
+            image: {
+              mimeType: string | null;
+              originalUri: string;
+              medium: string;
+            };
+            video: null | {
+              mimeType: string | null;
+              originalUri: string | null;
+            };
+            usdPrice: string | null;
+            symbol: string;
+            totalSupply: string;
+            marketCap: string | null;
+            blockTimestamp: string;
+            nsfw: boolean;
+            socialLinks: {
+              twitter: string | null;
+              discord: string | null;
+              website: string | null;
+              telegram: string | null;
+            };
+            __typename: string;
+          };
+          cursor: string;
+        }[];
+        pageInfo: {
+          hasNextPage: boolean;
+          hasPreviousPage: boolean;
+          startCursor: string;
+          endCursor: string;
+        };
+        count: number;
+      };
+    };
+  }
+  
+
+// ============================================================================
 // Auth Types
 // ============================================================================
 

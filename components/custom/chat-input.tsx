@@ -64,59 +64,54 @@ export function ChatInput({
     }
   }, [handleSubmit, width]);
 
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (event.key === 'Enter' && !event.shiftKey) {
+      event.preventDefault();
+
+      if (isLoading) {
+        toast.error('Please wait for the model to finish its response!');
+      } else {
+        submitForm();
+      }
+    }
+  };
+
   return (
-    <motion.div
-      key="chat-input"
-      className="relative min-w-[33.33%] max-w-[50%] mx-auto flex flex-col gap-4 mb-2"
-      initial={{ opacity: 0, scale: 0.98 }}
-      animate={{ opacity: 1, scale: 1 }}
-      exit={{ opacity: 0, scale: 0.98 }}
-      transition={{ delay: 0.5 }}
-    >
+    <div className="relative flex items-center w-full gap-2 px-2 sm:px-4">
       <Textarea
         ref={textareaRef}
-        placeholder="Message"
+        tabIndex={0}
+        rows={1}
         value={input}
         onChange={handleInput}
-        className="min-h-[20px] overflow-hidden resize-none p-3 focus-visible:ring-0 focus-visible:ring-offset-0 text-base bg-muted border-none w-full rounded-xl"
-        rows={1}
-        onKeyDown={(event) => {
-          if (event.key === 'Enter' && !event.shiftKey) {
-            event.preventDefault();
-
-            if (isLoading) {
-              toast.error('Please wait for the model to finish its response!');
-            } else {
-              submitForm();
-            }
-          }
+        onKeyDown={handleKeyDown}
+        placeholder="Message Cortex..."
+        spellCheck={false}
+        className="min-h-[44px] w-full resize-none bg-background py-3 pr-12 text-base focus-visible:ring-1 focus-visible:ring-offset-0 rounded-lg"
+        style={{
+          height: textareaRef.current?.scrollHeight,
+          maxHeight: '200px'
         }}
       />
-
-      <div className="absolute bottom-2 right-2 flex items-center">
-        {isLoading ? (
-          <Button
-            className="rounded-full p-1.5 h-fit m-0.5"
-            onClick={(event) => {
-              event.preventDefault();
+      <div className="absolute right-4 sm:right-6 bottom-2.5">
+        <Button
+          type="submit"
+          size="icon"
+          disabled={input.trim().length === 0}
+          className="size-8 rounded-lg bg-primary hover:bg-primary/90"
+        >
+          {isLoading ? (
+            <div onClick={(e: React.MouseEvent) => {
+              e.preventDefault();
               stop();
-            }}
-          >
-            <StopIcon size={14} />
-          </Button>
-        ) : (
-          <Button
-            className="rounded-full p-1.5 h-fit m-0.5"
-            onClick={(event) => {
-              event.preventDefault();
-              submitForm();
-            }}
-            disabled={input.length === 0}
-          >
-            <ArrowUpIcon size={14} />
-          </Button>
-        )}
+            }}>
+              <StopIcon size={16} />
+            </div>
+          ) : (
+            <ArrowUpIcon size={16} />
+          )}
+        </Button>
       </div>
-    </motion.div>
+    </div>
   );
 }

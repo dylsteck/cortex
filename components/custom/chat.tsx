@@ -32,33 +32,39 @@ export function Chat({
   const [containerRef, endRef] = useScrollToBottom(messages);
   
   return (
-    <div className="flex flex-col gap-0 min-w-0 h-screen bg-background">
+    <div className="flex flex-col w-screen h-dvh bg-background overflow-hidden">
       <ChatHeader />
-      <div className="w-full h-[91%] rounded-xl pt-2 overflow-y-scroll" ref={containerRef}>
-        {messages.length === 0 && <Overview append={append} />}
-        {messages.map((message, index) => (
-          <PreviewMessage
-            key={message.id}
-            role={message.role}
-            nextRole={messages[index + 1] ? messages[index + 1].role : ""}
-            content={message.content}
-            attachments={message.experimental_attachments}
-            toolInvocations={message.toolInvocations}
-          />
-        ))}
-        <div ref={endRef} />
-      </div>
-      <form className="flex m-0 bg-background w-full relative bottom-0 inset-x-0">
-        <ChatInput
-          input={input}
-          setInput={setInput}
-          handleSubmit={handleSubmit}
-          isLoading={isLoading}
-          stop={stop}
-          messages={messages}
-          append={append}
-        />
-      </form>
+      <main className="flex-1 w-full overflow-y-auto" ref={containerRef}>
+        <div className="w-full px-3">
+          {messages.length === 0 && <Overview append={append} />}
+          {messages.map((message, index) => (
+            <PreviewMessage
+              key={message.id}
+              role={message.role}
+              nextRole={messages[index + 1] ? messages[index + 1].role : ""}
+              content={message.content}
+              attachments={message.experimental_attachments}
+              toolInvocations={message.toolInvocations}
+            />
+          ))}
+          <div ref={endRef} />
+        </div>
+      </main>
+      <footer className="w-full border-t bg-background">
+        <div className="w-full p-3">
+          <form onSubmit={handleSubmit}>
+            <ChatInput
+              input={input}
+              setInput={setInput}
+              isLoading={isLoading}
+              stop={stop}
+              messages={messages}
+              append={append}
+              handleSubmit={handleSubmit}
+            />
+          </form>
+        </div>
+      </footer>
     </div>
   );
 }

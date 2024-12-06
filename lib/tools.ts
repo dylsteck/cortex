@@ -30,6 +30,16 @@ export const tools = {
       return eventsData
     },
   }),
+  // getFarcasterUser: tool({
+  //   description: 'Gets information about a Farcaster user.',
+  //   parameters: z.object({
+  //       username: z.string(),
+  //   }),
+  //   execute: async ({ username }) => {
+  //     const userData = await cortexAPI.getFarcasterUser(username);
+  //     return userData
+  //   },
+  // }),
   getUserCasts: tool({
     description: 'Gets the latest casts per a particular username on Farcaster.',
     parameters: z.object({
@@ -67,6 +77,14 @@ export const tools = {
     execute: async ({ query, maxResults, searchDepth, includeDomains, excludeDomains }) => {
       const searchData = await cortexAPI.webSearch(query, maxResults, searchDepth, includeDomains, excludeDomains)
       return searchData
+    },
+  }),
+  getTrendingCasts: tool({
+    description: 'Get trending casts (posts) from Farcaster.',
+    parameters: z.object({}),
+    execute: async ({}) => {
+      const trendingCasts = await cortexAPI.getTrendingCasts()
+      return trendingCasts.casts
     },
   }),
 }

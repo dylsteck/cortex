@@ -5,8 +5,9 @@ import React from 'react';
 import { Button } from '../ui/button';
 
 const actions = [ 
-  'Show me some upcoming events on Farcaster', 
+  'Show me some upcoming events', 
   'Which Clanker tokens are trending?',
+  `What's happening on Farcaster?`,
 ];
 
 export function SuggestedActions({ onActionSelect }: { onActionSelect: (action: string) => void }) {

@@ -27,8 +27,7 @@ export function TokenDeployerWidget({
   };
 
   const handleDeploy = () => {
-    // Future implementation for token deployment
-    console.log('Deploying token:', { name, description, platform: selectedPlatform });
+   // todo: implement logic and finish the component/widget
   };
 
   return (
