@@ -3,7 +3,7 @@
 </a>
 
 <p align="center">
-  The nerve center for your digital life
+  An agent and actions built around your Farcaster profile
 </p>
 
 Cortex is an AI assistant for your life that can connect to the web, social platforms like Farcaster, and (soon) your apps to make it easier to get things done quickly online.

@@ -11,10 +11,10 @@ export function generateMetadata() {
   return {
     metadataBase: new URL(BASE_URL),
     title: 'Cortex',
-    description: 'Cortex',
+    description: 'An agent and actions built around your Farcaster profile',
     openGraph: {
       title: 'Cortex',
-      description: 'Cortex',
+      description: 'An agent and actions built around your Farcaster profile',
       images: [BANNER_IMG_URL],
       url: BASE_URL,
       siteName: 'Cortex',
