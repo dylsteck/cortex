@@ -9,6 +9,8 @@ import { useMemo } from 'react';
 import { http, createConfig } from 'wagmi';
 import { base, baseSepolia } from 'wagmi/chains';
 
+import { frameConnector } from './frame';
+
 export function useWagmiConfig() {
   const projectId = process.env.NEXT_PUBLIC_WC_PROJECT_ID ?? '';
   if (!projectId) {
@@ -39,7 +41,7 @@ export function useWagmiConfig() {
       chains: [base, baseSepolia],
       // turn off injected provider discovery
       multiInjectedProviderDiscovery: false,
-      connectors,
+      connectors: [frameConnector(), ...connectors],
       ssr: true,
       transports: {
         [base.id]: http(),
