@@ -2,7 +2,7 @@ import './globals.css';
 import { Metadata } from 'next';
 import { Toaster } from 'sonner';
 
-import FrameProvider from '@/components/custom/frame-provider';
+import Providers from '@/components/custom/providers';
 import { ThemeProvider } from '@/components/custom/theme-provider';
 import { frame } from '@/lib/frame';
 import { BANNER_IMG_URL, BASE_URL } from '@/lib/utils';
@@ -80,9 +80,9 @@ export default async function RootLayout({
           disableTransitionOnChange
         >
           <Toaster position="top-center" />
-          <FrameProvider>
+          <Providers>
             {children}
-          </FrameProvider>
+          </Providers>
         </ThemeProvider>
       </body>
     </html>

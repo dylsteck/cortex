@@ -1,7 +1,7 @@
 import { cookies } from 'next/headers';
 
 import { AppSidebar } from '@/components/custom/app-sidebar';
-import FrameProvider from '@/components/custom/frame-provider';
+import Providers from '@/components/custom/providers';
 import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
 import { DEFAULT_MODEL_NAME, models } from '@/lib/model';
 
@@ -21,9 +21,9 @@ export default async function Layout({
     <SidebarProvider defaultOpen={!isCollapsed}>
       <AppSidebar user={session?.user} selectedModelName={selectedModelName} />
       <SidebarInset>
-        <FrameProvider>
+        <Providers>
           {children}
-        </FrameProvider>
+        </Providers>
       </SidebarInset>
     </SidebarProvider>
   );
