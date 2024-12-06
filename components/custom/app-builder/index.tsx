@@ -3,6 +3,8 @@ import { Trash2, Copy } from "lucide-react";
 import Link from "next/link";
 import * as React from "react";
 import GridLayout from "react-grid-layout";
+import "react-grid-layout/css/styles.css";
+import "react-resizable/css/styles.css";
 
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -10,18 +12,13 @@ import { cn } from "@/lib/utils";
 import { WIDGETS } from "./widgets";
 import WidgetDrawer from "./widgets/widget-drawer";
 
-export interface ExtendedWidget extends Widget {
-  id: string;
-  layout: {
-    x: number;
-    y: number;
-    w: number;
-    h: number;
-  };
-  visible: boolean;
-  preview: React.ReactNode;
-  props?: Record<string, any>;
-  appId?: string;
+interface LayoutItem {
+  w: number;
+  h: number;
+  x: number;
+  y: number;
+  i: string;
+  static?: boolean;
 }
 
 export interface Widget {
@@ -29,83 +26,106 @@ export interface Widget {
   preview: React.ReactNode;
 }
 
+export interface ExtendedWidget extends Widget {
+  id: string;
+  layout: LayoutItem;
+  visible: boolean;
+  preview: React.ReactNode;
+  props?: Record<string, any>;
+  appId?: string;
+}
+
 export default function AppBuilder() {
   const [placedWidgets, setPlacedWidgets] = React.useState<ExtendedWidget[]>([]);
 
   const addWidget = (widget: Widget) => {
-    const lastY = placedWidgets.reduce((max, w) => Math.max(max, w.layout.y + w.layout.h), 0);
+    const id = `${widget.id}-${Date.now()}`;
     const newWidget: ExtendedWidget = {
       ...widget,
-      id: `${widget.id}-${Date.now()}`,
-      layout: { x: 0, y: lastY, w: 1, h: 1 },
+      id,
+      layout: {
+        i: id,
+        x: 0,
+        y: placedWidgets.length,
+        w: 6,
+        h: 1,
+        static: false
+      },
       visible: true,
       props: {},
       preview: widget.preview,
     };
-    setPlacedWidgets((prev) => [...prev, newWidget]);
+    setPlacedWidgets(prev => [...prev, newWidget]);
   };
 
   const removeWidget = (id: string) => {
-    setPlacedWidgets((prev) => prev.filter((widget) => widget.id !== id));
+    setPlacedWidgets(prev => prev.filter(widget => widget.id !== id));
   };
 
   const duplicateWidget = (id: string) => {
-    setPlacedWidgets((prev) => {
-      const widgetToDuplicate = prev.find((widget) => widget.id === id);
-      if (!widgetToDuplicate) return prev;
-      const lastY = prev.reduce((max, w) => Math.max(max, w.layout.y + w.layout.h), 0);
-      const newWidget: ExtendedWidget = {
-        ...widgetToDuplicate,
-        id: `${widgetToDuplicate.id}-copy-${Date.now()}`,
-        layout: { ...widgetToDuplicate.layout, y: lastY, x: placedWidgets.length % 3 * 1 },
-      };
-      return [...prev, newWidget];
-    });
+    const widgetToDuplicate = placedWidgets.find(widget => widget.id === id);
+    if (!widgetToDuplicate) return;
+    const newId = `${widgetToDuplicate.id}-copy-${Date.now()}`;
+    const newWidget: ExtendedWidget = {
+      ...widgetToDuplicate,
+      id: newId,
+      layout: {
+        i: newId,
+        x: 0,
+        y: placedWidgets.length,
+        w: 6,
+        h: 1,
+        static: false
+      },
+    };
+    setPlacedWidgets(prev => [...prev, newWidget]);
+  };
+
+  const handleLayoutChange = (currentLayout: LayoutItem[]) => {
+    setPlacedWidgets(prev =>
+      prev.map(widget => {
+        const updatedLayout = currentLayout.find(l => l.i === widget.id);
+        return updatedLayout
+          ? { ...widget, layout: updatedLayout }
+          : widget;
+      })
+    );
   };
 
   return (
     <div className="flex h-screen bg-background">
       <div className="flex-1 flex flex-col items-center justify-center">
-        <div className="relative mx-auto mt-4 border rounded-xl shadow-sm overflow-y-scroll min-h-[618px]">
+        <div className="relative mx-auto mt-4 border rounded-xl shadow-sm h-[667px] w-[375px]">
           <motion.div
             layout
             className={cn(
-              "transition-all duration-300 relative min-h-[618px]",
-              "w-full min-w-[400px]"
+              "transition-all duration-300 relative h-[667px] overflow-y-auto",
+              "w-full p-2"
             )}
             style={{ borderRadius: "1rem" }}
           >
             <GridLayout
               className="layout"
-              cols={1}
-              rowHeight={200}
-              width={400}
+              layout={placedWidgets.map(w => w.layout)}
+              cols={6}
+              rowHeight={355}
+              width={355}
               isResizable={false}
-              margin={[0, 24]}
-              containerPadding={[0, 12]}
-              verticalCompact={true}
-              compactType="vertical"
-              preventCollision={true}
-              onLayoutChange={(layout: { x: number; y: number; w: number; h: number }[]) => {
-                const sortedLayout = [...layout].sort((a, b) => a.y - b.y);
-                setPlacedWidgets((prev) =>
-                  sortedLayout.map((l: { x: number; y: number; w: number; h: number }, index: number) => ({
-                    ...prev[index],
-                    layout: l,
-                  }))
-                );
-              }}
+              isDraggable={true}
+              compactType={null}
+              preventCollision={false}
+              margin={[0, 16]}
+              containerPadding={[2, 2]}
+              onLayoutChange={handleLayoutChange}
+              draggableHandle=".drag-handle"
+              verticalCompact={false}
+              useCSSTransforms={true}
             >
-              {placedWidgets.map((widget, index) => (
-                <div
-                  key={widget.id}
-                  data-grid={widget.layout}
-                  className="relative cursor-pointer"
-                  style={{ zIndex: placedWidgets.length - index }}
-                >
+              {placedWidgets.map((widget) => (
+                <div key={widget.id} className="relative">
                   <motion.div
                     className={cn(
-                      "relative rounded-xl shadow-sm overflow-visible group bg-background",
+                      "relative rounded-lg border shadow-sm overflow-visible group bg-background hover:shadow-md transition-all drag-handle cursor-pointer",
                       "w-full opacity-100"
                     )}
                     layout
@@ -113,29 +133,41 @@ export default function AppBuilder() {
                     animate={{ opacity: 1 }}
                     transition={{ duration: 0.2 }}
                   >
-                    <div className="absolute -bottom-8 left-2 opacity-0 group-hover:opacity-100 transition-opacity flex gap-2 z-10 pt-2">
-                      <Button
-                        variant="secondary"
-                        size="icon"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          duplicateWidget(widget.id);
-                        }}
-                      >
-                        <Copy className="size-4" />
-                      </Button>
+                    <div
+                      className="absolute -left-1 top-1 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col gap-1 z-50"
+                      onClick={(e) => e.stopPropagation()}
+                    >
                       <Button
                         variant="destructive"
-                        size="icon"
+                        size="sm"
+                        className="size-5 rounded-md shadow-sm pointer-events-auto"
                         onClick={(e) => {
+                          e.preventDefault();
                           e.stopPropagation();
                           removeWidget(widget.id);
                         }}
                       >
-                        <Trash2 className="size-4" />
+                        <Trash2 className="size-2.5" />
                       </Button>
                     </div>
-                    <div className="p-3 w-full">{widget.preview}</div>
+                    <div
+                      className="absolute top-1 right-1 opacity-0 group-hover:opacity-100 transition-opacity z-50"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      <Button
+                        variant="secondary"
+                        size="sm"
+                        className="size-5 rounded-md shadow-sm pointer-events-auto"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          duplicateWidget(widget.id);
+                        }}
+                      >
+                        <Copy className="size-2.5" />
+                      </Button>
+                    </div>
+                    <div className="p-1.5 w-full">{widget.preview}</div>
                   </motion.div>
                 </div>
               ))}

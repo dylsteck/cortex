@@ -50,7 +50,7 @@ export default function WidgetDrawer({ onAdd }: { onAdd: (widget: ExtendedWidget
   const filteredWidgets = currentWidget
     ? WIDGETS.filter((widget) => widget.appId === currentWidget.appId).map((widget) => ({
         ...widget,
-        layout: { x: 0, y: 0, w: 10, h: 3 },
+        layout: { x: 0, y: 0, w: 10, h: 3, i: widget.id || String(Date.now()) },
         visible: true,
       }))
     : [];
@@ -71,7 +71,7 @@ export default function WidgetDrawer({ onAdd }: { onAdd: (widget: ExtendedWidget
     
     const extendedWidget: ExtendedWidget = {
       ...widget,
-      layout: { x: 0, y: 0, w: 10, h: 3 },
+      layout: { x: 0, y: 0, w: 10, h: 3, i: widget.id || String(Date.now()) },
       visible: true,
       preview: params && Object.keys(params).length > 0 
         ? React.createElement(widget.component as React.ComponentType<any>, params)
@@ -210,7 +210,7 @@ export default function WidgetDrawer({ onAdd }: { onAdd: (widget: ExtendedWidget
                       onClick={() => {
                         const widgets = WIDGETS.filter((w) => w.appId === app.id).map((widget) => ({
                           ...widget,
-                          layout: { x: 0, y: 0, w: 10, h: 3 },
+                          layout: { x: 0, y: 0, w: 10, h: 3, i: widget.id || String(Date.now()) },
                           visible: true,
                         }));
                         if (widgets.length) {
