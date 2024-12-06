@@ -9,6 +9,7 @@ import IcebreakerProfile from './icebreaker/icebreaker-profile';
 import IcebreakerSocials from './icebreaker/icebreaker-socials';
 import NounsBuilderProposals from './nouns-builder/nouns-builder-proposals';
 import NFTMintWidget from './onchain/mint';
+import { TokenDeployerWidget } from './onchain/token-deployer';
 
 export * from './widget';
 
@@ -170,6 +171,20 @@ export const WIDGETS = [
         },
         paramsSchema: z.object({
             contractAddress: z.string().min(42, 'Must be a valid Ethereum address').max(42, 'Must be a valid Ethereum address')
+        })
+    },
+    {
+        id: 'token-deployer',
+        appId: 'onchain',
+        name: 'Token Deployer',
+        description: 'Deploy a custom token with image and metadata',
+        component: TokenDeployerWidget,
+        preview: <TokenDeployerWidget platform="clanker" />,
+        defaultParams: {
+            platform: 'clanker'
+        },
+        paramsSchema: z.object({
+            platform: z.enum(['clanker', 'wow']).optional()
         })
     }
 ];
