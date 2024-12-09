@@ -24,7 +24,7 @@ export const Tool = ({ result, toolName }: {result: any, toolName: string}) => {
         ) : toolName === 'webSearch' ? (
           <WebResults results={result} />
         )
-        : <Skeleton className="h-4 w-[200px]" /> }
+        : <Skeleton className="w-full h-auto" /> }
       </div>
     );
   }
@@ -46,7 +46,7 @@ export const ToolPreview = ({ toolName }: {toolName: string}) => {
           <FarcasterBounties />
         ) : toolName === 'webSearch' ? (
           <WebResults />
-        ) : <Skeleton className="h-4 w-[200px]" />}
+        ) : <Skeleton className="w-full h-auto" />}
       </div>
     );
 }

@@ -5,7 +5,6 @@ import { FarcasterEmbed } from "react-farcaster-embed/dist/client";
 import { Card } from "@/components/ui/card";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Skeleton } from "@/components/ui/skeleton";
-
 import "react-farcaster-embed/dist/styles.css";
 
 interface Cast {
@@ -213,10 +212,10 @@ function convertCastToCastData(cast: Cast): CastData {
 export function Casts({ casts }: { casts?: Cast[] }) {
   if (!casts) {
     return (
-      <ScrollArea className="w-full">
+      <ScrollArea className="w-full overflow-x-auto">
         <div className="flex space-x-4 pb-4">
           {[1, 2, 3].map((i) => (
-            <Card key={i} className="shrink-0 max-h-[500px] w-[400px] p-4 overflow-y-scroll">
+            <Card key={i} className="shrink-0 max-h-[300px] sm:max-h-[400px] w-[400px] p-4 overflow-y-scroll">
               <div className="space-y-4">
                 <div className="flex items-center space-x-4">
                   <Skeleton className="size-12 rounded-full" />
@@ -245,10 +244,10 @@ export function Casts({ casts }: { casts?: Cast[] }) {
   return (
     <div>
       <h2 className="text-lg font-semibold mb-4">Casts</h2>
-      <ScrollArea className="w-full">
+      <ScrollArea className="w-full overflow-x-auto">
         <div className="flex space-x-4 pb-4">
           {uniqueCasts.map((cast) => (
-            <Card key={cast.hash} className="shrink-0 size-auto max-w-[25vw] max-h-[55vh] overflow-y-scroll text-md">
+            <Card key={cast.hash} className="shrink-0 size-auto w-[400px] max-h-[40vh] sm:max-h-[45vh] overflow-y-scroll text-md">
               <div className="h-full">
                 <FarcasterEmbed castData={convertCastToCastData(cast)} />
               </div>
