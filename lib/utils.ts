@@ -32,6 +32,7 @@ export const FARCASTER_INDEX_API_URL = 'https://www.farcaster.in/api';
 export const ICEBREAKER_API_URL = 'https://app.icebreaker.xyz/api/v1';
 export const NEYNAR_API_URL = 'https://api.neynar.com/v2';
 export const NOUNS_BUILDER_GOLDSKY_SUBGRAPH_URL = 'https://api.goldsky.com/api/public/project_clkk1ucdyf6ak38svcatie9tf/subgraphs/nouns-builder-ethereum-mainnet/stable/gn';
+export const STREAMM_API_URL = 'https://streamm.tv/api';
 
 export const cortexAPI = new CortexAPI();
 

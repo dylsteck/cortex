@@ -80,7 +80,6 @@ export const IcebreakerEventSchema = z.object({
     endDate: z.string(),
     eventUrl: z.string(),
     expiryDate: z.string(),
-    imageUrl: z.string(),
     name: z.string(),
     startDate: z.string(),
     year: z.string()
@@ -96,7 +95,6 @@ export const IcebreakerGuildMembershipSchema = z.object({
 export const IcebreakerProfileSchema = z.object({
     profileID: z.string(),
     walletAddress: z.string(),
-    avatarUrl: z.string().optional(),
     displayName: z.string(),
     bio: z.string(),
     jobTitle: z.string().optional(),
@@ -383,4 +381,36 @@ export interface Bounty {
     prize_distribution: any | null;
     mode: string;
     num_completed_bounties_posted_by_profile: number;
+}
+
+// ============================================================================
+// Streamm Types
+// ============================================================================
+
+export interface TokenDetails {
+  imageUrl: string;
+  name: string;
+  ticker: string;
+}
+
+export interface StreammStream {
+  creatorId: number;
+  streamId: string;
+  creatorAddress: string;
+  hasStream: boolean;
+  isLive: boolean;
+  playbackId: string;
+  streamHash: string;
+  streamTitle: string;
+  thumbnailId: string;
+  gatedId: string;
+  gatedType: string;
+  tokenDetails: TokenDetails;
+  started: number;
+  recordings: any[];
+  likes: number;
+  streamStarted: number;
+  betAddress: string;
+  betResolverAddress: string;
+  betResolverFid: number;
 }

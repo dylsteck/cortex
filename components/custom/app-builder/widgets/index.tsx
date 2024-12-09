@@ -123,7 +123,8 @@ export const WIDGETS = [
         name: 'Profile',
         description: 'View network info per a fid',
         component: IcebreakerProfile,
-        preview: <IcebreakerProfile fid="616" />,
+        // TODO: fix <IcebreakerProfile> usage and allow it to take a fid
+        preview: <IcebreakerProfile profile={null} />,
         defaultParams: {
             fid: '616'
         },

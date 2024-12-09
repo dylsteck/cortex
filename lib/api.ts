@@ -1,4 +1,4 @@
-import { BASE_URL } from "./utils"
+import { BASE_URL , STREAMM_API_URL, redis } from "./utils"
 
 class CortexAPI {
   private BASE_URL: string
@@ -129,10 +129,10 @@ class CortexAPI {
     if (!ensName || ensName.length === 0) {
       throw new Error("ENS name is required");
     }
-    const response = await fetch(`${this.BASE_URL}/api/icebreaker/ens?ensName=${ensName}}`)
+    const response = await fetch(`${this.BASE_URL}/api/icebreaker/ens?ensName=${ensName}`)
     if (!response.ok) throw new Error('Failed to fetch Icebreaker ENS profile')
     const json = await response.json();
-    return json
+    return json.profiles[0];
   }
 
   async getIcebreakerEthAddressProfile(walletAddress: string): Promise<any> {
@@ -174,6 +174,23 @@ class CortexAPI {
     if (!response.ok) throw new Error('Failed to fetch Icebreaker profile');
     const data = await response.json();
     return data.profiles?.[0] ?? null;
+  }
+
+  async getIcebreakerFCUser(fname: string): Promise<any> {
+    return this.getIcebreakerFnameProfile(fname);
+  }
+
+  async getIcebreakerEthProfile(identifier: string): Promise<any> {
+    const ensRegex = /^[a-zA-Z0-9]+\.eth$/;
+    const ethAddressRegex = /^0x[a-fA-F0-9]{40}$/;
+
+    if (ensRegex.test(identifier)) {
+      return this.getIcebreakerEnsProfile(identifier);
+    } else if (ethAddressRegex.test(identifier)) {
+      return this.getIcebreakerEthAddressProfile(identifier);
+    } else {
+      throw new Error('Invalid ENS name or Ethereum address');
+    }
   }
 
   async getNounsBuilderProposals(contractAddress: string, first?: number, skip?: number): Promise<any> {
@@ -220,6 +237,13 @@ class CortexAPI {
       `${this.BASE_URL}/api/search?query=${encodeURIComponent(query)}&maxResults=${maxResults}&searchDepth=${searchDepth}&includeDomains=${includeDomains.join(",")}&excludeDomains=${excludeDomains.join(",")}`
     )
     if (!response.ok) throw new Error('Failed to perform web search')
+    const json = await response.json()
+    return json
+  }
+
+  async getLivestreams(): Promise<any> {
+    const response = await fetch(`${this.BASE_URL}/api/farcaster/streams/live`)
+    if (!response.ok) throw new Error('Failed to fetch livestreams')
     const json = await response.json()
     return json
   }

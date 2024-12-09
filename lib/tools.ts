@@ -132,4 +132,44 @@ export const tools = {
       return trendingCasts.casts
     },
   }),
+  getIcebreakerFCUser: tool({
+    description: 'Get Icebreaker profile for a Farcaster username (fname).',
+    parameters: z.object({
+      fname: z.string(),
+    }),
+    execute: async ({ fname }) => {
+      const profileData = await cortexAPI.getIcebreakerFCUser(fname);
+      return profileData;
+    },
+  }),
+  getIcebreakerEthProfile: tool({
+    description: 'Get Icebreaker profile for an Ethereum address or ENS name.',
+    parameters: z.object({
+      identifier: z.string(),
+    }),
+    execute: async ({ identifier }) => {
+      const profileData = await cortexAPI.getIcebreakerEthProfile(identifier);
+      return profileData;
+    },
+  }),
+  getIcebreakerCredentialProfiles: tool({
+    description: 'Get Icebreaker profiles by a specific credential name.',
+    parameters: z.object({
+      credentialName: z.string(),
+      limit: z.number().optional().default(100),
+      offset: z.number().optional().default(3),
+    }),
+    execute: async ({ credentialName, limit, offset }) => {
+      const profilesData = await cortexAPI.getIcebreakerCredentialProfiles(credentialName, limit, offset);
+      return profilesData;
+    },
+  }),
+  getLivestreams: tool({
+    description: 'Get current Farcaster livestreams',
+    parameters: z.object({}),
+    execute: async () => {
+      const livestreamData = await cortexAPI.getLivestreams();
+      return livestreamData;
+    },
+  }),
 }
