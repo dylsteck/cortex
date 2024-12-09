@@ -15,8 +15,10 @@ interface FarcasterCastProps {
 export default function FarcasterCast({ castUrl }: FarcasterCastProps) {
     const farcasterApp = APPS.find((app) => app.id === "farcaster");
     return (
-        <Widget>
-           <FarcasterEmbed url={castUrl} />
+        <Widget className="flex items-center justify-center">
+            <div className="w-full max-w-[500px] mx-auto p-2 sm:p-4">
+                <FarcasterEmbed url={castUrl} />
+            </div>
         </Widget>
     );
 }

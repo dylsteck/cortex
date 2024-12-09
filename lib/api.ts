@@ -28,11 +28,19 @@ class CortexAPI {
     return json
   }
 
-  async getEvent(id: string): Promise<any> {
-    const response = await fetch(`${this.BASE_URL}/api/farcaster/event/${id}`)
-    if (!response.ok) throw new Error('Failed to fetch Farcaster event')
-    const json = await response.json();
-    return json
+  async getEvent(id?: string, name?: string): Promise<any> {
+    if ((!id && !name) || (id && name)) throw new Error('Provide either id or name')
+    if (id) {
+      const response = await fetch(`${this.BASE_URL}/api/farcaster/event/${id}`)
+      if (!response.ok) throw new Error('Failed to fetch Farcaster event')
+      return response.json()
+    }
+    const eventsResponse = await fetch(`${this.BASE_URL}/api/farcaster/events`)
+    if (!eventsResponse.ok) throw new Error('Failed to fetch Farcaster events')
+    const events = await eventsResponse.json()
+    const event = events.find((e: any) => e.title === name)
+    if (!event) throw new Error('Event not found')
+    return event;
   }
 
   async getEvents(): Promise<any> {
@@ -176,6 +184,15 @@ class CortexAPI {
     if (!response.ok) throw new Error('Failed to fetch Nouns Builder proposals');
     const json = await response.json();
     return json;
+  }
+
+  async getBounties(status: string = "all", eventsSince: string = new Date(new Date(Date.now()).setDate(new Date(Date.now()).getDate() - 10)).toISOString()): Promise<any> {
+    const url = new URL(`${this.BASE_URL}/api/farcaster/bounties`);
+    url.searchParams.append("status", status);
+    url.searchParams.append("eventsSince", eventsSince);
+    const response = await fetch(url.toString());
+    if (!response.ok) throw new Error('Failed to fetch bounties');
+    return response.json();
   }
 
   async getTrendingCasts(): Promise<any> {

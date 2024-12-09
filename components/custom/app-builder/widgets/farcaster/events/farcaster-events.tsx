@@ -121,7 +121,7 @@ interface EventData {
   tags?: string[];
 }
 
-function EventSkeleton() {
+function FarcasterEventSkeleton() {
   return (
     <Card className="shrink-0 max-h-[350px] w-[400px] p-4">
       <div className="space-y-4">
@@ -143,7 +143,7 @@ function EventSkeleton() {
   );
 }
 
-function Event({ event }: { event: EventData }) {
+export function FarcasterEvent({ event }: { event?: EventData }) {
   const formatDate = (
     startTimestamp: number,
     endTimestamp?: number,
@@ -178,6 +178,14 @@ function Event({ event }: { event: EventData }) {
     // return `${startDate} ${timeZoneAbbr || ""}`;
     return `${startDate}`;
   };
+
+  if (!event) {
+    return (
+      <div className="relative">
+        <FarcasterEventSkeleton />
+      </div>
+    );
+  }
 
   return (
     <Card className="w-[300px] h-[380px] hover:shadow-lg transition-shadow duration-200 rounded-xl overflow-hidden">
@@ -259,36 +267,33 @@ function Event({ event }: { event: EventData }) {
   );
 }
 
-export const Events = ({ events }: { events?: EventData[] }) => {
+export const FarcasterEvents = ({ events }: { events?: EventData[] }) => {
   if (!events) {
     return (
-      <div className="-mx-3">
-        <ScrollArea>
-          <div className="flex gap-3 px-3 pb-3">
-            <div className="w-[280px] flex-none">
-              <EventSkeleton />
-            </div>
-            <div className="w-[280px] flex-none">
-              <EventSkeleton />
-            </div>
+      <div className="relative">
+        <ScrollArea className="w-full">
+          <div className="flex space-x-4 gap-3 pb-4">
+            <FarcasterEventSkeleton />
+            <FarcasterEventSkeleton />
+            <FarcasterEventSkeleton />
           </div>
-          <ScrollBar orientation="horizontal" />
+          <ScrollBar orientation="horizontal" className="opacity-0 hover:opacity-100 transition-opacity" />
         </ScrollArea>
       </div>
     );
   }
 
   return (
-    <div className="-mx-3">
-      <ScrollArea>
-        <div className="flex gap-3 px-3 pb-3">
+    <div className="relative">
+      <ScrollArea className="w-full">
+        <div className="flex space-x-4 gap-3 pb-4">
           {events.map((event) => (
-            <div key={event.id} className="w-[280px] flex-none">
-              <Event event={event} />
+            <div key={event.id} className="min-w-[280px] max-w-[280px]">
+              <FarcasterEvent event={event} />
             </div>
           ))}
         </div>
-        <ScrollBar orientation="horizontal" />
+        <ScrollBar orientation="horizontal" className="opacity-0 hover:opacity-100 transition-opacity" />
       </ScrollArea>
     </div>
   );

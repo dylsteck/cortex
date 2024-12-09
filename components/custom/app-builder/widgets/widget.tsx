@@ -6,10 +6,12 @@ import { cn } from '@/lib/utils';
 export function Widget({ children, className }: { children: React.ReactNode, className?: string }) {
   return (
     <Card className={cn(
-      'p-1 bg-white dark:bg-black text-black dark:text-white w-full h-full overflow-y-scroll aspect-square',
+      'p-2 sm:p-3 bg-white dark:bg-black text-black dark:text-white w-full h-full overflow-y-auto max-h-[80vh] sm:max-h-full sm:aspect-square rounded-lg',
       className
     )}>
-      {children}
+      <div className="min-h-0 w-full h-full">
+        {children}
+      </div>
     </Card>
   );
 }

@@ -4,51 +4,8 @@ import { Attachment, ToolInvocation } from 'ai';
 import { motion } from 'framer-motion';
 import { ReactNode } from 'react';
 
-import { Casts } from './casts';
-import ClankerTrendingTokens from './clanker-trending-tokens';
-import { Events } from './events';
 import { Markdown } from './markdown';
-import { PreviewAttachment } from './preview-attachment';
-import { Weather } from './weather';
-import { WebResults } from './web-results';
-import { Skeleton } from '../ui/skeleton';
-
-const Tool = ({ result, toolName }: {result: any, toolName: string}) => {
-  return (
-    <div>
-      {toolName === 'getWeather' ? (
-        <Weather weatherAtLocation={result} />
-      ) : (toolName === 'castSearch' || toolName === 'getUserCasts' || toolName === 'getTrendingCasts') ? (
-        <Casts casts={result} />
-      ) : toolName === 'getClankerTrendingTokens' ? (
-        <ClankerTrendingTokens results={result} />
-      ) : toolName === 'getEvents' ? (
-        <Events events={result} />
-      ) : toolName === 'webSearch' ? (
-        <WebResults results={result} />
-      )
-      : <Skeleton className="h-4 w-[200px]" /> }
-    </div>
-  );
-}
-
-const ToolPreview = ({ toolName }: {toolName: string}) => {
-  return (
-    <div className="skeleton">
-      {toolName === 'getWeather' ? (
-        <Weather />
-      ) : (toolName === 'castSearch' || toolName === 'getUserCasts' || toolName === 'getTrendingCasts') ? (
-        <Casts />
-      ) : toolName === 'getClankerTrendingTokens' ? (
-        <ClankerTrendingTokens />
-      ) : toolName === 'getEvents' ? (
-        <Events />
-      ) : toolName === 'webSearch' ? (
-        <WebResults />
-      ) : <Skeleton className="h-4 w-[200px]" />}
-    </div>
-  );
-}
+import { Tool, ToolPreview } from './tool';
 
 export const Message = ({
   role,
@@ -97,16 +54,6 @@ export const Message = ({
                 }
                 return <ToolPreview key={toolCallId} toolName={toolName} />;
               })}
-            </div>
-          )}
-          {attachments && (
-            <div className="flex gap-2 overflow-x-auto pb-2">
-              {attachments.map((attachment) => (
-                <PreviewAttachment
-                  key={attachment.url}
-                  attachment={attachment}
-                />
-              ))}
             </div>
           )}
         </div>

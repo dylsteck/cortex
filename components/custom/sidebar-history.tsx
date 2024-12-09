@@ -114,14 +114,14 @@ export function SidebarHistory({ user }: { user: User | undefined }) {
               </SidebarMenuButton>
             </Link>
           </SidebarMenuItem>
-          <SidebarMenuItem>
+          {/* <SidebarMenuItem>
             <Link href="/profile">
               <SidebarMenuButton>
                 <UserIcon />
                 <span>Profile</span>
               </SidebarMenuButton>
             </Link>
-          </SidebarMenuItem>
+          </SidebarMenuItem> */}
         </SidebarMenu>
         <SidebarGroupLabel>Chat History</SidebarGroupLabel>
         <SidebarGroupContent>
@@ -162,14 +162,14 @@ export function SidebarHistory({ user }: { user: User | undefined }) {
               </SidebarMenuButton>
             </Link>
           </SidebarMenuItem>
-          <SidebarMenuItem>
+          {/* <SidebarMenuItem>
             <Link href="/profile">
               <SidebarMenuButton>
                 <UserIcon />
                 <span>Profile</span>
               </SidebarMenuButton>
             </Link>
-          </SidebarMenuItem>
+          </SidebarMenuItem> */}
         </SidebarMenu>
         <SidebarGroupLabel>Chat History</SidebarGroupLabel>
         <SidebarGroupContent>
@@ -223,14 +223,14 @@ export function SidebarHistory({ user }: { user: User | undefined }) {
               </SidebarMenuButton>
             </Link>
           </SidebarMenuItem>
-          <SidebarMenuItem>
+          {/* <SidebarMenuItem>
             <Link href="/profile">
               <SidebarMenuButton>
                 <UserIcon />
                 <span>Profile</span>
               </SidebarMenuButton>
             </Link>
-          </SidebarMenuItem>
+          </SidebarMenuItem> */}
         </SidebarMenu>
         <SidebarGroupLabel>Chat History</SidebarGroupLabel>
         <SidebarGroupContent>
@@ -275,14 +275,14 @@ export function SidebarHistory({ user }: { user: User | undefined }) {
               </SidebarMenuButton>
             </Link>
           </SidebarMenuItem>
-          <SidebarMenuItem>
+          {/* <SidebarMenuItem>
             <Link href="/profile">
               <SidebarMenuButton>
                 <UserIcon />
                 <span>Profile</span>
               </SidebarMenuButton>
             </Link>
-          </SidebarMenuItem>
+          </SidebarMenuItem> */}
         </SidebarMenu>
         <SidebarGroupLabel>Chat History</SidebarGroupLabel>
         <SidebarGroupContent>

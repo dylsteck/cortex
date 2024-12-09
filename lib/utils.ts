@@ -25,6 +25,7 @@ const port = process.env.PORT || 3000;
 const localUrl = `http://localhost:${port}`;
 
 export const BASE_URL = isDev ? localUrl : 'https://withcortex.com';
+export const BOUNTYCASTER_API_URL = 'https://www.bountycaster.xyz/api/v1';
 export const CLANKER_API_URL = 'https://www.clanker.world/api';
 export const EVENTS_API_URL = 'https://events.xyz/api';
 export const FARCASTER_INDEX_API_URL = 'https://www.farcaster.in/api';

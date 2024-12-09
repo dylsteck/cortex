@@ -216,7 +216,7 @@ interface FarcasterFeedProps {
 const CastItem = memo(({ cast }: { cast: Cast }) => {
   const castData = convertCastToCastData(cast);
   return (
-    <div className="mb-4">
+    <div className="mb-4 w-full min-w-[300px] max-w-[500px] mx-auto">
       <FarcasterEmbed castData={castData} />
     </div>
   );
@@ -267,10 +267,12 @@ export default function FarcasterFeed({ fid }: FarcasterFeedProps) {
 
   return (
     <Widget>
-      <div className="p-4">
-        {casts.map((cast) => (
-          <CastItem key={cast.hash} cast={cast} />
-        ))}
+      <div className="p-2 sm:p-4 overflow-y-auto">
+        <div className="flex flex-col items-center">
+          {casts.map((cast) => (
+            <CastItem key={cast.hash} cast={cast} />
+          ))}
+        </div>
       </div>
     </Widget>
   );

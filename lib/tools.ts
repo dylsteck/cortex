@@ -14,6 +14,41 @@ export const tools = {
       return castSearchData.result.casts
     },
   }),
+  getBounties: tool({
+    description: 'Get Farcaster bounties with optional status and time filtering. Include the link to each bounty *on Bountcaster*, not on Farcaster/Warpcast, in your response.',
+    parameters: z.object({
+      status: z.string().optional(),
+      timeFrame: z.string().optional(),
+    }),
+    execute: async ({ status, timeFrame }) => {
+      let eventsSince: string | undefined;
+      
+      if (timeFrame) {
+        const now = new Date(Date.now());
+        const lowerInput = timeFrame.toLowerCase();
+        let date = new Date(now);
+
+        if (lowerInput.includes('month')) {
+          date.setMonth(date.getMonth() - 1);
+        } else if (lowerInput.includes('week')) {
+          date.setDate(date.getDate() - 7);
+        } else if (lowerInput.includes('day')) {
+          date.setDate(date.getDate() - 1);
+        } else if (lowerInput.includes('hour')) {
+          date.setHours(date.getHours() - 1);
+        } else {
+          try {
+            date = new Date(timeFrame);
+          } catch {
+            date = now;
+          }
+        }
+        eventsSince = date.toISOString();
+      }
+      const res = await cortexAPI.getBounties(status, eventsSince);
+      return res.bounties;
+    },
+  }),
   getClankerTrendingTokens: tool({
     description: 'Gets trending crypto tokens from Clanker, a token launcher built on top of Farcaster',
     parameters: z.object({}),
@@ -22,24 +57,34 @@ export const tools = {
       return trendingTokenData;
     },
   }),
+  getEvent: tool({
+    description: 'Gets information about an upcoming Farcaster event given its name',
+    parameters: z.object({
+      name: z.string(),
+    }),
+    execute: async ({ name }) => {
+      const eventData = await cortexAPI.getEvent(undefined, name);
+      return eventData;
+    },
+  }),
   getEvents: tool({
     description: 'Get upcoming Farcaster events on Events.xyz. Do not show any images or markdown in your response.',
     parameters: z.object({}),
     execute: async ({}) => {
-      const eventsData = await cortexAPI.getEvents()
-      return eventsData
+      const eventsData = await cortexAPI.getEvents();
+      return eventsData;
     },
   }),
-  // getFarcasterUser: tool({
-  //   description: 'Gets information about a Farcaster user.',
-  //   parameters: z.object({
-  //       username: z.string(),
-  //   }),
-  //   execute: async ({ username }) => {
-  //     const userData = await cortexAPI.getFarcasterUser(username);
-  //     return userData
-  //   },
-  // }),
+  getFarcasterUser: tool({
+    description: 'Gets information about a Farcaster user.',
+    parameters: z.object({
+        username: z.string(),
+    }),
+    execute: async ({ username }) => {
+      const userData = await cortexAPI.getFarcasterUser(username);
+      return userData
+    },
+  }),
   getUserCasts: tool({
     description: 'Gets the latest casts per a particular username on Farcaster.',
     parameters: z.object({
