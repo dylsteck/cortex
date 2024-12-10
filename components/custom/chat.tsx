@@ -10,6 +10,7 @@ import { Model } from '@/lib/model';
 import { ChatHeader } from './chat-header';
 import { ChatInput } from './chat-input';
 import { Overview } from './overview';
+import { SuggestedActions } from './suggested-actions';
 
 export function Chat({
   id,
@@ -36,7 +37,7 @@ export function Chat({
       <ChatHeader />
       <main className="flex-1 w-full overflow-y-auto" ref={containerRef}>
         <div className="w-full px-3">
-          {messages.length === 0 && <Overview append={append} />}
+          {messages.length === 0 && <Overview />}
           {messages.map((message, index) => (
             <PreviewMessage
               key={message.id}
@@ -50,19 +51,33 @@ export function Chat({
           <div ref={endRef} />
         </div>
       </main>
-      <footer className="w-full border-t bg-background">
-        <div className="w-full p-3">
-          <form onSubmit={handleSubmit}>
-            <ChatInput
-              input={input}
-              setInput={setInput}
-              isLoading={isLoading}
-              stop={stop}
-              messages={messages}
-              append={append}
-              handleSubmit={handleSubmit}
-            />
-          </form>
+      <footer className="w-full bg-background">
+        <div className="w-full">
+          {messages.length === 0 && (
+            <div className="pb-2">      
+              <SuggestedActions 
+                onActionSelect={(action) => {
+                  append({
+                    role: 'user',
+                    content: action,
+                  });
+                }} 
+              />
+            </div>
+          )}
+          <div className="w-full border-t bg-background p-3">
+            <form onSubmit={handleSubmit}>
+              <ChatInput
+                input={input}
+                setInput={setInput}
+                isLoading={isLoading}
+                stop={stop}
+                messages={messages}
+                append={append}
+                handleSubmit={handleSubmit}
+              />
+            </form>
+          </div>
         </div>
       </footer>
     </div>

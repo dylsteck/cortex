@@ -8,9 +8,6 @@ import { SIWNResponseData } from "@/components/custom/sign-in-with-neynar";
 
 import { user, chat, User } from "./schema";
 
-// Optionally, if not using email/pass login, you can
-// use the Drizzle adapter for Auth.js / NextAuth
-// https://authjs.dev/reference/adapter/drizzle
 let client = postgres(`${process.env.POSTGRES_URL!}?sslmode=require`);
 let db = drizzle(client);
 
@@ -87,6 +84,15 @@ export async function deleteChatById({ id }: { id: string }) {
     return await db.delete(chat).where(eq(chat.id, id));
   } catch (error) {
     console.error("Failed to delete chat by id from database");
+    throw error;
+  }
+}
+
+export async function deleteChatsByUserId({ id }: { id: string }) {
+  try {
+    return await db.delete(chat).where(eq(chat.userId, id));
+  } catch (error) {
+    console.error("Failed to delete chats by user id from database");
     throw error;
   }
 }

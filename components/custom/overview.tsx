@@ -1,14 +1,9 @@
-import { type ChatRequestOptions, type CreateMessage, type Message } from 'ai';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 
 import { CortexIcon } from './icons';
-import { SuggestedActions } from './suggested-actions';
 
-export const Overview = ({ append }: { append: (
-  message: Message | CreateMessage,
-  chatRequestOptions?: ChatRequestOptions
-) => Promise<string | null | undefined>;}) => {
+export const Overview = () => {
   return (
     <motion.div
       key="overview"
@@ -23,12 +18,6 @@ export const Overview = ({ append }: { append: (
           <CortexIcon size={40} />
           <span className="text-2xl font-semibold">Cortex</span>
         </p>
-        <SuggestedActions onActionSelect={async(suggestedAction: string) => {
-          append({
-            role: 'user',
-            content: suggestedAction,
-          });
-        }} />
       </div>
     </motion.div>
   )
