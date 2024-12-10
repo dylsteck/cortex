@@ -3,7 +3,6 @@ import { z } from 'zod';
 
 import { customModel } from '@/ai';
 import { auth } from '@/app/(auth)/auth';
-import Iframe from '@/components/custom/iframe';
 import { deleteChatById, getChatById, saveChat } from '@/db/queries';
 import { Model, models, SYSTEM_PROMPT } from '@/lib/model';
 import { tools } from '@/lib/tools';
