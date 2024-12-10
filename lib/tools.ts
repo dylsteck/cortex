@@ -57,6 +57,14 @@ export const tools = {
       return trendingTokenData;
     },
   }),
+  getWowTrendingTokens: tool({
+    description: 'Gets trending crypto tokens from Wow.xyz, a token launcher on Base',
+    parameters: z.object({}),
+    execute: async ({}) => {
+      const trendingTokenData = await cortexAPI.getWowTrendingTokens();
+      return trendingTokenData;
+    },
+  }),
   getEvent: tool({
     description: 'Gets information about an upcoming Farcaster event given its name',
     parameters: z.object({

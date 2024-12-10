@@ -9,9 +9,11 @@ const actions = [
   'What livestreams are happening now?',
   'Search for AI discussions on Farcaster',
   'Show me trending casts',
-  'Get profile info for vitalik.eth',
+  'Show me trending tokens on Wow',
+  'Get Farcaster profile info for vitalik.eth',
   'What are the latest casts from dwr.eth?',
-  'Show me posts from the AI channel',
+  'Show me trending Clanker tokens',
+  'Show me casts from the fc-devs channel',
   'Find active bounties this week',
 ]
 

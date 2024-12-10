@@ -269,6 +269,13 @@ class CortexAPI {
     const json = await response.json();
     return json;
   }
+
+  async getWowTrendingTokens(): Promise<any> {
+    const response = await fetch(`${this.BASE_URL}/api/wow/trending`)
+    if (!response.ok) throw new Error('Failed to fetch Wow trending tokens')
+    const json = await response.json()
+    return json
+  }
 }
 
 export default CortexAPI

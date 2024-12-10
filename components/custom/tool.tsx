@@ -6,6 +6,7 @@ import ClankerTrendingTokens from './clanker-trending-tokens';
 import IcebreakerProfile from './icebreaker-profile';
 import { Weather } from './weather';
 import { WebResults } from './web-results';
+import WowTrendingTokens from './wow-trending-tokens';
 import { Skeleton } from '../ui/skeleton';
 
 
@@ -16,6 +17,8 @@ export const Tool = ({ result, toolName }: {result: any, toolName: string}) => {
           <Weather weatherAtLocation={result} />
         ) : (toolName === 'castSearch' || toolName === 'getUserCasts' || toolName === 'getTrendingCasts' || toolName === 'getChannelsCasts') ? (
           <Casts casts={result} />
+        ) : toolName === 'getWowTrendingTokens' ? (
+          <WowTrendingTokens results={result} />
         ) : toolName === 'getClankerTrendingTokens' ? (
           <ClankerTrendingTokens results={result} />
         ) : toolName === 'getEvent' ? (
@@ -44,6 +47,8 @@ export const ToolPreview = ({ toolName }: {toolName: string}) => {
           <Weather />
         ) : (toolName === 'castSearch' || toolName === 'getUserCasts' || toolName === 'getTrendingCasts' || toolName === 'getChannelsCasts') ? (
           <Casts />
+        ) : toolName === 'getWowTrendingTokens' ? (
+            <WowTrendingTokens />
         ) : toolName === 'getClankerTrendingTokens' ? (
           <ClankerTrendingTokens />
         ) : toolName === 'getEvent' ? (
