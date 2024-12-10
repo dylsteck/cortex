@@ -9,7 +9,7 @@ export function Widget({ children, className }: { children: React.ReactNode, cla
       'p-2 sm:p-3 bg-white dark:bg-black text-black dark:text-white w-full h-full overflow-y-auto max-h-[80vh] sm:max-h-full sm:aspect-square rounded-lg',
       className
     )}>
-      <div className="min-h-0 w-full h-full">
+      <div className="min-h-0 size-full">
         {children}
       </div>
     </Card>

@@ -1,6 +1,6 @@
 'use client'
 
-import sdk from "@farcaster/frame-sdk";
+import { sdk } from "@farcaster/frame-sdk";
 import { useEffect, useState } from "react";
 
 export default function FrameProvider({ children }: { children: React.ReactNode }){
