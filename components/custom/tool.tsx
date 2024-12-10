@@ -14,7 +14,7 @@ export const Tool = ({ result, toolName }: {result: any, toolName: string}) => {
       <div>
         {toolName === 'getWeather' ? (
           <Weather weatherAtLocation={result} />
-        ) : (toolName === 'castSearch' || toolName === 'getUserCasts' || toolName === 'getTrendingCasts') ? (
+        ) : (toolName === 'castSearch' || toolName === 'getUserCasts' || toolName === 'getTrendingCasts' || toolName === 'getChannelsCasts') ? (
           <Casts casts={result} />
         ) : toolName === 'getClankerTrendingTokens' ? (
           <ClankerTrendingTokens results={result} />
@@ -42,7 +42,7 @@ export const ToolPreview = ({ toolName }: {toolName: string}) => {
       <div className="skeleton">
         {toolName === 'getWeather' ? (
           <Weather />
-        ) : (toolName === 'castSearch' || toolName === 'getUserCasts' || toolName === 'getTrendingCasts') ? (
+        ) : (toolName === 'castSearch' || toolName === 'getUserCasts' || toolName === 'getTrendingCasts' || toolName === 'getChannelsCasts') ? (
           <Casts />
         ) : toolName === 'getClankerTrendingTokens' ? (
           <ClankerTrendingTokens />

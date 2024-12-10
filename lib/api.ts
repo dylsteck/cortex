@@ -247,6 +247,28 @@ class CortexAPI {
     const json = await response.json()
     return json
   }
+
+  async getChannelsCasts(params: {
+    channel_ids: string,
+    with_recasts?: boolean,
+    viewer_fid?: number,
+    with_replies?: boolean,
+    members_only?: boolean,
+    limit?: number,
+    cursor?: string
+  }): Promise<any> {
+    const url = new URL(`${this.BASE_URL}/api/farcaster/feed/channels`);
+    Object.entries(params).forEach(([key, value]) => {
+      if (value !== undefined) {
+        url.searchParams.append(key, String(value));
+      }
+    });
+
+    const response = await fetch(url.toString());
+    if (!response.ok) throw new Error(`Failed to fetch casts for channels ${params.channel_ids}`);
+    const json = await response.json();
+    return json;
+  }
 }
 
 export default CortexAPI

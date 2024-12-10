@@ -172,4 +172,36 @@ export const tools = {
       return livestreamData;
     },
   }),
+  getChannelsCasts: tool({
+    description: 'Get casts from specific Farcaster channels.',
+    parameters: z.object({
+      channel_ids: z.string(),
+      with_recasts: z.boolean().optional(),
+      viewer_fid: z.number().optional(),
+      with_replies: z.boolean().optional(),
+      members_only: z.boolean().optional(),
+      limit: z.number().optional(),
+      cursor: z.string().optional(),
+    }),
+    execute: async ({ 
+      channel_ids, 
+      with_recasts, 
+      viewer_fid, 
+      with_replies, 
+      members_only, 
+      limit, 
+      cursor 
+    }) => {
+      const channelCasts = await cortexAPI.getChannelsCasts({
+        channel_ids, 
+        with_recasts, 
+        viewer_fid, 
+        with_replies, 
+        members_only, 
+        limit, 
+        cursor
+      });
+      return channelCasts.casts;
+    },
+  }),
 }
