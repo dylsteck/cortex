@@ -19,6 +19,10 @@ interface LayoutItem {
   y: number;
   i: string;
   static?: boolean;
+  minW?: number;
+  maxW?: number;
+  minH?: number;
+  maxH?: number;
 }
 
 export interface Widget {
@@ -68,9 +72,13 @@ export default function AppBuilder() {
         i: id,
         x: 0,
         y: newY,
-        w: 1,
-        h: 1,
-        static: false
+        w: 2,
+        h: 4,
+        static: false,
+        minW: 1,
+        maxW: 12,
+        minH: 1,
+        maxH: 12
       },
       visible: true,
       preview: widget.preview,
@@ -108,7 +116,17 @@ export default function AppBuilder() {
       prev.map(widget => {
         const updatedLayout = currentLayout.find(l => l.i === widget.id);
         return updatedLayout
-          ? { ...widget, layout: updatedLayout }
+          ? { 
+              ...widget, 
+              layout: {
+                ...updatedLayout,
+                // Ensure layout values are integers
+                x: Math.round(updatedLayout.x),
+                y: Math.round(updatedLayout.y),
+                w: Math.max(1, Math.round(updatedLayout.w)),
+                h: Math.max(1, Math.round(updatedLayout.h))
+              }
+            }
           : widget;
       })
     );
@@ -135,9 +153,9 @@ export default function AppBuilder() {
               className="layout"
               layout={placedWidgets.map(w => w.layout)}
               cols={1}
-              rowHeight={containerDimensions.width}
+              rowHeight={50}
               width={containerDimensions.width}
-              isResizable={false}
+              isResizable={true}
               isDraggable={true}
               compactType="vertical"
               preventCollision={false}
@@ -145,6 +163,21 @@ export default function AppBuilder() {
               containerPadding={[16, 16]}
               onLayoutChange={handleLayoutChange}
               draggableHandle=".drag-handle"
+              resizeHandles={['se']}
+              resizeHandle={
+                <div 
+                  className="react-resizable-handle react-resizable-handle-se rounded-lg bg-gray-500/50 hover:bg-gray-500/70 transition-colors"
+                  style={{
+                    position: 'absolute',
+                    width: '20px',
+                    height: '20px',
+                    bottom: 0,
+                    right: 0,
+                    cursor: 'se-resize',
+                    zIndex: 1
+                  }}
+                />
+              }
               verticalCompact={true}
               useCSSTransforms={true}
             >
@@ -158,8 +191,10 @@ export default function AppBuilder() {
                 >
                   <motion.div
                     className={cn(
-                      "relative rounded-xl border-2 shadow-sm overflow-hidden group bg-background hover:shadow-md transition-all",
-                      "size-full opacity-100"
+                      "relative rounded-xl border-2 shadow-sm overflow-hidden group bg-background",
+                      "size-full opacity-100 transition-all duration-200",
+                      // Add enhanced shadow states for hover and drag
+                      "hover:shadow-md active:shadow-lg"
                     )}
                     layout
                     initial={{ opacity: 0, scale: 0.95 }}
