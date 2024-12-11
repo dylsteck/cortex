@@ -133,7 +133,7 @@ export default function AppBuilder() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-background">
+    <div className="flex flex-col h-auto max-h-screen overflow-y-hidden bg-background">
       <div className="flex-1 flex flex-col items-center justify-start w-full max-w-[1200px] mx-auto px-4">
         <div 
           ref={containerRef}
@@ -246,7 +246,7 @@ export default function AppBuilder() {
         </div>
         <motion.div
           layout
-          className="sticky bottom-4 mt-4 flex flex-row gap-2 items-center bg-muted/90 rounded-full p-2 shadow-lg backdrop-blur-md"
+          className="sticky bottom-0.5 mt-4 flex flex-row gap-2 items-center bg-muted/90 rounded-full p-2 shadow-lg backdrop-blur-md"
         >
           <WidgetDrawer onAdd={addWidget} />
           <p className="text-xl pr-2">Unnamed</p>
