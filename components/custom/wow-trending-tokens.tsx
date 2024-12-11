@@ -1,8 +1,8 @@
-import Image from "next/image";
+import { motion } from "framer-motion";
 
-import { Card } from "../ui/card";
 import { ScrollArea, ScrollBar } from "../ui/scroll-area";
 import { Skeleton } from "../ui/skeleton";
+import { FarcasterToken } from "./app-builder/widgets/farcaster/tokens/farcaster-token";
 
 type WowTrendingTokensResponse = {
     data: {
@@ -63,14 +63,7 @@ export default function WowTrendingTokens({ results }: { results?: WowTrendingTo
                 <ScrollArea className="w-full">
                     <div className="flex space-x-4 pb-4">
                         {[1, 2, 3].map((i) => (
-                            <Card key={i} className="shrink-0 h-[200px] w-[400px] p-4">
-                                <div className="space-y-4">
-                                    <Skeleton className="h-4 w-[300px]" />
-                                    <Skeleton className="h-4 w-[250px]" />
-                                    <Skeleton className="h-[100px] w-full" />
-                                    <Skeleton className="h-4 w-[100px]" />
-                                </div>
-                            </Card>
+                            <Skeleton key={i} className="shrink-0 h-[500px] w-[800px]" />
                         ))}
                     </div>
                     <ScrollBar orientation="horizontal" />
@@ -84,54 +77,36 @@ export default function WowTrendingTokens({ results }: { results?: WowTrendingTo
             <div>
                 <h2 className="text-lg font-semibold mb-4">Trending Wow Tokens</h2>
                 <ScrollArea className="w-full">
-                    <div className="flex flex-row gap-4 pb-4">
+                    <motion.div 
+                        className="flex flex-row gap-8 pb-4 overflow-x-auto"
+                        style={{ 
+                            display: 'flex', 
+                            scrollSnapType: 'x mandatory', 
+                            overscrollBehaviorX: 'contain',
+                            justifyContent: 'center'
+                        }}
+                    >
                         {results.data.wowTrending.edges.map(({ node }, index) => (
-                            <Card key={index} className="shrink-0 h-[250px] w-[400px] p-4 flex flex-col">
-                                <Image
-                                    src={node.image.medium}
-                                    alt={node.name}
-                                    width={48}
-                                    height={48}
-                                    className="size-12 rounded-full mb-2"
+                            <motion.div 
+                                key={index} 
+                                className="shrink-0 snap-center"
+                                style={{ 
+                                    scrollSnapAlign: 'center',
+                                    maxWidth: '800px',
+                                    minWidth: '350px'
+                                }}
+                            >
+                                <FarcasterToken 
+                                    contractAddress={node.address}
+                                    height="500px"
+                                    width="100%"
                                 />
-                                <h3 className="text-lg font-bold line-clamp-1">
-                                    {node.name} ({node.symbol})
-                                </h3>
-                                <p className="text-sm text-gray-600 mb-2">
-                                    Price: ${parseFloat(node.usdPrice).toFixed(6)}
-                                </p>
-                                <p className="text-xs text-gray-500 line-clamp-2 mb-2">
-                                    {node.description}
-                                </p>
-                                <div className="text-xs text-gray-500 mb-4">
-                                    Market Cap: ${parseFloat(node.marketCap).toLocaleString()}
-                                </div>
-                                <div className="flex justify-between mt-auto">
-                                    <a
-                                        href={`https://wow.xyz/token/${node.address}`}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="text-xs text-blue-500 hover:underline"
-                                    >
-                                        View Token
-                                    </a>
-                                    {node.socialLinks.website && (
-                                        <a
-                                            href={node.socialLinks.website}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className="text-xs text-blue-500 hover:underline"
-                                        >
-                                            Website
-                                        </a>
-                                    )}
-                                </div>
-                            </Card>
+                            </motion.div>
                         ))}
-                    </div>
+                    </motion.div>
                     <ScrollBar orientation="horizontal" />
                 </ScrollArea>
             </div>
         </div>
     );
-} 
+}

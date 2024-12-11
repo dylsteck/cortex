@@ -244,13 +244,10 @@ export default function AppBuilder() {
             </GridLayout>
           </motion.div>
         </div>
-        <motion.div
-          layout
-          className="sticky bottom-0.5 mt-4 flex flex-row gap-2 items-center bg-muted/90 rounded-full p-2 shadow-lg backdrop-blur-md"
-        >
+        <div className="sticky bottom-0.5 mt-4 flex flex-row gap-2 items-center bg-muted/90 rounded-full p-2 shadow-lg backdrop-blur-md">
           <WidgetDrawer onAdd={addWidget} />
           <p className="text-xl pr-2">Unnamed</p>
-        </motion.div>
+        </div>
       </div>
     </div>
   );

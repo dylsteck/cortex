@@ -33,10 +33,10 @@ export function Chat({
   const [containerRef, endRef] = useScrollToBottom(messages);
   
   return (
-    <div className="flex flex-col w-screen h-dvh bg-background overflow-hidden">
+    <div className="flex flex-col w-screen h-dvh bg-background overflow-hidden border-0">
       <ChatHeader />
-      <main className="flex-1 w-full overflow-y-auto" ref={containerRef}>
-        <div className="w-full px-3">
+      <main className="flex-1 w-full md:!w-2/3 md:mx-auto overflow-y-auto" ref={containerRef}>
+        <div className="w-full md:w-2/3 md:mx-auto px-5 md:px-3">
           {messages.length === 0 && <Overview />}
           {messages.map((message, index) => (
             <PreviewMessage
@@ -51,7 +51,7 @@ export function Chat({
           <div ref={endRef} />
         </div>
       </main>
-      <footer className="w-full bg-background">
+      <footer className="w-full md:!w-2/3 md:mx-auto bg-background">
         <div className="w-full">
           {messages.length === 0 && (
             <div className="pb-2">      
@@ -65,7 +65,7 @@ export function Chat({
               />
             </div>
           )}
-          <div className="w-full border-t bg-background p-3">
+          <div className="w-full bg-background p-3">
             <form onSubmit={handleSubmit}>
               <ChatInput
                 input={input}
