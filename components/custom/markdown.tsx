@@ -63,6 +63,17 @@ const NonMemoizedMarkdown = ({ children }: { children: string }) => {
         </Link>
       );
     },
+    img: ({ node, src, alt, ...props }: any) => {
+      // return (
+      //   <img
+      //     src={src}
+      //     alt={alt || ""}
+      //     className="rounded-lg my-4 object-contain max-w-full h-auto"
+      //     {...props}
+      //   />
+      // );
+      return (<></>)
+    },
   };
 
   return (
