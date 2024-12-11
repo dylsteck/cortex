@@ -61,11 +61,13 @@ export const ToolPreview = ({ toolName }: {toolName: string}) => {
           <FarcasterLivestreamsWrapper />
         ) : toolName === 'webSearch' ? (
           <WebResults />
-        ) : (toolName === 'getIcebreakerFCUser' || 
-             toolName === 'getIcebreakerEthProfile' || 
-             toolName === 'getIcebreakerCredentialProfiles') ? (
-          <IcebreakerProfile />
-        ) : <Skeleton className="w-full h-auto" />}
+        ) 
+        // : (toolName === 'getIcebreakerFCUser' || 
+        //      toolName === 'getIcebreakerEthProfile' || 
+        //      toolName === 'getIcebreakerCredentialProfiles') ? (
+        //   <IcebreakerProfile />
+        // ) 
+        : <Skeleton className="w-full h-auto" />}
       </div>
     );
 }
