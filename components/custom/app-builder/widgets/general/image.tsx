@@ -9,6 +9,20 @@ interface ImageWidgetProps {
   className?: string;
 }
 
+export const imageParamsMetadata = {
+  imageUrl: {
+    label: 'Image URL',
+    description: 'The URL of the image to display',
+    placeholder: 'https://example.com/image.jpg'
+  }
+};
+
+export const imageWidgetSchema = z.object({
+  imageUrl: z.string()
+    .url('Please enter a valid URL')
+    .describe('The URL of the image to display')
+});
+
 export function ImageWidget({ imageUrl, className }: ImageWidgetProps) {
   return (
     <Widget className={className}>
@@ -25,6 +39,16 @@ export function ImageWidget({ imageUrl, className }: ImageWidgetProps) {
   );
 }
 
-export const imageWidgetSchema = z.object({
-  imageUrl: z.string().url('Please enter a valid URL')
-});
+export const ImageWidgetPreview = () => (
+  <Widget>
+    <div className="relative size-full">
+      <Image
+        src="https://picsum.photos/200"
+        alt="Preview image"
+        fill
+        style={{ objectFit: 'contain' }}
+        className="p-2"
+      />
+    </div>
+  </Widget>
+);

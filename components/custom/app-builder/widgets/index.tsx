@@ -27,6 +27,11 @@ export type Widget<T = any> = {
     description: string;
     defaultParams?: T;
     paramsSchema?: z.ZodType<T>;
+    paramsMetadata?: Record<keyof T, {
+        label: string;
+        description?: string;
+        placeholder?: string;
+    }>;
     preview: React.ReactNode;
     component: React.ComponentType<T>;
 }
@@ -172,7 +177,14 @@ export const WIDGETS = [
         },
         paramsSchema: z.object({
             contractAddress: z.string().min(42, 'Must be a valid Ethereum address').max(42, 'Must be a valid Ethereum address')
-        })
+        }),
+        paramsMetadata: {
+            contractAddress: {
+                label: 'Contract Address',
+                description: 'The Ethereum address of the NFT contract',
+                placeholder: '0x...'
+            }
+        }
     },
     {
         id: 'token-deployer',

@@ -120,7 +120,6 @@ export default function AppBuilder() {
               ...widget, 
               layout: {
                 ...updatedLayout,
-                // Ensure layout values are integers
                 x: Math.round(updatedLayout.x),
                 y: Math.round(updatedLayout.y),
                 w: Math.max(1, Math.round(updatedLayout.w)),
@@ -193,7 +192,6 @@ export default function AppBuilder() {
                     className={cn(
                       "relative rounded-xl border-2 shadow-sm overflow-hidden group bg-background",
                       "size-full opacity-100 transition-all duration-200",
-                      // Add enhanced shadow states for hover and drag
                       "hover:shadow-md active:shadow-lg"
                     )}
                     layout

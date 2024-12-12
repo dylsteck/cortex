@@ -58,7 +58,7 @@
     "tailwindcss-animate": "^1.0.7",
     "usehooks-ts": "^3.1.0",
     "vaul": "^1.1.1",
-    "vercel": "^39.2.0",
+    "vercel": "^39.2.1",
     "viem": "^2.21.51",
     "wagmi": "^2.13.0",
     "zod": "^3.23.8"

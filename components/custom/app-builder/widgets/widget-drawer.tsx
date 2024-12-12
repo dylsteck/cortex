@@ -121,61 +121,81 @@ export default function WidgetDrawer({ onAdd }: { onAdd: (widget: ExtendedWidget
       </DrawerTrigger>
       <DrawerContent
         className={cn(
-          'fixed bottom-0 left-0 right-0 w-full bg-black dark:bg-white text-white dark:text-black rounded-t-xl shadow-lg border border-gray-200 mx-auto max-w-auto md:max-w-[60%] xl:max-w-[40%]',
+          'fixed bottom-0 left-0 right-0 w-full bg-black dark:bg-white text-white dark:text-black rounded-t-[20px] shadow-lg border border-gray-200 mx-auto',
+          'max-w-full sm:max-w-[90%] md:max-w-[60%] xl:max-w-[40%]',
           'outline-none'
         )}
       >
         {currentWidget ? (
           <div className="mt-2">
-            <div className="flex items-center justify-between mb-4 px-3 w-[98%]">
+            <div className="flex items-center justify-between mb-2 px-3 w-full">
               <div className="flex flex-row gap-1 items-center cursor-pointer" onClick={handleBack}>
-                <ChevronLeft className="size-6 opacity-80" />
-                <p>Back</p>
+                <ChevronLeft className="size-5 sm:size-6 opacity-80" />
+                <p className="hidden sm:block">Back</p>
               </div>
-              <div className="flex flex-col gap-0 items-center">
-                <h2 className="text-xl font-medium">{currentWidgetDef?.name}</h2>
-                <p className="text-sm text-light">{currentWidgetDef?.description}</p>
+              <div className="flex flex-col gap-0 items-center max-w-[60%]">
+                <h2 className="text-lg sm:text-xl font-medium truncate">{currentWidgetDef?.name}</h2>
+                <p className="text-xs sm:text-sm text-light truncate">{currentWidgetDef?.description}</p>
               </div>
               <Button 
-                className="bg-black text-white rounded-xl hover:bg-black" 
+                className="bg-black text-white rounded-full px-4 py-1.5 text-sm hover:bg-black/90" 
                 onClick={() => showParamsEditor ? handleAddWidget(currentWidgetDef) : handleSelectWidget()}
                 disabled={showParamsEditor && !validateParams()}
               >
                 {showParamsEditor ? 'Confirm' : 'Add'}
               </Button>
             </div>
-            <div className="relative mt-4 overflow-hidden p-3">
+            <div className="relative mt-2 overflow-hidden p-2 sm:p-3">
               {showParamsEditor && currentWidgetDef?.defaultParams ? (
-                <div className="flex flex-col gap-4 px-4 py-2 max-w-[400px] mx-auto">
-                  {Object.entries(currentWidgetDef.defaultParams).map(([key, value]) => (
-                    <div key={key} className="flex flex-col gap-1">
-                      <Label htmlFor={key} className="text-sm font-medium text-black capitalize">{key}</Label>
-                      <Input
-                        id={key}
-                        value={params[key] || ''}
-                        onChange={(e) => setParams((prev) => ({
-                          ...prev,
-                          [key]: e.target.value
-                        }))}
-                        placeholder={String(value)}
-                        className="bg-white border-gray-300 text-black placeholder:text-gray-500"
-                      />
-                    </div>
-                  ))}
+                <div className="flex flex-col gap-3 px-3 py-2 max-w-[400px] mx-auto">
+                  {Object.entries(currentWidgetDef.defaultParams).map(([key, value]) => {
+                    type ParamsType = typeof currentWidgetDef.defaultParams;
+                    type MetadataType = typeof currentWidgetDef.paramsMetadata;
+                    
+                    const metadata = (currentWidgetDef.paramsMetadata as Record<string, { label: string; description: string; placeholder?: string }>)?.[key as keyof typeof currentWidgetDef.defaultParams] || {
+                      label: key.charAt(0).toUpperCase() + key.slice(1),
+                      description: '',
+                    };
+                    
+                    return (
+                      <div key={key} className="flex flex-col gap-1">
+                        <Label htmlFor={key} className="text-sm font-medium text-black capitalize">
+                          {metadata.label}
+                        </Label>
+                        {metadata.description && (
+                          <p className="text-xs text-gray-500 mb-1">{metadata.description}</p>
+                        )}
+                        <Input
+                          id={key}
+                          value={params[key] || ''}
+                          onChange={(e) => setParams((prev) => ({
+                            ...prev,
+                            [key]: e.target.value
+                          }))}
+                          placeholder={metadata.placeholder}
+                          className="bg-white border-gray-300 text-black placeholder:text-gray-500 rounded-lg"
+                        />
+                      </div>
+                    );
+                  })}
                 </div>
               ) : (
-                <div className="flex items-center justify-between">
+                <div className="flex items-center justify-between px-2">
                   <ChevronLeftCircle
-                    className={`size-6 cursor-pointer ${currentSlide === 0 ? 'opacity-50' : 'opacity-100'}`}
+                    className={cn(
+                      'size-5 sm:size-6 cursor-pointer transition-opacity',
+                      currentSlide === 0 ? 'opacity-50' : 'opacity-100 hover:opacity-80'
+                    )}
                     onClick={handlePrev}
                   />
-                  <div className="flex justify-center size-[55%] md:size-2/5">
+                  <div className="flex justify-center size-3/5 sm:size-[55%] md:size-2/5">
                     {currentWidgetDef?.preview}
                   </div>
                   <ChevronRightCircle
-                    className={`size-6 cursor-pointer ${
-                      currentSlide === filteredWidgets.length - 1 ? 'opacity-50' : 'opacity-100'
-                    }`}
+                    className={cn(
+                      'size-5 sm:size-6 cursor-pointer transition-opacity',
+                      currentSlide === filteredWidgets.length - 1 ? 'opacity-50' : 'opacity-100 hover:opacity-80'
+                    )}
                     onClick={handleNext}
                   />
                 </div>
@@ -185,24 +205,24 @@ export default function WidgetDrawer({ onAdd }: { onAdd: (widget: ExtendedWidget
         ) : (
           <div className="mt-2">
             <DrawerHeader className="p-0 pl-3 gap-0">
-              <DrawerTitle className="text-2xl font-medium">Apps</DrawerTitle>
-              <DrawerDescription className="p-0 m-0">View widgets across crypto apps</DrawerDescription>
+              <DrawerTitle className="text-xl sm:text-2xl font-medium">Apps</DrawerTitle>
+              <DrawerDescription className="p-0 m-0 text-sm sm:text-base">View widgets across crypto apps</DrawerDescription>
             </DrawerHeader>
-            <div className="mt-2.5 mx-1 overflow-y-scroll max-h-[50vh] px-2">
+            <div className="mt-2 mx-1 overflow-y-auto max-h-[60vh] px-2">
               {APPS.map((app) => (
-                <div key={app.id} className="mb-4">
-                  <div className="flex items-center justify-between mb-2">
-                    <div className="flex items-center">
+                <div key={app.id} className="mb-3">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center flex-1 mr-3">
                       <Image
                         src={app.iconUrl}
                         alt={`${app.name} icon`}
-                        className="size-10 rounded-lg mr-3"
+                        className="size-8 sm:size-10 rounded-lg mr-2 sm:mr-3"
                         width={40}
                         height={40}
                       />
-                      <div>
-                        <p className="font-medium">{app.name}</p>
-                        <p className="text-sm text-muted-foreground">{app.description}</p>
+                      <div className="min-w-0">
+                        <p className="font-medium text-sm sm:text-base truncate">{app.name}</p>
+                        <p className="text-xs sm:text-sm text-muted-foreground truncate">{app.description}</p>
                       </div>
                     </div>
                     <Button
@@ -217,7 +237,7 @@ export default function WidgetDrawer({ onAdd }: { onAdd: (widget: ExtendedWidget
                           setCurrentWidget(widgets[0] as ExtendedWidget);
                         }
                       }}
-                      className="max-w-[30%] w-auto rounded-xl"
+                      className="shrink-0 h-8 px-4 rounded-full text-sm"
                     >
                       View
                     </Button>
