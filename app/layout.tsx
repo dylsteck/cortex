@@ -1,5 +1,6 @@
 import './globals.css';
 import { Metadata } from 'next';
+import Script from 'next/script';
 import { Toaster } from 'sonner';
 
 import Providers from '@/components/custom/providers';
@@ -71,6 +72,15 @@ export default async function RootLayout({
             __html: THEME_COLOR_SCRIPT,
           }}
         />
+        <Script src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID ?? ""}`} />
+        <Script id="google-analytics">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', '${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID ?? ""}');
+          `}
+        </Script>
       </head>
       <body className="antialiased">
         <ThemeProvider

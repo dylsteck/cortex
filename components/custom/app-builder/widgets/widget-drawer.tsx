@@ -28,6 +28,27 @@ interface GridPosition {
   h: number;
 }
 
+interface ParamMetadata {
+  label: string;
+  description?: string;
+  placeholder?: string;
+}
+
+type WidgetWithLayout = {
+  id: string;
+  appId: string;
+  name: string;
+  description: string;
+  component: React.ComponentType<any>;
+  preview: React.ReactNode;
+  layout: GridPosition & { i: string };
+  visible: boolean;
+  paramsMetadata?: Record<string, ParamMetadata>;
+  defaultParams?: Record<string, any>;
+  props?: Record<string, any>;
+  paramsSchema?: Widget['paramsSchema'];
+};
+
 export default function WidgetDrawer({ onAdd }: { onAdd: (widget: ExtendedWidget) => void }) {
   const [currentWidget, setCurrentWidget] = React.useState<ExtendedWidget | null>(null);
   const [currentSlide, setCurrentSlide] = React.useState(0);
@@ -48,8 +69,19 @@ export default function WidgetDrawer({ onAdd }: { onAdd: (widget: ExtendedWidget
   };
 
   const filteredWidgets = currentWidget
-    ? WIDGETS.filter((widget) => widget.appId === currentWidget.appId).map((widget) => ({
-        ...widget,
+    ? WIDGETS.filter((widget) => widget.appId === currentWidget.appId).map((widget): WidgetWithLayout => ({
+        id: widget.id,
+        appId: widget.appId,
+        name: widget.name,
+        description: widget.description,
+        component: widget.component,
+        preview: widget.preview,
+        paramsSchema: widget.paramsSchema,
+        defaultParams: widget.defaultParams,
+        paramsMetadata: widget.paramsMetadata ? Object.fromEntries(
+          Object.entries(widget.paramsMetadata)
+            .filter(([_, value]) => value !== undefined)
+        ) as Record<string, ParamMetadata> : undefined,
         layout: { x: 0, y: 0, w: 10, h: 3, i: widget.id || String(Date.now()) },
         visible: true,
       }))
@@ -66,8 +98,22 @@ export default function WidgetDrawer({ onAdd }: { onAdd: (widget: ExtendedWidget
     setShowParamsEditor(true);
   };
 
-  const handleAddWidget = (widget: Widget) => {
+  const handleAddWidget = (widget: WidgetWithLayout) => {
     if (!widget) return;
+    
+    // Normalize paramsMetadata to ensure type compatibility
+    const normalizedParamsMetadata: Record<string, ParamMetadata> = {};
+    if (widget.paramsMetadata) {
+      Object.entries(widget.paramsMetadata).forEach(([key, value]) => {
+        if (value) {
+          normalizedParamsMetadata[key] = {
+            label: value.label || key,
+            description: value.description || '',
+            placeholder: value.placeholder || '',
+          };
+        }
+      });
+    }
     
     const extendedWidget: ExtendedWidget = {
       ...widget,
@@ -76,7 +122,8 @@ export default function WidgetDrawer({ onAdd }: { onAdd: (widget: ExtendedWidget
       preview: params && Object.keys(params).length > 0 
         ? React.createElement(widget.component as React.ComponentType<any>, params)
         : widget.preview,
-      props: params
+      props: params,
+      paramsMetadata: normalizedParamsMetadata
     } as ExtendedWidget;
 
     onAdd(extendedWidget);
@@ -149,12 +196,10 @@ export default function WidgetDrawer({ onAdd }: { onAdd: (widget: ExtendedWidget
               {showParamsEditor && currentWidgetDef?.defaultParams ? (
                 <div className="flex flex-col gap-3 px-3 py-2 max-w-[400px] mx-auto">
                   {Object.entries(currentWidgetDef.defaultParams).map(([key, value]) => {
-                    type ParamsType = typeof currentWidgetDef.defaultParams;
-                    type MetadataType = typeof currentWidgetDef.paramsMetadata;
-                    
-                    const metadata = (currentWidgetDef.paramsMetadata as Record<string, { label: string; description: string; placeholder?: string }>)?.[key as keyof typeof currentWidgetDef.defaultParams] || {
+                    const metadata = currentWidgetDef.paramsMetadata?.[key] || {
                       label: key.charAt(0).toUpperCase() + key.slice(1),
                       description: '',
+                      placeholder: ''
                     };
                     
                     return (
@@ -172,7 +217,7 @@ export default function WidgetDrawer({ onAdd }: { onAdd: (widget: ExtendedWidget
                             ...prev,
                             [key]: e.target.value
                           }))}
-                          placeholder={metadata.placeholder}
+                          placeholder={metadata.placeholder || ''}
                           className="bg-white border-gray-300 text-black placeholder:text-gray-500 rounded-lg"
                         />
                       </div>

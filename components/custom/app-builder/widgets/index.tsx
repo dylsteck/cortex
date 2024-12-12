@@ -20,6 +20,12 @@ export type App = {
     description: string;
 }
 
+export type ParamMetadata = {
+    label: string;
+    description?: string;
+    placeholder?: string;
+}
+
 export type Widget<T = any> = {
     id: string;
     appId: typeof APPS[number]['id']
@@ -27,11 +33,7 @@ export type Widget<T = any> = {
     description: string;
     defaultParams?: T;
     paramsSchema?: z.ZodType<T>;
-    paramsMetadata?: Record<keyof T, {
-        label: string;
-        description?: string;
-        placeholder?: string;
-    }>;
+    paramsMetadata?: Record<string, ParamMetadata>;
     preview: React.ReactNode;
     component: React.ComponentType<T>;
 }
@@ -80,7 +82,14 @@ export const WIDGETS = [
         defaultParams: {
             text: 'Example text'
         },
-        paramsSchema: textWidgetSchema
+        paramsSchema: textWidgetSchema,
+        paramsMetadata: {
+            text: {
+                label: 'Text Content',
+                description: 'The text content to display',
+                placeholder: 'Enter your text here'
+            }
+        }
     },
     {
         id: 'general-image',
@@ -92,7 +101,14 @@ export const WIDGETS = [
         defaultParams: {
             imageUrl: 'https://i.imgur.com/uAvnFSF.png'
         },
-        paramsSchema: imageWidgetSchema
+        paramsSchema: imageWidgetSchema,
+        paramsMetadata: {
+            imageUrl: {
+                label: 'Image URL',
+                description: 'The URL of the image to display',
+                placeholder: 'https://example.com/image.jpg'
+            }
+        }
     },
     {
         id: 'farcaster-cast',
@@ -106,7 +122,14 @@ export const WIDGETS = [
         },
         paramsSchema: z.object({
             castUrl: z.string().url('Must be a valid Warpcast URL')
-        })
+        }),
+        paramsMetadata: {
+            castUrl: {
+                label: 'Cast URL',
+                description: 'The Warpcast URL of the cast to display',
+                placeholder: 'https://warpcast.com/username/hash'
+            }
+        }
     },
     {
         id: 'farcaster-feed',
@@ -120,7 +143,14 @@ export const WIDGETS = [
         },
         paramsSchema: z.object({
             fid: z.string().min(1, 'FID is required')
-        })
+        }),
+        paramsMetadata: {
+            fid: {
+                label: 'Farcaster ID',
+                description: 'The Farcaster ID (FID) of the user',
+                placeholder: '616'
+            }
+        }
     },
     {
         id: 'icebreaker-profile',
@@ -135,7 +165,14 @@ export const WIDGETS = [
         },
         paramsSchema: z.object({
             fid: z.string().min(1, 'FID is required')
-        })
+        }),
+        paramsMetadata: {
+            fid: {
+                label: 'Farcaster ID',
+                description: 'The Farcaster ID (FID) to show the profile for',
+                placeholder: '616'
+            }
+        }
     },
     {
         id: 'icebreaker-socials',
@@ -149,7 +186,14 @@ export const WIDGETS = [
         },
         paramsSchema: z.object({
             fid: z.string().min(1, 'FID is required')
-        })
+        }),
+        paramsMetadata: {
+            fid: {
+                label: 'Farcaster ID',
+                description: 'The Farcaster ID (FID) to show social profiles for',
+                placeholder: '616'
+            }
+        }
     },
     {
         id: 'nouns-builder-proposals',
@@ -163,7 +207,14 @@ export const WIDGETS = [
         },
         paramsSchema: z.object({
             contractAddress: z.string().min(42, 'Must be a valid Ethereum address').max(42, 'Must be a valid Ethereum address')
-        })
+        }),
+        paramsMetadata: {
+            contractAddress: {
+                label: 'Contract Address',
+                description: 'The Ethereum address of the Nouns Builder DAO contract',
+                placeholder: '0x...'
+            }
+        }
     },
     {
         id: 'nft-mint',
@@ -198,6 +249,13 @@ export const WIDGETS = [
         },
         paramsSchema: z.object({
             platform: z.enum(['clanker', 'wow']).optional()
-        })
+        }),
+        paramsMetadata: {
+            platform: {
+                label: 'Platform',
+                description: 'The platform to deploy the token on',
+                placeholder: 'clanker'
+            }
+        }
     }
 ];
