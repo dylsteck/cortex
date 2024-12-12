@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { z } from 'zod';
 
 import { Widget } from '../widget';
@@ -9,10 +9,23 @@ interface TextWidgetProps {
 }
 
 export function TextWidget({ text, className }: TextWidgetProps) {
+  const [editableText, setEditableText] = useState(text);
+
+  const handleInput = (event: React.FormEvent<HTMLDivElement>) => {
+    setEditableText(event.currentTarget.textContent || '');
+  };
+
   return (
     <Widget className={className}>
       <div className="p-4">
-        <p className="text-base">{text}</p>
+        <div
+          className="text-base"
+          contentEditable
+          suppressContentEditableWarning
+          onInput={handleInput}
+        >
+          {editableText || 'Add note...'}
+        </div>
       </div>
     </Widget>
   );

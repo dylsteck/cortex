@@ -78,9 +78,9 @@ export const WIDGETS = [
         name: 'Text',
         description: 'Add text content with consistent styling',
         component: TextWidget,
-        preview: <TextWidget text="Example text widget" />,
+        preview: <TextWidget text="Add note..." />,
         defaultParams: {
-            text: 'Example text'
+            text: 'Add note...'
         },
         paramsSchema: textWidgetSchema,
         paramsMetadata: {
@@ -97,9 +97,9 @@ export const WIDGETS = [
         name: 'Image',
         description: 'Display an image from a URL',
         component: ImageWidget,
-        preview: <ImageWidget imageUrl="https://i.imgur.com/uAvnFSF.png" />,
+        preview: <ImageWidget imageUrl="https://i.imgur.com/dZdkcm6.jpeg" />,
         defaultParams: {
-            imageUrl: 'https://i.imgur.com/uAvnFSF.png'
+            imageUrl: 'https://i.imgur.com/dZdkcm6.jpeg'
         },
         paramsSchema: imageWidgetSchema,
         paramsMetadata: {

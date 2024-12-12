@@ -4,11 +4,11 @@ export async function GET() {
   const config = {
     "accountAssociation": {
       "header": "eyJmaWQiOjYxNiwidHlwZSI6ImN1c3RvZHkiLCJrZXkiOiIweDVFNzlGNjkwY2NENDIwMDdENUEwYUQ2NzhDRDQ3NDc0MzM5NDAwRTMifQ",
-      "payload": "eyJkb21haW4iOiJ3d3cud2l0aGNvcnRleC5jb20ifQ",
-      "signature": "MHg2YjA1ZjMwZGI1NWE5MDU2MmNlNjYwNWFjY2M3OGI0ODAyZWNjZTYyNjc0YjFmZDZkM2E4MmU5YTY1NzllNTgwMjE2NDE0MTExYWIwOTU5ZjJiNjE0YzdlYWNiMWFkY2E1YzljNjBjMTMxNDI3NGU0NzRjOGFkNjQ1NDBmNTJiNzFj"
+      "payload": "eyJkb21haW4iOiJ3aXRoY29ydGV4LmNvbSJ9",
+      "signature": "MHhiNWQwM2EyMGFjM2I1NDJkYWY0M2I3Y2NiODkzMDJhMTZkMzM5YTQwMjRjYzdkNzYxN2Q5ZGIwYTQ5YzVmYTEyMGJmYTEwNjBlZTZmMDg3MWQ3OTM2YTI4ODZjMjM0MjViMDk4OGE1MjlkNzVlMDUwNWVkOTE4MDZlMDE1ZjNlYjFj"
     },
     frame: {
-      version: "0.0.0",
+      version: "0.0.1",
       name: "Cortex",
       iconUrl: ICON_IMG_URL,
       splashImageUrl: ICON_IMG_URL,
