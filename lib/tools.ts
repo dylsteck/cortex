@@ -172,6 +172,24 @@ export const tools = {
       return profilesData;
     },
   }),
+  getEthAddressTimeline: tool({
+    description: 'Get the timeline of activity for an Ethereum wallet by address or ENS name',
+    parameters: z.object({
+      identifier: z.string(),
+    }),
+    execute: async ({ identifier }) => {
+      const isEnsName = identifier.endsWith('.eth');
+      if(isEnsName){
+        const ensData = await cortexAPI.getEnsName(identifier);
+        const address = ensData.address
+        const timelineData = await cortexAPI.getEthAddressTimeline(address);
+        return timelineData.data.accountsTimeline.edges;
+      } else{
+        const timelineData = await cortexAPI.getEthAddressTimeline(identifier);
+        return timelineData.data.accountsTimeline.edges;
+      }
+    },
+  }),
   getLivestreams: tool({
     description: 'Get current Farcaster livestreams',
     parameters: z.object({}),

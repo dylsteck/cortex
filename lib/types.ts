@@ -481,3 +481,50 @@ export type ENSData = {
     eth: string;
   };
 }
+
+// ============================================================================
+// Zapper Data Types
+// ============================================================================
+
+export type ZapperAccountsTimelineResponse = {
+    data: {
+      accountsTimeline: {
+        edges: Array<{
+          node: {
+            transaction: {
+              hash: string;
+              fromUser: {
+                address: string;
+                displayName: {
+                  value: string;
+                };
+                ensRecord: {
+                  name: string | null;
+                };
+              };
+              toUser: {
+                address: string;
+                displayName: {
+                  value: string;
+                };
+                ensRecord: {
+                  name: string | null;
+                } | null;
+              };
+              network: string;
+              timestamp: number;
+              transactionPrice: number;
+              transactionFee: number;
+              value: string;
+              input: string;
+              gasPrice: string;
+              gas: number;
+            };
+            interpretation: {
+              processedDescription: string;
+            };
+          };
+        }>;
+      };
+    };
+};

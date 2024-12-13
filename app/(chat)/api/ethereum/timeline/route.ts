@@ -27,22 +27,46 @@ export async function GET(request: Request) {
     }
 
     const query = `
-      query($addresses: [Address!], $realtimeInterpretation: Boolean, $isSigner: Boolean) {
-        accountsTimeline(addresses: $addresses, realtimeInterpretation: $realtimeInterpretation, isSigner: $isSigner) {
+      query (
+        $addresses: [Address!],
+        $realtimeInterpretation: Boolean,
+        $isSigner: Boolean
+      ) {
+        accountsTimeline (
+          addresses: $addresses,
+          realtimeInterpretation: $realtimeInterpretation,
+          isSigner: $isSigner
+        ) {
           edges {
             node {
               transaction {
+                hash
                 fromUser {
                   address
                   displayName {
                     value
                   }
+                  ensRecord {
+                    name
+                  }
                 }
                 toUser {
+                  address
                   displayName {
                     value
                   }
+                  ensRecord {
+                    name
+                  }
                 }
+                network
+                timestamp
+                transactionPrice
+                transactionFee
+                value
+                input
+                gasPrice
+                gas
               }
               interpretation {
                 processedDescription

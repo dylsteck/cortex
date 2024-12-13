@@ -8,7 +8,7 @@ import { Weather } from './weather';
 import { WebResults } from './web-results';
 import WowTrendingTokens from './wow-trending-tokens';
 import { Skeleton } from '../ui/skeleton';
-
+import EthTimeline from './app-builder/widgets/ethereum/eth-timeline';
 
 export const Tool = ({ result, toolName }: {result: any, toolName: string}) => {
     return (
@@ -31,6 +31,8 @@ export const Tool = ({ result, toolName }: {result: any, toolName: string}) => {
           <FarcasterLivestreams livestreams={result} />
         ) : toolName === 'webSearch' ? (
           <WebResults results={result} />
+        ) : toolName === 'getEthAddressTimeline' ? (
+          <EthTimeline timeline={result} />
         ) : (toolName === 'getIcebreakerFCUser' || 
              toolName === 'getIcebreakerEthProfile' || 
              toolName === 'getIcebreakerCredentialProfiles') ? (
@@ -61,6 +63,8 @@ export const ToolPreview = ({ toolName }: {toolName: string}) => {
           <FarcasterLivestreamsWrapper />
         ) : toolName === 'webSearch' ? (
           <WebResults />
+        ) : toolName === 'getEthAddressTimeline' ? (
+          <EthTimeline />
         ) 
         // : (toolName === 'getIcebreakerFCUser' || 
         //      toolName === 'getIcebreakerEthProfile' || 
