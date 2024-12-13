@@ -3,6 +3,8 @@
 import { useEffect, useState, useCallback, memo } from "react";
 import { FarcasterEmbed } from "react-farcaster-embed/dist/client";
 
+import { fetcher } from "@/lib/utils";
+
 import { Widget } from "../widget";
 
 import "react-farcaster-embed/dist/styles.css";
@@ -230,11 +232,7 @@ export default function FarcasterFeed({ fid }: FarcasterFeedProps) {
 
   const fetchCasts = useCallback(async () => {
     try {
-      const response = await fetch(`/api/farcaster/feed/user/casts?fid=${fid}`);
-      if (!response.ok) {
-        throw new Error('Failed to fetch casts');
-      }
-      const data = await response.json();
+      const data = await fetcher(`/api/farcaster/feed/user/casts?fid=${fid}`);
       setCasts(data.casts || []);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to fetch casts');
