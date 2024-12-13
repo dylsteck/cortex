@@ -58,13 +58,11 @@ export const authMiddleware = (session: Session | null, url: Request['url'], hea
   // }
 }
 
-// TODO: fix fetcher, which should be used in `lib/api`
-export const fetcher = async (url: string) => {
-  const res = await fetch(url);
-
+export const fetcher = async (url: string, options?: RequestInit) => {
+  const res = await fetch(url, options);
   if (!res.ok) {
     const error = new Error(
-      "An error occurred while fetching the data.",
+      "An error occurred while fetching the data."
     ) as ApplicationError;
 
     error.info = await res.json();
@@ -72,8 +70,8 @@ export const fetcher = async (url: string) => {
 
     throw error;
   }
-
-  return res.json();
+  const json = await res.json();
+  return json;
 };
 
 export function getLocalStorage(key: string) {

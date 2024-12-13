@@ -1,4 +1,4 @@
-import { BASE_URL, redis } from "./utils"
+import { BASE_URL, redis, fetcher } from "./utils"
 
 class CortexAPI {
   private BASE_URL: string
@@ -8,19 +8,14 @@ class CortexAPI {
   }
 
   async castSearch(query: string): Promise<any> {
-    const response = await fetch(`${this.BASE_URL}/api/farcaster/cast/search?q=${query}`)
-    if (!response.ok) throw new Error('Failed to perform cast search')
-    const json = await response.json()
-    return json
+    return await fetcher(`${this.BASE_URL}/api/farcaster/cast/search?q=${query}`)
   }
 
   async getBounties(status: string = "all", eventsSince: string = new Date(new Date(Date.now()).setDate(new Date(Date.now()).getDate() - 10)).toISOString()): Promise<any> {
     const url = new URL(`${this.BASE_URL}/api/farcaster/bounties`);
     url.searchParams.append("status", status);
     url.searchParams.append("eventsSince", eventsSince);
-    const response = await fetch(url.toString());
-    if (!response.ok) throw new Error('Failed to fetch bounties');
-    return response.json();
+    return await fetcher(url.toString());
   }
 
   async getChannelsCasts(params: {
@@ -39,50 +34,31 @@ class CortexAPI {
       }
     });
 
-    const response = await fetch(url.toString());
-    if (!response.ok) throw new Error(`Failed to fetch casts for channels ${params.channel_ids}`);
-    const json = await response.json();
-    return json;
+    return await fetcher(url.toString());
   }
 
   async getClankerTokens(page?: number): Promise<any>{
-    const response = await fetch(`${this.BASE_URL}/api/clanker/tokens${page ? `?page=${page}` : ''}`)
-    if (!response.ok) throw new Error('Failed to fetch Clanker tokens')
-    const json = await response.json();
-    return json
+    return await fetcher(`${this.BASE_URL}/api/clanker/tokens${page ? `?page=${page}` : ''}`)
   }
 
   async getClankerTrendingTokens(): Promise<any>{
-    const response = await fetch(`${this.BASE_URL}/api/clanker/tokens/trending`)
-    if (!response.ok) throw new Error('Failed to fetch Clanker trending tokens')
-    const json = await response.json();
-    return json
+    return await fetcher(`${this.BASE_URL}/api/clanker/tokens/trending`)
   }
 
   async getEnsName(ensName: string): Promise<any> {
-    const response = await fetch(`${this.BASE_URL}/api/ethereum/ens/${ensName}`)
-    if (!response.ok) throw new Error('Failed to fetch ENS name')
-    const json = await response.json();
-    return json
+    return await fetcher(`${this.BASE_URL}/api/ethereum/ens/${ensName}`)
   }
 
   async getEthAddressTimeline(address: string): Promise<any> {
-    const response = await fetch(`${this.BASE_URL}/api/ethereum/timeline?address=${address}`)
-    if (!response.ok) throw new Error('Failed to fetch Ethereum address timeline')
-    const json = await response.json()
-    return json
+    return await fetcher(`${this.BASE_URL}/api/ethereum/timeline?address=${address}`)
   }
 
   async getEvent(id?: string, name?: string): Promise<any> {
     if ((!id && !name) || (id && name)) throw new Error('Provide either id or name')
     if (id) {
-      const response = await fetch(`${this.BASE_URL}/api/farcaster/event/${id}`)
-      if (!response.ok) throw new Error('Failed to fetch Farcaster event')
-      return response.json()
+      return await fetcher(`${this.BASE_URL}/api/farcaster/event/${id}`)
     }
-    const eventsResponse = await fetch(`${this.BASE_URL}/api/farcaster/events`)
-    if (!eventsResponse.ok) throw new Error('Failed to fetch Farcaster events')
-    const events = await eventsResponse.json()
+    const events = await fetcher(`${this.BASE_URL}/api/farcaster/events`)
     const event = events.find((e: any) => e.title === name)
     if (!event) throw new Error('Event not found')
     return event;
@@ -92,48 +68,31 @@ class CortexAPI {
     if (!name || name.length === 0) {
       throw new Error("Channel name is required");
     }
-    const response = await fetch(`${this.BASE_URL}/api/farcaster/events/channel/${name}`)
-    if (!response.ok) throw new Error('Failed to fetch Farcaster events')
-    const json = await response.json();
-    return json
+    return await fetcher(`${this.BASE_URL}/api/farcaster/events/channel/${name}`)
   }
 
   async getEvents(): Promise<any> {
-    const response = await fetch(`${this.BASE_URL}/api/farcaster/events`)
-    if (!response.ok) throw new Error('Failed to fetch Farcaster events')
-    const json = await response.json();
-    return json
+    return await fetcher(`${this.BASE_URL}/api/farcaster/events`)
   }
 
   async getFarcasterToken(name: string): Promise<any>{
     if (!name || name.length === 0) {
       throw new Error("Token name is required");
     }
-    const response = await fetch(`${this.BASE_URL}/api/farcaster/tokens/${name}`)
-    if (!response.ok) throw new Error('Failed to fetch Farcaster token info')
-    const json = await response.json();
-    return json
+    return await fetcher(`${this.BASE_URL}/api/farcaster/tokens/${name}`)
   }
 
   async getFarcasterTokens(): Promise<any>{
-    const response = await fetch(`${this.BASE_URL}/api/farcaster/tokens`)
-    if (!response.ok) throw new Error('Failed to fetch Farcaster tokens')
-    const json = await response.json();
-    return json
+    return await fetcher(`${this.BASE_URL}/api/farcaster/tokens`)
   }
 
   async getFarcasterUser(username: string): Promise<any> {
-    const response = await fetch(`${this.BASE_URL}/api/farcaster/user?username=${username}`)
-    if (!response.ok) throw new Error('Failed to fetch Farcaster user data')
-    const json = await response.json()
-    return json.result.user
+    const result = await fetcher(`${this.BASE_URL}/api/farcaster/user?username=${username}`)
+    return result.result.user
   }
 
   async getFarcasterUserCasts(fid: number): Promise<any> {
-    const response = await fetch(`${this.BASE_URL}/api/farcaster/feed/user/casts?fid=${fid}`)
-    if (!response.ok) throw new Error('Failed to fetch Farcaster user casts')
-    const json = await response.json()
-    return json;
+    return await fetcher(`${this.BASE_URL}/api/farcaster/feed/user/casts?fid=${fid}`)
   }
 
   async getFarcasterUsersByLocation(latitude: number, longitude: number, viewer_fid?: number, limit: number = 25): Promise<any> {
@@ -146,37 +105,21 @@ class CortexAPI {
       url.searchParams.append("viewer_fid", viewer_fid.toString());
     }
   
-    const response = await fetch(url.toString(), {
-      method: "GET",
-      headers: {
-        'accept': 'application/json'
-      }
-    });
-  
-    if (!response.ok) {
-      throw new Error(`Failed to fetch data from API route: ${response.status}`);
-    }
-  
-    return await response.json();
+    return await fetcher(url.toString())
   }  
 
   async getIcebreakerCredentialProfiles(credentialName: string, limit: number = 100, offset: number = 3): Promise<any> {
     if (!credentialName || credentialName.length === 0) {
       throw new Error("Credential name is required");
     }
-    const response = await fetch(`${this.BASE_URL}/api/icebreaker/credentials?credentialName=${credentialName}&limit=${limit}&offset=${offset}`)
-    if (!response.ok) throw new Error('Failed to fetch Icebreaker credential profiles')
-    const json = await response.json();
-    return json
+    return await fetcher(`${this.BASE_URL}/api/icebreaker/credentials?credentialName=${credentialName}&limit=${limit}&offset=${offset}`)
   }
 
   async getIcebreakerEnsProfile(ensName: string): Promise<any> {
     if (!ensName || ensName.length === 0) {
       throw new Error("ENS name is required");
     }
-    const response = await fetch(`${this.BASE_URL}/api/icebreaker/ens?ensName=${ensName}`)
-    if (!response.ok) throw new Error('Failed to fetch Icebreaker ENS profile')
-    const json = await response.json();
+    const json = await fetcher(`${this.BASE_URL}/api/icebreaker/ens?ensName=${ensName}`)
     return json.profiles[0];
   }
 
@@ -184,10 +127,7 @@ class CortexAPI {
     if (!walletAddress || walletAddress.length === 0) {
       throw new Error("Wallet address is required");
     }
-    const response = await fetch(`${this.BASE_URL}/api/icebreaker/eth?walletAddress=${walletAddress}}`)
-    if (!response.ok) throw new Error('Failed to fetch Icebreaker ETH address profile')
-    const json = await response.json();
-    return json
+    return await fetcher(`${this.BASE_URL}/api/icebreaker/eth?walletAddress=${walletAddress}}`)
   }
 
   async getIcebreakerEthProfile(identifier: string): Promise<any> {
@@ -204,76 +144,46 @@ class CortexAPI {
   }
 
   async getIcebreakerFCUser(fname: string): Promise<any> {
-    return this.getIcebreakerFnameProfile(fname);
+    return await fetcher(`${this.BASE_URL}/api/icebreaker/fc?fname=${fname}`)
   }
 
   async getIcebreakerFidProfile(fid: number): Promise<any> {
-    if (!fid || isNaN(fid)) {
-      throw new Error("Fid is required and must be a number");
-    }
-    const response = await fetch(`${this.BASE_URL}/api/icebreaker/fid/${encodeURIComponent(fid)}`)
-    if (!response.ok) throw new Error('Failed to fetch Icebreaker FID profile')
-    const json = await response.json();
-    return json
+    return await fetcher(`${this.BASE_URL}/api/icebreaker/fid?fid=${fid}`)
   }
 
   async getIcebreakerFnameProfile(fname: string): Promise<any> {
-    if (!fname || fname.length === 0) {
-      throw new Error("Fname is required");
-    }
-    const response = await fetch(`${this.BASE_URL}/api/icebreaker/fname/${encodeURIComponent(fname)}`)
-    if (!response.ok) throw new Error('Failed to fetch Icebreaker fname profile')
-    const json = await response.json();
-    return json
+    return await fetcher(`${this.BASE_URL}/api/icebreaker/fname?fname=${fname}`)
   }
 
   async getIcebreakerProfile(fname?: string, fid?: string): Promise<any> {
-    if (!fname && !fid) {
-      throw new Error("Either fname or fid must be provided");
-    }
-    const endpoint = fname ? `/api/icebreaker/fname?fname=${fname}` : `/api/icebreaker/fid?fid=${fid}`;
-    const response = await fetch(`${this.BASE_URL}${endpoint}`);
-    if (!response.ok) throw new Error('Failed to fetch Icebreaker profile');
-    const data = await response.json();
-    return data.profiles?.[0] ?? null;
+    const url = new URL(`${this.BASE_URL}/api/icebreaker/profile`);
+    if (fname) url.searchParams.append('fname', fname);
+    if (fid) url.searchParams.append('fid', fid);
+    return await fetcher(url.toString())
   }
 
   async getLivestreams(): Promise<any> {
-    const response = await fetch(`${this.BASE_URL}/api/farcaster/streams/live`)
-    if (!response.ok) throw new Error('Failed to fetch livestreams')
-    const json = await response.json()
-    return json
+    return await fetcher(`${this.BASE_URL}/api/livestreams`)
   }
 
   async getNounsBuilderProposals(contractAddress: string, first?: number, skip?: number): Promise<any> {
-    if (!contractAddress || contractAddress.length === 0) {
-        throw new Error("Contract address is required");
-    }
-    const response = await fetch(`${this.BASE_URL}/api/nouns-builder/proposals?contractAddress=${contractAddress}${first ? `&first=${first}` : ''}${skip ? `&skip=${skip}` : ''}`);
-    if (!response.ok) throw new Error('Failed to fetch Nouns Builder proposals');
-    const json = await response.json();
-    return json;
+    const url = new URL(`${this.BASE_URL}/api/nouns/proposals`);
+    url.searchParams.append('contractAddress', contractAddress);
+    if (first !== undefined) url.searchParams.append('first', first.toString());
+    if (skip !== undefined) url.searchParams.append('skip', skip.toString());
+    return await fetcher(url.toString())
   }
 
   async getTrendingCasts(): Promise<any> {
-    const response = await fetch(`${this.BASE_URL}/api/farcaster/feed/trending`)
-    if (!response.ok) throw new Error('Failed to fetch trending casts')
-    const json = await response.json()
-    return json
+    return await fetcher(`${this.BASE_URL}/api/farcaster/trending/casts`)
   }
 
   async getWeather(latitude: number, longitude: number): Promise<any> {
-    const response = await fetch(`${this.BASE_URL}/api/weather?latitude=${latitude}&longitude=${longitude}`)
-    if (!response.ok) throw new Error('Failed to fetch weather forecast data')
-    const json = await response.json()
-    return json
+    return await fetcher(`${this.BASE_URL}/api/weather?latitude=${latitude}&longitude=${longitude}`)
   }
 
   async getWowTrendingTokens(): Promise<any> {
-    const response = await fetch(`${this.BASE_URL}/api/wow/trending`)
-    if (!response.ok) throw new Error('Failed to fetch Wow trending tokens')
-    const json = await response.json()
-    return json
+    return await fetcher(`${this.BASE_URL}/api/wow/tokens/trending`)
   }
 
   async webSearch(
@@ -283,12 +193,15 @@ class CortexAPI {
     includeDomains: string[] = [],
     excludeDomains: string[] = []
   ): Promise<any> {
-    const response = await fetch(
-      `${this.BASE_URL}/api/search?query=${encodeURIComponent(query)}&maxResults=${maxResults}&searchDepth=${searchDepth}&includeDomains=${includeDomains.join(",")}&excludeDomains=${excludeDomains.join(",")}`
-    )
-    if (!response.ok) throw new Error('Failed to perform web search')
-    const json = await response.json()
-    return json
+    const url = new URL(`${this.BASE_URL}/api/web/search`);
+    url.searchParams.append('query', query);
+    url.searchParams.append('maxResults', maxResults.toString());
+    url.searchParams.append('searchDepth', searchDepth);
+    
+    includeDomains.forEach(domain => url.searchParams.append('includeDomains', domain));
+    excludeDomains.forEach(domain => url.searchParams.append('excludeDomains', domain));
+
+    return await fetcher(url.toString())
   }
 }
 

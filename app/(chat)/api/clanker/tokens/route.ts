@@ -1,5 +1,5 @@
 import { auth } from "@/app/(auth)/auth";
-import { authMiddleware, CLANKER_API_URL, redis } from "@/lib/utils";
+import { authMiddleware, CLANKER_API_URL, redis, fetcher } from "@/lib/utils";
 
 export async function GET(request: Request) {
   const session = await auth();
@@ -20,10 +20,12 @@ export async function GET(request: Request) {
   const cacheKey = `clanker:tokens:${sort}=desc&page=${page}&type=${type}`;
   let data = await redis.get(cacheKey);
   if (!data) {
-    const response = await fetch(url.toString());
-    if (!response.ok) return new Response("Failed to fetch data from Clanker API!", { status: response.status });
-    data = await response.json();
-    await redis.set(cacheKey, JSON.stringify(data), { ex: 30 * 60 });
+    try {
+      data = await fetcher(url.toString());
+      await redis.set(cacheKey, JSON.stringify(data), { ex: 30 * 60 });
+    } catch (error) {
+      return new Response("Failed to fetch data from Clanker API!", { status: 500 });
+    }
   } else if (typeof data === "string") {
     data = JSON.parse(data);
   }

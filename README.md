@@ -24,6 +24,7 @@ The core foundation of Cortex is built on top of:
 ## Tools
 Cortex leverages LLM tool calling to power the core of its functionality. The following tools are currently supported:
 - [Farcaster](https://farcaster.xyz) (using [Neynar APIs](https://neynar.com))
+- [ENS Data](https://ensdata.net)
 - [Events.xyz](https://events.xyz)
 - [Bountycaster](https://bountycaster.com)
 - [Icebreaker](https://icebreaker.xyz)
@@ -32,6 +33,7 @@ Cortex leverages LLM tool calling to power the core of its functionality. The fo
 - [Wow](https://wow.xyz)
 - [Tavily](https://tavily.com)
 - [Open-Meteo](https://open-meteo.com)
+- [Zapper](https://zapper.xyz)
 
 For a further understanding of how the assistant tools are defined / to learn how to add your own tool, check out [tools.ts](/lib/tools.ts)
 
