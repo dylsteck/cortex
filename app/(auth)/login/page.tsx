@@ -7,6 +7,7 @@ import { toast } from "sonner";
 
 import { CortexIcon } from "@/components/custom/icons";
 import SignInWithNeynar, { SIWNResponseData } from "@/components/custom/sign-in-with-neynar";
+import { AuthData } from "@/lib/types";
 
 import { login } from "../actions";
 
@@ -15,7 +16,16 @@ export default function Page() {
 
   const handleSubmit = async (siwnData: SIWNResponseData) => {
     try {
-      const result = await login(siwnData);
+      const loginData: AuthData = {
+        fid: siwnData.fid,
+        username: siwnData.user.username,
+        name: siwnData.user.display_name,
+        bio: siwnData.user.profile.bio.text,
+        verified_address: siwnData.user.verifications[0],
+        signer_uuid: siwnData.signer_uuid,
+        pfp_url: siwnData.user.pfp_url
+      };
+      const result = await login(loginData);
       if (result.status === "failed") {
         toast.error("Invalid credentials!");
       } else if (result.status === "invalid_data") {

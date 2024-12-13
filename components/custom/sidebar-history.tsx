@@ -90,14 +90,14 @@ export function SidebarHistory({ user }: { user: User | undefined }) {
     return (
       <SidebarGroup>
         <SidebarMenu className="mb-5">
-          <SidebarMenuItem>
+          {/* <SidebarMenuItem>
             <Link href="/">
               <SidebarMenuButton>
                 <HomeIcon size={10} />
                 <span>Home</span>
               </SidebarMenuButton>
             </Link>
-          </SidebarMenuItem>
+          </SidebarMenuItem> */}
           <SidebarMenuItem>
             <Link href="/chat">
               <SidebarMenuButton>
@@ -106,14 +106,14 @@ export function SidebarHistory({ user }: { user: User | undefined }) {
               </SidebarMenuButton>
             </Link>
           </SidebarMenuItem>
-          <SidebarMenuItem>
+          {/* <SidebarMenuItem>
             <Link href="/frame">
               <SidebarMenuButton>
                 <PlusIcon size={10} />
                 <span>New Frame</span>
               </SidebarMenuButton>
             </Link>
-          </SidebarMenuItem>
+          </SidebarMenuItem> */}
           {/* <SidebarMenuItem>
             <Link href="/profile">
               <SidebarMenuButton>
@@ -138,14 +138,14 @@ export function SidebarHistory({ user }: { user: User | undefined }) {
     return (
       <SidebarGroup>
        <SidebarMenu className="mb-5">
-        <SidebarMenuItem>
+        {/* <SidebarMenuItem>
             <Link href="/">
               <SidebarMenuButton>
                 <HomeIcon size={10} />
                 <span>Home</span>
               </SidebarMenuButton>
             </Link>
-          </SidebarMenuItem>
+          </SidebarMenuItem> */}
           <SidebarMenuItem>
             <Link href="/chat">
               <SidebarMenuButton>
@@ -154,14 +154,14 @@ export function SidebarHistory({ user }: { user: User | undefined }) {
               </SidebarMenuButton>
             </Link>
           </SidebarMenuItem>
-          <SidebarMenuItem>
+          {/* <SidebarMenuItem>
             <Link href="/frame">
               <SidebarMenuButton>
                 <PlusIcon size={10} />
                 <span>New Frame</span>
               </SidebarMenuButton>
             </Link>
-          </SidebarMenuItem>
+          </SidebarMenuItem> */}
           {/* <SidebarMenuItem>
             <Link href="/profile">
               <SidebarMenuButton>
@@ -199,14 +199,14 @@ export function SidebarHistory({ user }: { user: User | undefined }) {
     return (
       <SidebarGroup>
         <SidebarMenu className="mb-5">
-          <SidebarMenuItem>
+          {/* <SidebarMenuItem>
             <Link href="/">
               <SidebarMenuButton>
                 <HomeIcon size={10} />
                 <span>Home</span>
               </SidebarMenuButton>
             </Link>
-          </SidebarMenuItem>
+          </SidebarMenuItem> */}
           <SidebarMenuItem>
             <Link href="/chat">
               <SidebarMenuButton>
@@ -215,14 +215,14 @@ export function SidebarHistory({ user }: { user: User | undefined }) {
               </SidebarMenuButton>
             </Link>
           </SidebarMenuItem>
-          <SidebarMenuItem>
+          {/* <SidebarMenuItem>
             <Link href="/frame">
               <SidebarMenuButton>
                 <PlusIcon size={10} />
                 <span>New Frame</span>
               </SidebarMenuButton>
             </Link>
-          </SidebarMenuItem>
+          </SidebarMenuItem> */}
           {/* <SidebarMenuItem>
             <Link href="/profile">
               <SidebarMenuButton>
@@ -251,14 +251,14 @@ export function SidebarHistory({ user }: { user: User | undefined }) {
     <>
       <SidebarGroup>
         <SidebarMenu className="mb-5">
-          <SidebarMenuItem>
+          {/* <SidebarMenuItem>
             <Link href="/">
               <SidebarMenuButton>
                 <HomeIcon size={10} />
                 <span>Home</span>
               </SidebarMenuButton>
             </Link>
-          </SidebarMenuItem>
+          </SidebarMenuItem> */}
           <SidebarMenuItem>
             <Link href="/chat">
               <SidebarMenuButton>
@@ -267,14 +267,14 @@ export function SidebarHistory({ user }: { user: User | undefined }) {
               </SidebarMenuButton>
             </Link>
           </SidebarMenuItem>
-          <SidebarMenuItem>
+          {/* <SidebarMenuItem>
             <Link href="/frame">
               <SidebarMenuButton>
                 <PlusIcon size={10} />
                 <span>New Frame</span>
               </SidebarMenuButton>
             </Link>
-          </SidebarMenuItem>
+          </SidebarMenuItem> */}
           {/* <SidebarMenuItem>
             <Link href="/profile">
               <SidebarMenuButton>

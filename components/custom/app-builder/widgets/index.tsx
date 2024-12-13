@@ -97,9 +97,9 @@ export const WIDGETS = [
         name: 'Image',
         description: 'Display an image from a URL',
         component: ImageWidget,
-        preview: <ImageWidget imageUrl="https://i.imgur.com/dZdkcm6.jpeg" />,
+        preview: <ImageWidget imageUrl="https://i.imgur.com/Pwf5x4V.png" />,
         defaultParams: {
-            imageUrl: 'https://i.imgur.com/dZdkcm6.jpeg'
+            imageUrl: 'https://i.imgur.com/Pwf5x4V.png'
         },
         paramsSchema: imageWidgetSchema,
         paramsMetadata: {

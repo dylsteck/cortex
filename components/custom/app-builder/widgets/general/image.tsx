@@ -25,14 +25,13 @@ export const imageWidgetSchema = z.object({
 
 export function ImageWidget({ imageUrl, className }: ImageWidgetProps) {
   return (
-    <Widget className={className}>
-      <div className="relative size-full">
+    <Widget className={`${className} !bg-transparent !p-0 !border-0 !shadow-none`}>
+      <div className="relative size-full overflow-hidden rounded-lg">
         <Image
           src={imageUrl}
           alt="Widget image"
           fill
-          style={{ objectFit: 'contain' }}
-          className="p-2"
+          style={{ objectFit: 'cover' }}
         />
       </div>
     </Widget>

@@ -284,6 +284,16 @@ export interface SIWNResponseData {
     error?: string;
 }
 
+export type AuthData = {
+  fid: string;
+  username: string;
+  name: string;
+  bio: string;
+  verified_address?: string;
+  signer_uuid: string;
+  pfp_url: string;
+};
+
 // ============================================================================
 // Bountycaster Types
 // ============================================================================

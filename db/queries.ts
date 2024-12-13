@@ -5,6 +5,7 @@ import { drizzle } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
 
 import { SIWNResponseData } from "@/components/custom/sign-in-with-neynar";
+import { AuthData } from "@/lib/types";
 
 import { user, chat, User } from "./schema";
 
@@ -29,17 +30,9 @@ export async function getUserByFid(fid: number): Promise<Array<User>> {
   }
 }
 
-export async function createUser(userData: SIWNResponseData) {
+export async function createUser(userData: AuthData) {
   try {
-    return await db.insert(user).values({
-        fid: userData.fid,
-        username: userData.user.username,
-        name: userData.user.display_name,
-        bio: userData.user.profile.bio.text,
-        verified_address: userData.user.verifications[0] ?? '',
-        signer_uuid: userData.signer_uuid,
-        pfp_url: userData.user.pfp_url,
-    });
+    return await db.insert(user).values(userData);
   } catch (error) {
     console.error("Failed to create user in database");
     throw error;

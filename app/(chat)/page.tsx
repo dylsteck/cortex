@@ -1,5 +1,6 @@
 "use client"
 import { ChevronUp, ChevronDown } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import React, { useState, useRef, useEffect } from 'react';
 
 import { ChatHeader } from '@/components/custom/chat-header';
@@ -9,6 +10,11 @@ const CONTENT = [1, 2, 3];
 export default function Page() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const scrollContainerRef = useRef<HTMLDivElement | null>(null);
+  const router = useRouter();
+
+  useEffect(() => {
+    router.replace('/chat');
+  }, [router]);
 
   const handlePrev = () => {
     if (currentIndex > 0) {
@@ -34,7 +40,7 @@ export default function Page() {
   return (
     <>
       <ChatHeader />
-      <div
+      {/* <div
         ref={scrollContainerRef}
         className="h-screen w-screen overflow-y-scroll snap-y snap-mandatory bg-transparent relative"
       >
@@ -60,7 +66,7 @@ export default function Page() {
             <ChevronDown className="text-white/70 hover:text-white" size={48} />
           </div>
         </div>
-      </div>
+      </div> */}
     </>
   );
 }
