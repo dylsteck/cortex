@@ -3,15 +3,15 @@
 </a>
 
 <p align="center">
-  An agent and actions built around your Farcaster profile
+  An assistant for Farcaster/onchain data
 </p>
 
-Cortex is an AI assistant for your life that can connect to the web, social platforms like Farcaster, and (soon) your apps to make it easier to get things done quickly online.
+Cortex is an AI assistant built around Farcaster and onchain data to make it easier to find information and take actions. Outputs are optimized to show widgets that the user can use to learn more or take an action directly from the chat(eg. RSVP to an event, take an onchain action, send a message etc).
 
 Built by [Dylan Steck](https://dylansteck.com)
 
-## Tools
-Cortex currently uses:
+## Architecture
+The core foundation of Cortex is built on top of:
 - [Next.js](https://nextjs.org)
 - [shadcn UI](https://ui.shadcn.com)
 - [Drizzle ORM](https://orm.drizzle.team)
@@ -19,13 +19,32 @@ Cortex currently uses:
 - [Vercel AI SDK](https://sdk.vercel.ai)
 - [OpenAI models(currently GPT-4o and 4o mini)](https://platform.openai.com/docs/concepts)
 - [Upstash Redis](https://upstash.com)
-- [Neynar](https://neynar.com)
-- [Events.xyz](https://events.xyz)
-- [Tavily](https://tavily.com)
-- [Open-Meteo](https://open-meteo.com)
 - [NextAuth](https://next-auth.js.org)
 
-For a further understanding of how the assistant tools are defined, check out [tools.ts](/lib/tools.ts)
+## Tools
+Cortex leverages LLM tool calling to power the core of its functionality. The following tools are currently supported:
+- [Farcaster](https://farcaster.xyz) (using [Neynar APIs](https://neynar.com))
+- [Events.xyz](https://events.xyz)
+- [Bountycaster](https://bountycaster.com)
+- [Icebreaker](https://icebreaker.xyz)
+- [Nouns Builder](https://nouns.build)
+- [Clanker](https://clanker.world)
+- [Wow](https://wow.xyz)
+- [Tavily](https://tavily.com)
+- [Open-Meteo](https://open-meteo.com)
+
+For a further understanding of how the assistant tools are defined / to learn how to add your own tool, check out [tools.ts](/lib/tools.ts)
+
+## Contributing
+
+We welcome contributions of all kinds, especially those that introduce new tools/widgets! Here are the main guidelines for contributing:
+
+1. Follow the traditional conventions of the repo(eg: add a new environment variable to `.env.example` if you need to add one, follow the schema for adding other tools, don't add excessive comments, etc)
+2. Check out `tools.ts` for how tools are defined and search the name of a tool to follow its lifecycle(eg. a tool definition, the corresponding API call for it, and the component that handles the UI rendering for that tool)
+3. Open a pull request that succintly describes your changes
+4. If you need help or have questions, feel free to [reach out to me on Farcaster](https://warpcast.com/dylsteck.eth) or tag me in a GitHub discussion
+
+Thanks for your support in making Cortex better!
 
 ## Running locally
 
