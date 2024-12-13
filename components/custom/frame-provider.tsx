@@ -28,7 +28,7 @@ export default function FrameProvider({ children }: { children: React.ReactNode 
             await login(loginData);
           }
           
-          sdk.actions.ready();
+          sdk.actions.ready({ disableNativeGestures: true });
         };
         if (sdk && !isSDKLoaded) {
           setIsSDKLoaded(true);

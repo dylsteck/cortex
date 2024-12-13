@@ -1,6 +1,6 @@
 "use client"
 import { ChevronUp, ChevronDown } from 'lucide-react';
-import { useRouter } from 'next/navigation';
+import { useRouter, redirect } from 'next/navigation';
 import React, { useState, useRef, useEffect } from 'react';
 
 import { ChatHeader } from '@/components/custom/chat-header';
@@ -8,13 +8,13 @@ import { ChatHeader } from '@/components/custom/chat-header';
 const CONTENT = [1, 2, 3];
 
 export default function Page() {
+  if (typeof window !== 'undefined') {
+    redirect('/chat');
+  }
+
   const [currentIndex, setCurrentIndex] = useState(0);
   const scrollContainerRef = useRef<HTMLDivElement | null>(null);
   const router = useRouter();
-
-  useEffect(() => {
-    router.replace('/chat');
-  }, [router]);
 
   const handlePrev = () => {
     if (currentIndex > 0) {
