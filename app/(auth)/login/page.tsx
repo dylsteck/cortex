@@ -49,7 +49,7 @@ export default function Page() {
             <h3 className="text-xl font-semibold dark:text-zinc-50">Cortex</h3>
           </div>
           <p className="text-md text-gray-500 dark:text-zinc-400">
-           An agent and actions built around your Farcaster profile
+            An assistant for Farcaster/onchain data
           </p>
           <div className="pt-3">
             <SignInWithNeynar handleSignInSuccess={(siwnData) => handleSubmit(siwnData)} />
