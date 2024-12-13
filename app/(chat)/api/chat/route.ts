@@ -1,4 +1,4 @@
-import { convertToCoreMessages, Message, streamText } from 'ai';
+import { convertToCoreMessages, Message, smoothStream, streamText } from 'ai';
 import { z } from 'zod';
 
 import { customModel } from '@/ai';
@@ -34,12 +34,13 @@ export async function POST(request: Request) {
     messages: coreMessages,
     maxSteps: 10,
     tools: tools,
-    onFinish: async ({ responseMessages }) => {
+    experimental_transform: smoothStream(),
+    onFinish: async (stepResult) => {
       if (session.user && session.user.id) {
         try {
           await saveChat({
             id,
-            messages: [...coreMessages, ...responseMessages],
+            messages: [...coreMessages, ...stepResult.response.messages],
             userId: session.user.id,
           });
         } catch (error) {
