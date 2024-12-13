@@ -424,3 +424,60 @@ export interface StreammStream {
   betResolverAddress: string;
   betResolverFid: number;
 }
+
+// ============================================================================
+// ENS Data Types
+// ============================================================================
+
+export type ENSData = {
+  address: string;
+  avatar: string;
+  avatar_small: string;
+  avatar_url: string;
+  contentHash: string;
+  ens: string;
+  ens_primary: string;
+  expiry_date: string;
+  farcaster: {
+    custody_address: string;
+    display_name: string;
+    fid: number;
+    follower_count: number;
+    following_count: number;
+    object: string;
+    pfp_url: string;
+    power_badge: boolean;
+    profile: {
+      bio: {
+        text: string;
+      };
+      location: {
+        address: {
+          city: string;
+          country: string;
+          country_code: string;
+          state: string;
+          state_code: string;
+        };
+        latitude: number;
+        longitude: number;
+      };
+    };
+    username: string;
+    verifications: string[];
+    verified_accounts: string[];
+    verified_addresses: {
+      eth_addresses: string[];
+      sol_addresses: string[];
+    };
+  };
+  github: string;
+  header: string;
+  header_url: string;
+  resolverAddress: string;
+  twitter: string;
+  url: string;
+  wallets: {
+    eth: string;
+  };
+}
