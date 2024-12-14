@@ -167,7 +167,7 @@ class CortexAPI {
   }
 
   async getNounsBuilderProposals(contractAddress: string, first?: number, skip?: number): Promise<any> {
-    const url = new URL(`${this.BASE_URL}/api/nouns/proposals`);
+    const url = new URL(`${this.BASE_URL}/api/nouns-builder/proposals`);
     url.searchParams.append('contractAddress', contractAddress);
     if (first !== undefined) url.searchParams.append('first', first.toString());
     if (skip !== undefined) url.searchParams.append('skip', skip.toString());

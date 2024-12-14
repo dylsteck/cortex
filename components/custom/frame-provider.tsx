@@ -35,14 +35,10 @@ export default function FrameProvider({ children }: { children: React.ReactNode 
           load();
         }
     }, [isSDKLoaded]);
-    
-    if (!isSDKLoaded) {
-        return <div>Loading...</div>
-    }
 
     return(
         <>
-          {children}
+          {isSDKLoaded && children}
         </>
     )
 }

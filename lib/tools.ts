@@ -49,155 +49,6 @@ export const tools = {
       return res.bounties;
     },
   }),
-  getClankerTrendingTokens: tool({
-    description: 'Gets trending crypto tokens from Clanker, a token launcher built on top of Farcaster',
-    parameters: z.object({}),
-    execute: async ({}) => {
-      const trendingTokenData = await cortexAPI.getClankerTrendingTokens();
-      return trendingTokenData;
-    },
-  }),
-  getWowTrendingTokens: tool({
-    description: 'Gets trending crypto tokens from Wow.xyz, a token launcher on Base',
-    parameters: z.object({}),
-    execute: async ({}) => {
-      const trendingTokenData = await cortexAPI.getWowTrendingTokens();
-      return trendingTokenData;
-    },
-  }),
-  getEvent: tool({
-    description: 'Gets information about an upcoming Farcaster event given its name',
-    parameters: z.object({
-      name: z.string(),
-    }),
-    execute: async ({ name }) => {
-      const eventData = await cortexAPI.getEvent(undefined, name);
-      return eventData;
-    },
-  }),
-  getEvents: tool({
-    description: 'Get upcoming Farcaster events on Events.xyz. Do not show any images or markdown in your response.',
-    parameters: z.object({}),
-    execute: async ({}) => {
-      const eventsData = await cortexAPI.getEvents();
-      return eventsData;
-    },
-  }),
-  getFarcasterUser: tool({
-    description: 'Gets information about a Farcaster user.',
-    parameters: z.object({
-        username: z.string(),
-    }),
-    execute: async ({ username }) => {
-      const userData = await cortexAPI.getFarcasterUser(username);
-      return userData
-    },
-  }),
-  getUserCasts: tool({
-    description: 'Gets the latest casts per a particular username on Farcaster.',
-    parameters: z.object({
-        username: z.string(),
-    }),
-    execute: async ({ username }) => {
-        const user = await cortexAPI.getFarcasterUser(username);
-        if(!user){
-            throw new Error('User data not available');
-        }
-        const userCastsData = await cortexAPI.getFarcasterUserCasts(user.fid);
-        return userCastsData.casts;
-    },
-  }),
-  getWeather: tool({
-    description: 'Get the current weather at a location.',
-    parameters: z.object({
-      latitude: z.number(),
-      longitude: z.number(),
-    }),
-    execute: async ({ latitude, longitude }) => {
-      const weatherData = await cortexAPI.getWeather(latitude, longitude)
-      return weatherData
-    },
-  }),
-  webSearch: tool({
-    description: 'Search the web for information with the given query.',
-    parameters: z.object({
-      query: z.string(),
-      maxResults: z.number().default(10),
-      searchDepth: z.enum(['basic', 'advanced']).default('basic'),
-      includeDomains: z.array(z.string()).default([]),
-      excludeDomains: z.array(z.string()).default([]),
-    }),
-    execute: async ({ query, maxResults, searchDepth, includeDomains, excludeDomains }) => {
-      const searchData = await cortexAPI.webSearch(query, maxResults, searchDepth, includeDomains, excludeDomains)
-      return searchData
-    },
-  }),
-  getTrendingCasts: tool({
-    description: 'Get trending casts (posts) from Farcaster.',
-    parameters: z.object({}),
-    execute: async ({}) => {
-      const trendingCasts = await cortexAPI.getTrendingCasts()
-      return trendingCasts.casts
-    },
-  }),
-  getIcebreakerFCUser: tool({
-    description: 'Get Icebreaker profile for a Farcaster username (fname).',
-    parameters: z.object({
-      fname: z.string(),
-    }),
-    execute: async ({ fname }) => {
-      const profileData = await cortexAPI.getIcebreakerFCUser(fname);
-      return profileData;
-    },
-  }),
-  getIcebreakerEthProfile: tool({
-    description: 'Get Icebreaker profile for an Ethereum address or ENS name.',
-    parameters: z.object({
-      identifier: z.string(),
-    }),
-    execute: async ({ identifier }) => {
-      const profileData = await cortexAPI.getIcebreakerEthProfile(identifier);
-      return profileData;
-    },
-  }),
-  getIcebreakerCredentialProfiles: tool({
-    description: 'Get Icebreaker profiles by a specific credential name.',
-    parameters: z.object({
-      credentialName: z.string(),
-      limit: z.number().optional().default(100),
-      offset: z.number().optional().default(3),
-    }),
-    execute: async ({ credentialName, limit, offset }) => {
-      const profilesData = await cortexAPI.getIcebreakerCredentialProfiles(credentialName, limit, offset);
-      return profilesData;
-    },
-  }),
-  getEthAddressTimeline: tool({
-    description: 'Get the timeline of activity for an Ethereum wallet by address or ENS name',
-    parameters: z.object({
-      identifier: z.string(),
-    }),
-    execute: async ({ identifier }) => {
-      const isEnsName = identifier.endsWith('.eth');
-      if(isEnsName){
-        const ensData = await cortexAPI.getEnsName(identifier);
-        const address = ensData.address
-        const timelineData = await cortexAPI.getEthAddressTimeline(address);
-        return timelineData.data.accountsTimeline.edges;
-      } else{
-        const timelineData = await cortexAPI.getEthAddressTimeline(identifier);
-        return timelineData.data.accountsTimeline.edges;
-      }
-    },
-  }),
-  getLivestreams: tool({
-    description: 'Get current Farcaster livestreams',
-    parameters: z.object({}),
-    execute: async () => {
-      const livestreamData = await cortexAPI.getLivestreams();
-      return livestreamData;
-    },
-  }),
   getChannelsCasts: tool({
     description: 'Get casts from specific Farcaster channels.',
     parameters: z.object({
@@ -228,6 +79,167 @@ export const tools = {
         cursor
       });
       return channelCasts.casts;
+    },
+  }),
+  getClankerTrendingTokens: tool({
+    description: 'Gets trending crypto tokens from Clanker, a token launcher built on top of Farcaster',
+    parameters: z.object({}),
+    execute: async ({}) => {
+      const trendingTokenData = await cortexAPI.getClankerTrendingTokens();
+      return trendingTokenData;
+    },
+  }),
+  getEthAddressTimeline: tool({
+    description: 'Get the timeline of activity for an Ethereum wallet by address or ENS name',
+    parameters: z.object({
+      identifier: z.string(),
+    }),
+    execute: async ({ identifier }) => {
+      const isEnsName = identifier.endsWith('.eth');
+      if(isEnsName){
+        const ensData = await cortexAPI.getEnsName(identifier);
+        const address = ensData.address
+        const timelineData = await cortexAPI.getEthAddressTimeline(address);
+        return timelineData.data.accountsTimeline.edges;
+      } else{
+        const timelineData = await cortexAPI.getEthAddressTimeline(identifier);
+        return timelineData.data.accountsTimeline.edges;
+      }
+    },
+  }),
+  getEvent: tool({
+    description: 'Gets information about an upcoming Farcaster event given its name',
+    parameters: z.object({
+      name: z.string(),
+    }),
+    execute: async ({ name }) => {
+      const eventData = await cortexAPI.getEvent(undefined, name);
+      return eventData;
+    },
+  }),
+  getEvents: tool({
+    description: 'Get upcoming Farcaster events on Events.xyz. Do not show any images or markdown in your response.',
+    parameters: z.object({}),
+    execute: async ({}) => {
+      const eventsData = await cortexAPI.getEvents();
+      return eventsData;
+    },
+  }),
+  getFarcasterUser: tool({
+    description: 'Gets information about a Farcaster user.',
+    parameters: z.object({
+        username: z.string(),
+    }),
+    execute: async ({ username }) => {
+      const userData = await cortexAPI.getFarcasterUser(username);
+      return userData
+    },
+  }),
+  getIcebreakerCredentialProfiles: tool({
+    description: 'Get Icebreaker profiles by a specific credential name.',
+    parameters: z.object({
+      credentialName: z.string(),
+      limit: z.number().optional().default(100),
+      offset: z.number().optional().default(3),
+    }),
+    execute: async ({ credentialName, limit, offset }) => {
+      const profilesData = await cortexAPI.getIcebreakerCredentialProfiles(credentialName, limit, offset);
+      return profilesData;
+    },
+  }),
+  getIcebreakerEthProfile: tool({
+    description: 'Get Icebreaker profile for an Ethereum address or ENS name.',
+    parameters: z.object({
+      identifier: z.string(),
+    }),
+    execute: async ({ identifier }) => {
+      const profileData = await cortexAPI.getIcebreakerEthProfile(identifier);
+      return profileData;
+    },
+  }),
+  getIcebreakerFCUser: tool({
+    description: 'Get Icebreaker profile for a Farcaster username (fname).',
+    parameters: z.object({
+      fname: z.string(),
+    }),
+    execute: async ({ fname }) => {
+      const profileData = await cortexAPI.getIcebreakerFCUser(fname);
+      return profileData;
+    },
+  }),
+  getLivestreams: tool({
+    description: 'Get current Farcaster livestreams',
+    parameters: z.object({}),
+    execute: async () => {
+      const livestreamData = await cortexAPI.getLivestreams();
+      return livestreamData;
+    },
+  }),
+  getNounsBuilderProposals: tool({
+    description: 'Get Nouns Builder proposals for a specific contract address',
+    parameters: z.object({
+      contractAddress: z.string(),
+      first: z.number().optional(),
+      skip: z.number().optional(),
+    }),
+    execute: async ({ contractAddress, first, skip }) => {
+      const proposalsData = await cortexAPI.getNounsBuilderProposals(contractAddress, first, skip);
+      return proposalsData.proposals.slice(0, 10);
+    },
+  }),
+  getUserCasts: tool({
+    description: 'Gets the latest casts per a particular username on Farcaster.',
+    parameters: z.object({
+        username: z.string(),
+    }),
+    execute: async ({ username }) => {
+        const user = await cortexAPI.getFarcasterUser(username);
+        if(!user){
+            throw new Error('User data not available');
+        }
+        const userCastsData = await cortexAPI.getFarcasterUserCasts(user.fid);
+        return userCastsData.casts;
+    },
+  }),
+  getTrendingCasts: tool({
+    description: 'Get trending casts (posts) from Farcaster.',
+    parameters: z.object({}),
+    execute: async ({}) => {
+      const trendingCasts = await cortexAPI.getTrendingCasts()
+      return trendingCasts.casts
+    },
+  }),
+  getWeather: tool({
+    description: 'Get the current weather at a location.',
+    parameters: z.object({
+      latitude: z.number(),
+      longitude: z.number(),
+    }),
+    execute: async ({ latitude, longitude }) => {
+      const weatherData = await cortexAPI.getWeather(latitude, longitude)
+      return weatherData
+    },
+  }),
+  getWowTrendingTokens: tool({
+    description: 'Gets trending crypto tokens from Wow.xyz, a token launcher on Base',
+    parameters: z.object({}),
+    execute: async ({}) => {
+      const trendingTokenData = await cortexAPI.getWowTrendingTokens();
+      return trendingTokenData;
+    },
+  }),
+  webSearch: tool({
+    description: 'Search the web for information with the given query.',
+    parameters: z.object({
+      query: z.string(),
+      maxResults: z.number().default(10),
+      searchDepth: z.enum(['basic', 'advanced']).default('basic'),
+      includeDomains: z.array(z.string()).default([]),
+      excludeDomains: z.array(z.string()).default([]),
+    }),
+    execute: async ({ query, maxResults, searchDepth, includeDomains, excludeDomains }) => {
+      const searchData = await cortexAPI.webSearch(query, maxResults, searchDepth, includeDomains, excludeDomains)
+      return searchData
     },
   }),
 }

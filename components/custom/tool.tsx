@@ -9,6 +9,7 @@ import { WebResults } from './web-results';
 import WowTrendingTokens from './wow-trending-tokens';
 import { Skeleton } from '../ui/skeleton';
 import EthTimeline from './app-builder/widgets/ethereum/eth-timeline';
+import NounsBuilderProposals from './app-builder/widgets/nouns-builder/nouns-builder-proposals';
 
 export const Tool = ({ result, toolName }: {result: any, toolName: string}) => {
     return (
@@ -37,6 +38,8 @@ export const Tool = ({ result, toolName }: {result: any, toolName: string}) => {
              toolName === 'getIcebreakerEthProfile' || 
              toolName === 'getIcebreakerCredentialProfiles') ? (
           <IcebreakerProfile profile={result} />
+        ) : toolName === 'getNounsBuilderProposals' ? (
+          <NounsBuilderProposals proposals={result} />
         ) : <Skeleton className="w-full h-auto" /> }
       </div>
     );
@@ -50,11 +53,11 @@ export const ToolPreview = ({ toolName }: {toolName: string}) => {
         ) : (toolName === 'castSearch' || toolName === 'getUserCasts' || toolName === 'getTrendingCasts' || toolName === 'getChannelsCasts') ? (
           <Casts />
         ) : toolName === 'getWowTrendingTokens' ? (
-            <WowTrendingTokens />
+          <WowTrendingTokens />
         ) : toolName === 'getClankerTrendingTokens' ? (
           <ClankerTrendingTokens />
         ) : toolName === 'getEvent' ? (
-            <FarcasterEvent />
+          <FarcasterEvent />
         ) : toolName === 'getEvents' ? (
           <FarcasterEvents />
         ) : toolName === 'getBounties' ? (
@@ -65,13 +68,13 @@ export const ToolPreview = ({ toolName }: {toolName: string}) => {
           <WebResults />
         ) : toolName === 'getEthAddressTimeline' ? (
           <EthTimeline />
-        ) 
-        // : (toolName === 'getIcebreakerFCUser' || 
-        //      toolName === 'getIcebreakerEthProfile' || 
-        //      toolName === 'getIcebreakerCredentialProfiles') ? (
-        //   <IcebreakerProfile />
-        // ) 
-        : <Skeleton className="w-full h-auto" />}
+        ) : (toolName === 'getIcebreakerFCUser' || 
+             toolName === 'getIcebreakerEthProfile' || 
+             toolName === 'getIcebreakerCredentialProfiles') ? (
+          <IcebreakerProfile />
+        ) : toolName === 'getNounsBuilderProposals' ? (
+          <NounsBuilderProposals />
+        ) : <Skeleton className="w-full h-auto" /> }
       </div>
     );
-}
+  }

@@ -94,14 +94,20 @@ const ProposalDetail = ({ proposal, onBack }: { proposal: Proposal; onBack: () =
     </motion.div>
 );
 
-export default function NounsBuilderProposals({ contractAddress }: { contractAddress: string }) {
-    const [proposals, setProposals] = useState<Proposal[]>([]);
-    const [loading, setLoading] = useState(true);
+export default function NounsBuilderProposals({ 
+    contractAddress, 
+    proposals: initialProposals 
+}: { 
+    contractAddress?: string, 
+    proposals?: Proposal[] 
+}) {
+    const [proposals, setProposals] = useState<Proposal[]>(initialProposals || []);
+    const [loading, setLoading] = useState(!initialProposals);
     const [error, setError] = useState<string | null>(null);
     const [selectedProposal, setSelectedProposal] = useState<Proposal | null>(null);
 
     useEffect(() => {
-        if (contractAddress) {
+        if (!initialProposals && contractAddress) {
             setLoading(true);
             cortexAPI.getNounsBuilderProposals(contractAddress)
                 .then(data => {
@@ -113,7 +119,7 @@ export default function NounsBuilderProposals({ contractAddress }: { contractAdd
                 .catch(err => setError(err instanceof Error ? err.message : 'Failed to fetch proposals'))
                 .finally(() => setLoading(false));
         }
-    }, [contractAddress]);
+    }, [contractAddress, initialProposals]);
 
     const sortedProposals = useMemo(() => {
         return [...proposals].sort((a, b) => b.proposalNumber - a.proposalNumber);
