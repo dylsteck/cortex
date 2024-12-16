@@ -12,7 +12,8 @@
   "dependencies": {
     "@ai-sdk/openai": "^0.0.60",
     "@coinbase/onchainkit": "^0.36.0",
-    "@farcaster/frame-sdk": "^0.0.16",
+    "@farcaster/frame-sdk": "^0.0.18",
+    "@farcaster/frame-wagmi-connector": "^0.0.3",
     "@radix-ui/react-alert-dialog": "^1.1.2",
     "@radix-ui/react-avatar": "^1.1.1",
     "@radix-ui/react-dialog": "^1.1.2",
