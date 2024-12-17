@@ -4,6 +4,20 @@ import { z } from "zod"
 import { BASE_URL, cortexAPI } from "./utils"
 
 export const tools = {
+  askNeynarDocs: tool({
+    description: 'Ask a question to Neynar\'s AI assistant for insights on how to use Neynar to build on top of Farcaster. The assistant can also answer general questions about building on Farcaster',
+    parameters: z.object({
+      question: z.string(),
+    }),
+    execute: async ({ question }) => {
+      try {
+        return await cortexAPI.askNeynarDocs(question);
+      } catch (error) {
+        console.error('Error in askNeynarDocs tool:', error);
+        return `Error querying Neynar: ${(error as Error).message}`;
+      }
+    },
+  }),
   castSearch: tool({
     description: 'Search over content(posts, casts as Farcaster calls them) on Farcaster per a given query.',
     parameters: z.object({
@@ -226,49 +240,6 @@ export const tools = {
     execute: async ({}) => {
       const trendingTokenData = await cortexAPI.getWowTrendingTokens();
       return trendingTokenData;
-    },
-  }),
-  askNeynar: tool({
-    description: 'Ask a question to Neynar\'s AI assistant for insights on how to use Neynar to build on top of Farcaster. The assistant can also answer general questions about building on Farcaster',
-    parameters: z.object({
-      question: z.string(),
-    }),
-    execute: async ({ question }) => {
-      try {
-        const response = await fetch('https://docs.neynar.com/chatgpt/ask', {
-          method: 'POST',
-          headers: {
-            'accept': '*/*',
-            'accept-language': 'en-US,en;q=0.5',
-            'content-type': 'application/json',
-          },
-          body: JSON.stringify({ question }),
-        });
-
-        if (!response.ok) {
-          throw new Error(`Neynar API request failed with status ${response.status}`);
-        }
-
-        const reader = response.body?.getReader();
-        const decoder = new TextDecoder();
-        let result = '';
-
-        while (true) {
-          const { done, value } = await reader?.read() || {};
-          if (done) break;
-          result += decoder.decode(value, { stream: true });
-        }
-
-        const sanitizedResult = result
-          .replace(/^---data:\s*/gm, '')  
-          .replace(/\n+/g, '\n')         
-          .trim();     
-                         
-        return sanitizedResult || 'No response from Neynar';
-      } catch (error) {
-        console.error('Error in askNeynar tool:', error);
-        return `Error querying Neynar: ${(error as Error).message}`;
-      }
     },
   }),
   // webSearch: tool({

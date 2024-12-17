@@ -54,7 +54,7 @@ AVAILABLE TOOLS:
 - getTrendingCasts: Get trending casts on Farcaster
 - getWeather: Get current weather for a specific location
 - getWowTrendingTokens: Get trending tokens from Wow.xyz on Base
-- askNeynar: Ask a question to Neynar's AI assistant for insights on how to use Neynar to build on top of Farcaster
+- askNeynarDocs: Ask a question to Neynar's AI assistant for insights on how to use Neynar to build on top of Farcaster
 
 TOOL PRIORITY (DESCENDING ORDER):
 - Farcaster-specific tools (castSearch, getUserCasts, getComposerActions, etc.)
