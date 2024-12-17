@@ -1,13 +1,13 @@
-"use client"
-
+/* eslint-disable @next/next/no-img-element */
+"use client";
 import { useEffect, useState, useCallback, memo } from "react";
-import { FarcasterEmbed } from "react-farcaster-embed/dist/client";
 
+import { Card } from "@/components/ui/card";
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { fetcher } from "@/lib/utils";
 
 import { Widget } from "../widget";
 
-import "react-farcaster-embed/dist/styles.css";
 
 interface Cast {
   object: string;
@@ -99,128 +99,26 @@ interface Cast {
   }[];
 }
 
-interface CastData {
-  hash?: string;
-  threadHash?: string;
-  parentSource?: {
-    type?: string;
-    url?: string;
-  };
-  author?: {
-    fid?: number;
-    username?: string;
-    displayName?: string;
-    pfp?: {
-      url?: string;
-    };
-    profile?: {
-      bio?: {
-        text?: string;
-      };
-    };
-    followerCount?: number;
-    followingCount?: number;
-  };
-  text?: string;
-  timestamp?: number;
-  embeds?: {
-    images?: {
-      type: string;
-      url: string;
-      sourceUrl: string;
-      alt: string;
-    }[];
-    urls?: {
-      type: string;
-      openGraph?: {
-        url?: string;
-        sourceUrl?: string;
-        title?: string;
-        description?: string;
-        domain?: string;
-        image?: string;
-      };
-    }[];
-  };
-  reactions?: {
-    count?: number;
-  };
-  recasts?: {
-    count?: number;
-  };
-  replies?: {
-    count?: number;
-  };
-  tags?: {
-    type?: string;
-    id?: string;
-    name?: string;
-    imageUrl?: string;
-  }[];
-}
-
-function convertCastToCastData(cast: Cast): CastData {
-  return {
-    hash: cast.hash,
-    threadHash: cast.thread_hash,
-    parentSource: cast.parent_url ? { type: "url", url: cast.parent_url } : undefined,
-    author: {
-      fid: cast.author.fid,
-      username: cast.author.username,
-      displayName: cast.author.display_name,
-      pfp: {
-        url: cast.author.pfp_url,
-      },
-      profile: {
-        bio: {
-          text: cast.author.profile.bio.text,
-        },
-      },
-      followerCount: cast.author.follower_count,
-      followingCount: cast.author.following_count,
-    },
-    text: cast.text,
-    timestamp: new Date(cast.timestamp).getTime(),
-    embeds: {
-      images: cast.embeds?.filter(embed => embed.metadata?.content_type?.includes("image")).map(embed => ({
-        type: "image",
-        url: embed.url,
-        sourceUrl: embed.url,
-        alt: embed.metadata?.html?.ogDescription || "",
-      })) || [],
-      urls: cast.embeds?.filter(embed => embed.metadata?.content_type === "text/html").map(embed => ({
-        type: "url",
-        openGraph: {
-          url: embed.url,
-          title: embed.metadata?.html?.ogTitle,
-          description: embed.metadata?.html?.ogDescription,
-          image: embed.metadata?.html?.ogImage?.[0]?.url,
-        },
-      })) || [],
-    },
-    reactions: {
-      count: cast.reactions.likes_count || 0,
-    },
-    recasts: {
-      count: cast.reactions.recasts_count || 0,
-    },
-    replies: {
-      count: cast.replies.count || 0,
-    },
-    tags: cast.tags || [],
-  };
-}
-
 interface FarcasterFeedProps {
   fid: string;
 }
 
 const CastItem = memo(({ cast }: { cast: Cast }) => {
-  const castData = convertCastToCastData(cast);
   return (
-    <div className="mb-4 w-full min-w-[300px] max-w-[500px] mx-auto">
-      <FarcasterEmbed castData={castData} />
-    </div>
+    <Card
+      key={cast.hash}
+      className="shrink-0 size-auto w-[400px] max-h-[20vh] sm:max-h-[22.5vh] overflow-y-hidden text-sm p-2 rounded-xl bg-neutral-100 dark:bg-neutral-900 border-0 cursor-pointer hover:bg-neutral-200 dark:hover:bg-neutral-800 transition-colors"
+      onClick={() => window.open(`https://warpcast.com/~/conversation/${cast.hash}`, '_blank')}
+    >
+      <div className="flex items-center space-x-2.5 mb-2">
+        <img src={cast.author.pfp_url || ""} alt={cast.author.username || ""} className="rounded-full size-10" />
+        <div className="leading-tight">
+          <div className="font-medium">{cast.author.display_name}</div>
+          <div className="text-xs text-gray-500">@{cast.author.username}</div>
+        </div>
+      </div>
+      <div className="text-xs mt-2">{cast.text}</div>
+    </Card>
   );
 });
 CastItem.displayName = 'CastItem';
@@ -263,14 +161,20 @@ export default function FarcasterFeed({ fid }: FarcasterFeedProps) {
     );
   }
 
+  const uniqueCasts = Array.from(new Map(casts.map(cast => [cast.hash, cast])).values());
+
   return (
     <Widget>
       <div className="p-2 sm:p-4 overflow-y-auto">
-        <div className="flex flex-col items-center">
-          {casts.map((cast) => (
-            <CastItem key={cast.hash} cast={cast} />
-          ))}
-        </div>
+        <h2 className="text-lg font-medium mb-2.5">Casts</h2>
+        <ScrollArea className="w-full overflow-x-auto">
+          <div className="flex space-x-4 pb-4">
+            {uniqueCasts.map((cast) => (
+              <CastItem key={cast.hash} cast={cast} />
+            ))}
+          </div>
+          <ScrollBar orientation="horizontal" />
+        </ScrollArea>
       </div>
     </Widget>
   );
