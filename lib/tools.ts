@@ -228,18 +228,61 @@ export const tools = {
       return trendingTokenData;
     },
   }),
-  webSearch: tool({
-    description: 'Search the web for information with the given query.',
+  askNeynar: tool({
+    description: 'Ask a question to Neynar\'s AI assistant for insights on how to use Neynar to build on top of Farcaster. The assistant can also answer general questions about building on Farcaster',
     parameters: z.object({
-      query: z.string(),
-      maxResults: z.number().default(10),
-      searchDepth: z.enum(['basic', 'advanced']).default('basic'),
-      includeDomains: z.array(z.string()).default([]),
-      excludeDomains: z.array(z.string()).default([]),
+      question: z.string(),
     }),
-    execute: async ({ query, maxResults, searchDepth, includeDomains, excludeDomains }) => {
-      const searchData = await cortexAPI.webSearch(query, maxResults, searchDepth, includeDomains, excludeDomains)
-      return searchData
+    execute: async ({ question }) => {
+      try {
+        const response = await fetch('https://docs.neynar.com/chatgpt/ask', {
+          method: 'POST',
+          headers: {
+            'accept': '*/*',
+            'accept-language': 'en-US,en;q=0.5',
+            'content-type': 'application/json',
+          },
+          body: JSON.stringify({ question }),
+        });
+
+        if (!response.ok) {
+          throw new Error(`Neynar API request failed with status ${response.status}`);
+        }
+
+        const reader = response.body?.getReader();
+        const decoder = new TextDecoder();
+        let result = '';
+
+        while (true) {
+          const { done, value } = await reader?.read() || {};
+          if (done) break;
+          result += decoder.decode(value, { stream: true });
+        }
+
+        const sanitizedResult = result
+          .replace(/^---data:\s*/gm, '')  
+          .replace(/\n+/g, '\n')         
+          .trim();     
+                         
+        return sanitizedResult || 'No response from Neynar';
+      } catch (error) {
+        console.error('Error in askNeynar tool:', error);
+        return `Error querying Neynar: ${(error as Error).message}`;
+      }
     },
   }),
+  // webSearch: tool({
+  //   description: 'Search the web for information with the given query.',
+  //   parameters: z.object({
+  //     query: z.string(),
+  //     maxResults: z.number().default(10),
+  //     searchDepth: z.enum(['basic', 'advanced']).default('basic'),
+  //     includeDomains: z.array(z.string()).default([]),
+  //     excludeDomains: z.array(z.string()).default([]),
+  //   }),
+  //   execute: async ({ query, maxResults, searchDepth, includeDomains, excludeDomains }) => {
+  //     const searchData = await cortexAPI.webSearch(query, maxResults, searchDepth, includeDomains, excludeDomains)
+  //     return searchData
+  //   },
+  // }),
 }

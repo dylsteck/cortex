@@ -40,6 +40,8 @@ export const Tool = ({ result, toolName }: {result: any, toolName: string}) => {
           <IcebreakerProfile profile={result} />
         ) : toolName === 'getNounsBuilderProposals' ? (
           <NounsBuilderProposals proposals={result} />
+        ) : toolName === 'askNeynar' ? (
+          <Skeleton className="w-full h-auto" />
         ) : <Skeleton className="w-full h-auto" /> }
       </div>
     );
@@ -74,6 +76,8 @@ export const ToolPreview = ({ toolName }: {toolName: string}) => {
           <IcebreakerProfile />
         ) : toolName === 'getNounsBuilderProposals' ? (
           <NounsBuilderProposals />
+        ) : toolName === 'askNeynar' ? (
+          <Skeleton className="w-full h-auto" />
         ) : <Skeleton className="w-full h-auto" /> }
       </div>
     );
