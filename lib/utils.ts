@@ -34,6 +34,7 @@ export const ICEBREAKER_API_URL = 'https://app.icebreaker.xyz/api/v1';
 export const NEYNAR_API_URL = 'https://api.neynar.com/v2';
 export const NOUNS_BUILDER_GOLDSKY_SUBGRAPH_URL = 'https://api.goldsky.com/api/public/project_clkk1ucdyf6ak38svcatie9tf/subgraphs/nouns-builder-ethereum-mainnet/stable/gn';
 export const STREAMM_API_URL = 'https://streamm.tv/api';
+export const WARPCAST_API_URL = 'https://api.warpcast.com';
 export const ZAPPER_GQL_URL = 'https://public.zapper.xyz/graphql';
 
 export const cortexAPI = new CortexAPI();

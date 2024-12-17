@@ -1,3 +1,4 @@
+import { WarpcastCastsResponse } from "./types";
 import { BASE_URL, redis, fetcher } from "./utils"
 
 class CortexAPI {
@@ -47,6 +48,13 @@ class CortexAPI {
     url.searchParams.append("status", status);
     url.searchParams.append("eventsSince", eventsSince);
     return await fetcher(url.toString());
+  }
+
+  async getCastByHash(hash: string): Promise<WarpcastCastsResponse> {
+    if (!hash || hash.length === 0) {
+      throw new Error("Cast hash is required");
+    }
+    return await fetcher(`${this.BASE_URL}/api/farcaster/cast?hash=${hash}`);
   }
 
   async getChannelsCasts(params: {

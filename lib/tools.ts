@@ -4,6 +4,21 @@ import { z } from "zod"
 import { BASE_URL, cortexAPI } from "./utils"
 
 export const tools = {
+  analyzeCast: tool({
+    description: 'Retrieve and analyze details of a specific cast by its hash or Warpcast URL.',
+    parameters: z.object({
+      input: z.string(),
+    }),
+    execute: async ({ input }) => {
+      const warpcastHashRegex = /0x[0-9a-fA-F]+/;
+      const match = input.match(warpcastHashRegex);
+      
+      const hash = match ? match[0] : input;
+      
+      const castData = await cortexAPI.getCastByHash(hash);
+      return { hash: hash, result: castData.result };
+    },
+  }),
   askNeynarDocs: tool({
     description: 'Ask a question to Neynar\'s AI assistant for insights on how to use Neynar to build on top of Farcaster. The assistant can also answer general questions about building on Farcaster',
     parameters: z.object({

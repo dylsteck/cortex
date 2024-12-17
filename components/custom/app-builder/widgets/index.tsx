@@ -3,7 +3,6 @@ import { z } from 'zod';
 
 import NFTMintWidget from './ethereum/mint';
 import { TokenDeployerWidget } from './ethereum/token-deployer';
-import FarcasterCast from './farcaster/farcaster-cast';
 import FarcasterFeed from './farcaster/farcaster-feed';
 import { ImageWidget, imageWidgetSchema } from './general/image';
 import { TextWidget, textWidgetSchema } from './general/text';
@@ -110,27 +109,27 @@ export const WIDGETS = [
             }
         }
     },
-    {
-        id: 'farcaster-cast',
-        appId: 'farcaster',
-        name: 'Cast',
-        description: 'View a cast given a url or hash',
-        component: FarcasterCast,
-        preview: <FarcasterCast castUrl="https://warpcast.com/dylsteck.eth/0x1f459eb2" />,
-        defaultParams: {
-            castUrl: 'https://warpcast.com/dylsteck.eth/0x1f459eb2'
-        },
-        paramsSchema: z.object({
-            castUrl: z.string().url('Must be a valid Warpcast URL')
-        }),
-        paramsMetadata: {
-            castUrl: {
-                label: 'Cast URL',
-                description: 'The Warpcast URL of the cast to display',
-                placeholder: 'https://warpcast.com/username/hash'
-            }
-        }
-    },
+    // {
+    //     id: 'farcaster-cast',
+    //     appId: 'farcaster',
+    //     name: 'Cast',
+    //     description: 'View a cast given a url or hash',
+    //     component: FarcasterCast,
+    //     preview: <FarcasterCast castUrl="https://warpcast.com/dylsteck.eth/0x1f459eb2" />,
+    //     defaultParams: {
+    //         castUrl: 'https://warpcast.com/dylsteck.eth/0x1f459eb2'
+    //     },
+    //     paramsSchema: z.object({
+    //         castUrl: z.string().url('Must be a valid Warpcast URL')
+    //     }),
+    //     paramsMetadata: {
+    //         castUrl: {
+    //             label: 'Cast URL',
+    //             description: 'The Warpcast URL of the cast to display',
+    //             placeholder: 'https://warpcast.com/username/hash'
+    //         }
+    //     }
+    // },
     {
         id: 'farcaster-feed',
         appId: 'farcaster',

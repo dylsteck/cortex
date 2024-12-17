@@ -2,6 +2,7 @@ import { motion } from 'framer-motion';
 
 import { FarcasterBounties } from './app-builder/widgets/farcaster/bounties/farcaster-bounties';
 import { FarcasterEvent, FarcasterEvents } from './app-builder/widgets/farcaster/events/farcaster-events';
+import FarcasterCast from './app-builder/widgets/farcaster/farcaster-cast';
 import { FarcasterLivestreams } from './app-builder/widgets/farcaster/streams/farcaster-livestream';
 import { Casts } from './casts';
 import ClankerTrendingTokens from './clanker-trending-tokens';
@@ -44,6 +45,8 @@ export const Tool = ({ result, toolName }: {result: any, toolName: string}) => {
           <NounsBuilderProposals proposals={result} />
         ) : toolName === 'askNeynarDocs' ? (
           <Skeleton className="w-full h-auto" />
+        ) : toolName === 'analyzeCast' ? (
+          <FarcasterCast result={result} />
         ) : <Skeleton className="w-full h-auto" /> }
       </div>
     );

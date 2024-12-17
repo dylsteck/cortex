@@ -6,14 +6,14 @@ import { Button } from '../ui/button'
 
 const actions = [
   'Show me some upcoming events',
-  'What livestreams are happening now?',
+  'What Clanker tokens are trending?',
   'Search for AI discussions on Farcaster',
-  'Show me trending casts',
+  'What casts are trending right now?',
   'How do I build a bot with Neynar?',
   'Get Farcaster profile info for vitalik.eth',
   'What are the latest casts from dwr.eth?',
-  'Show me trending Clanker tokens',
   'Show me casts from the fc-devs channel',
+  'What livestreams are happening now?',
   'Find active bounties this week',
 ]
 
