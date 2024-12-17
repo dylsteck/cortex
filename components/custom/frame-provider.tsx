@@ -1,44 +1,47 @@
 'use client'
 
 import { FrameContext, sdk } from "@farcaster/frame-sdk";
-import { useEffect, useState } from "react";
+import { farcasterFrame } from "@farcaster/frame-wagmi-connector";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+import { connect } from "wagmi/actions"
 
 import { login } from "@/app/(auth)/actions";
 import { AuthData } from "@/lib/types";
+import { wagmiConfig } from "@/lib/wagmi";
 
 export default function FrameProvider({ children }: { children: React.ReactNode }){
-    const [isSDKLoaded, setIsSDKLoaded] = useState<boolean>(false);
-    const [context, setContext] = useState<FrameContext>();
-
+    const router = useRouter();
     useEffect(() => {
-        const load = async () => {
-          const sdkContext = await sdk.context;
-          setContext(sdkContext);
-          
-          if (sdkContext?.user) {
-            const loginData: AuthData = {
-              fid: sdkContext.user.fid.toString(),
-              username: sdkContext.user.username || "",
-              name: sdkContext.user.displayName || "",
-              bio: "",
-              verified_address: "",
-              signer_uuid: "",
-              pfp_url: sdkContext.user.pfpUrl || ""
-            };
-            await login(loginData);
+        const init = async () => {
+          const context = await sdk.context;
+          if (context?.client.clientFid) {
+            const resp = await connect(wagmiConfig, { connector: farcasterFrame(), chainId: 8453 });
+            const { accounts, chainId } = resp;
+            if (context?.user) {
+                const loginData: AuthData = {
+                    fid: context.user.fid.toString(),
+                    username: context.user.username || "",
+                    name: context.user.displayName || "",
+                    bio: '',
+                    verified_address: accounts[0],
+                    signer_uuid: "",
+                    pfp_url: context.user.pfpUrl || ""
+                  };
+                await login(loginData);
+                router.refresh();
+              }
           }
-          
-          sdk.actions.ready({ disableNativeGestures: true });
-        };
-        if (sdk && !isSDKLoaded) {
-          setIsSDKLoaded(true);
-          load();
+          setTimeout(() => {
+            sdk.actions.ready()
+          }, 500)
         }
-    }, [isSDKLoaded]);
+        init()
+      }, [router])
 
     return(
         <>
-          {isSDKLoaded && children}
+         {children}
         </>
     )
 }

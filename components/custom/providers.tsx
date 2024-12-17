@@ -6,13 +6,13 @@ import { type ReactNode } from 'react';
 import { base } from 'viem/chains';
 import { WagmiProvider } from 'wagmi';
 
+import { wagmiConfig } from '@/lib/wagmi';
+
 import FrameProvider from './frame-provider';
-import { useWagmiConfig } from '../../lib/wagmi';
 
 const queryClient = new QueryClient();
 
 export default function Providers({ children }: { children: ReactNode }) {
-  const wagmiConfig = useWagmiConfig();
   return (
     <WagmiProvider config={wagmiConfig}>
       <OnchainKitProvider apiKey={process.env.NEXT_PUBLIC_ONCHAINKIT_API_KEY} chain={base}>
