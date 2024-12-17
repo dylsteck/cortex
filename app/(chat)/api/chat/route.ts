@@ -29,7 +29,7 @@ export async function POST(request: Request) {
   const coreMessages = convertToCoreMessages(messages);
 
   const result = await streamText({
-    model: customModel(model),
+    model: await customModel(model),
     system: SYSTEM_PROMPT,
     messages: coreMessages,
     maxSteps: 10,

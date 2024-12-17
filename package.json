@@ -10,7 +10,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@ai-sdk/openai": "^0.0.60",
+    "@ai-sdk/openai": "^1.0.8",
     "@coinbase/onchainkit": "^0.36.0",
     "@farcaster/frame-sdk": "^0.0.18",
     "@farcaster/frame-wagmi-connector": "^0.0.3",
@@ -45,6 +45,7 @@
     "next": "^15.1.0",
     "next-auth": "5.0.0-beta.25",
     "next-themes": "^0.3.0",
+    "ollama-ai-provider": "^1.1.0",
     "postgres": "^3.4.5",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",

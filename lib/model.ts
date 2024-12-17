@@ -9,6 +9,11 @@ export const models = [
     name: 'gpt-4o-mini',
     description: 'Small model for fast, lightweight tasks',
   },
+  {
+    label: 'Ollama',
+    name: 'ollama',
+    description: 'Run open source models on your device',
+  },
 ] as const;
 
 export const DEFAULT_MODEL_NAME: Model['name'] = 'gpt-4o-mini';
