@@ -11,7 +11,7 @@ export const models = [
   },
   {
     label: 'Grok',
-    name: 'grok-beta',
+    name: 'grok-2-1212',
     description: 'The latest large model from xAI',
   },
   {

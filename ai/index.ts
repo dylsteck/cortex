@@ -20,8 +20,8 @@ export const customModel = async(modelName: Model['name']) => {
         if(ollamaApiUrl && ollamaModel){
           return createOllama({ baseURL: ollamaApiUrl })(ollamaModel);
         }
-      case 'grok-beta':
-        return xai('grok-beta');
+      case 'grok-2-1212':
+        return xai('grok-2-1212');
       default:
         return openai(modelName);
     }
