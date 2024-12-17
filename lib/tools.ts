@@ -10,10 +10,11 @@ export const tools = {
       input: z.string(),
     }),
     execute: async ({ input }) => {
-      const warpcastHashRegex = /0x[0-9a-fA-F]+/;
+      const warpcastHashRegex = /^(https?:\/\/)?(warpcast\.com|supercast\.xyz|casterscan\.com|recaster\.org)\/.*?(0x[0-9a-fA-F]+)/;
+      
       const match = input.match(warpcastHashRegex);
       
-      const hash = match ? match[0] : input;
+      const hash = match ? match[3] : input;
       
       const castData = await cortexAPI.getCastByHash(hash);
       return { hash: hash, result: castData.result };
