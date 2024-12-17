@@ -194,7 +194,7 @@ class CortexAPI {
   }
 
   async getLivestreams(): Promise<any> {
-    return await fetcher(`${this.BASE_URL}/api/livestreams`)
+    return await fetcher(`${this.BASE_URL}/api/farcaster/streams/live`)
   }
 
   async getNounsBuilderProposals(contractAddress: string, first?: number, skip?: number): Promise<any> {

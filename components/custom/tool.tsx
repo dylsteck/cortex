@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 
 import { FarcasterBounties } from './app-builder/widgets/farcaster/bounties/farcaster-bounties';
 import { FarcasterEvent, FarcasterEvents } from './app-builder/widgets/farcaster/events/farcaster-events';
-import { FarcasterLivestreams, FarcasterLivestreamsWrapper } from './app-builder/widgets/farcaster/streams/farcaster-livestream';
+import { FarcasterLivestreams } from './app-builder/widgets/farcaster/streams/farcaster-livestream';
 import { Casts } from './casts';
 import ClankerTrendingTokens from './clanker-trending-tokens';
 import IcebreakerProfile from './icebreaker-profile';
