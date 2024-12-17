@@ -9,7 +9,7 @@ const actions = [
   'What livestreams are happening now?',
   'Search for AI discussions on Farcaster',
   'Show me trending casts',
-  'Show me trending tokens on Wow',
+  'How do I build a bot with Neynar?',
   'Get Farcaster profile info for vitalik.eth',
   'What are the latest casts from dwr.eth?',
   'Show me trending Clanker tokens',

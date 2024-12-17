@@ -1,4 +1,5 @@
 import { openai } from '@ai-sdk/openai';
+import { xai } from '@ai-sdk/xai';
 import { experimental_wrapLanguageModel as wrapLanguageModel } from 'ai';
 import { cookies } from 'next/headers';
 import { createOllama } from 'ollama-ai-provider';
@@ -12,12 +13,22 @@ export const customModel = async(modelName: Model['name']) => {
   const modelCookie = cookieStore.get('model')?.value;
   const ollamaApiUrl = cookieStore.get('ollamaApiUrl')?.value;
   const ollamaModel = cookieStore.get('ollamaModel')?.value;
-  const modelProvider = modelCookie === 'ollama' && ollamaApiUrl && ollamaModel
-    ? createOllama({ baseURL: ollamaApiUrl })(ollamaModel)
-    : openai(modelName);
+  
+  const modelProvider = () => {
+    switch (modelCookie) {
+      case 'ollama':
+        if(ollamaApiUrl && ollamaModel){
+          return createOllama({ baseURL: ollamaApiUrl })(ollamaModel);
+        }
+      case 'grok-beta':
+        return xai('grok-beta');
+      default:
+        return openai(modelName);
+    }
+  }
 
   return wrapLanguageModel({
-    model: modelProvider,
+    model: modelProvider(),
     middleware: customMiddleware,
   });
 };

@@ -10,6 +10,11 @@ export const models = [
     description: 'Small model for fast, lightweight tasks',
   },
   {
+    label: 'Grok',
+    name: 'grok-beta',
+    description: 'The latest large model from xAI',
+  },
+  {
     label: 'Ollama',
     name: 'ollama',
     description: 'Run open source models on your device',

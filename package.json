@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@ai-sdk/openai": "^1.0.8",
+    "@ai-sdk/xai": "^1.0.6",
     "@coinbase/onchainkit": "^0.36.0",
     "@farcaster/frame-sdk": "^0.0.18",
     "@farcaster/frame-wagmi-connector": "^0.0.3",
