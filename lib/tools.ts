@@ -18,10 +18,11 @@ export const tools = {
 
       const urlMatch = input.match(warpcastHashRegex);
       if (urlMatch) {
-        matchValue = input;
+        matchValue = input.startsWith('http') ? input : `https://${input}`;
         matchType = 'url';
-      } else if (hashRegex.test(input) && input.length === CAST_HASH_LENGTH) {
+      } else if (hashRegex.test(input)) {
         matchType = 'hash';
+        matchValue = input;
       }
 
       const castData = await cortexAPI.getCast(matchType, matchValue);
