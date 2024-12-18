@@ -50,11 +50,25 @@ class CortexAPI {
     return await fetcher(url.toString());
   }
 
-  async getCastByHash(hash: string): Promise<WarpcastCastsResponse> {
+  async getCast(type = 'hash', identifier: string): Promise<any> {
+    if (!identifier || identifier.length === 0) {
+      throw new Error("Cast identifier is required");
+    }
+    return await fetcher(`${this.BASE_URL}/api/farcaster/cast?type=${type}&identifier=${identifier}`);
+  }
+
+  async getCastConversation(hash: string): Promise<any> {
     if (!hash || hash.length === 0) {
       throw new Error("Cast hash is required");
     }
-    return await fetcher(`${this.BASE_URL}/api/farcaster/cast?hash=${hash}`);
+    return await fetcher(`${this.BASE_URL}/api/farcaster/cast/conversation?hash=${hash}`);
+  }
+
+  async getCastConversationSummary(hash: string): Promise<any> {
+    if (!hash || hash.length === 0) {
+      throw new Error("Cast hash is required");
+    }
+    return await fetcher(`${this.BASE_URL}/api/farcaster/cast/conversation/summary?hash=${hash}`);
   }
 
   async getChannelsCasts(params: {

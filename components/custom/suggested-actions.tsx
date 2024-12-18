@@ -13,7 +13,6 @@ const actions = [
   'Get Farcaster profile info for vitalik.eth',
   'What are the latest casts from dwr.eth?',
   'Show me casts from the fc-devs channel',
-  'What livestreams are happening now?',
   'Find active bounties this week',
 ]
 

@@ -1,7 +1,7 @@
 import { tool } from "ai"
 import { z } from "zod"
 
-import { BASE_URL, cortexAPI } from "./utils"
+import { BASE_URL, CAST_HASH_LENGTH, cortexAPI } from "./utils"
 
 export const tools = {
   analyzeCast: tool({
@@ -11,13 +11,21 @@ export const tools = {
     }),
     execute: async ({ input }) => {
       const warpcastHashRegex = /^(https?:\/\/)?(warpcast\.com|supercast\.xyz|casterscan\.com|recaster\.org)\/.*?(0x[0-9a-fA-F]+)/;
+      const hashRegex = /^0x[0-9a-fA-F]+$/;
       
-      const match = input.match(warpcastHashRegex);
-      
-      const hash = match ? match[3] : input;
-      
-      const castData = await cortexAPI.getCastByHash(hash);
-      return { hash: hash, result: castData.result };
+      let matchValue = input;
+      let matchType = 'hash';
+
+      const urlMatch = input.match(warpcastHashRegex);
+      if (urlMatch) {
+        matchValue = input;
+        matchType = 'url';
+      } else if (hashRegex.test(input) && input.length === CAST_HASH_LENGTH) {
+        matchType = 'hash';
+      }
+
+      const castData = await cortexAPI.getCast(matchType, matchValue);
+      return castData;
     },
   }),
   askNeynarDocs: tool({

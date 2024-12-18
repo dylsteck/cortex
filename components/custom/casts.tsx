@@ -3,99 +3,11 @@
 
 import React from "react";
 
+import { NeynarCastV2 } from "@/lib/types";
+
 import { ToolResponse, ToolResponseHeader, ToolResponseBody, ToolResponseCard } from "./tool-response";
 
-interface Cast {
-  object: string;
-  hash: string;
-  thread_hash: string;
-  parent_hash: string | null;
-  parent_url: string | null;
-  root_parent_url: string | null;
-  parent_author: {
-    fid: number | null;
-  };
-  author: {
-    object: string;
-    fid: number;
-    username: string;
-    display_name: string;
-    pfp_url: string;
-    custody_address: string;
-    profile: {
-      bio: {
-        text: string;
-      };
-    };
-    follower_count: number;
-    following_count: number;
-    verifications: string[];
-    verified_addresses: {
-      eth_addresses: string[];
-      sol_addresses: string[];
-    };
-    verified_accounts: {
-      platform: string;
-      username: string;
-    }[] | null;
-    power_badge: boolean;
-  };
-  text: string;
-  timestamp: string;
-  embeds: {
-    url: string;
-    metadata?: {
-      content_type: string;
-      content_length: number | null;
-      _status: string;
-      image?: {
-        width_px: number;
-        height_px: number;
-      };
-      html?: {
-        favicon: string;
-        ogImage: { url: string }[];
-        ogTitle: string;
-        ogLocale: string;
-        ogDescription: string;
-      };
-    };
-  }[];
-  reactions: {
-    likes_count: number;
-    recasts_count: number;
-    likes: {
-      fid: number;
-      fname: string;
-    }[];
-    recasts: {
-      fid: number;
-      fname: string;
-    }[];
-  };
-  replies: {
-    count: number;
-  };
-  channel: {
-    object: string;
-    id: string;
-    name: string;
-    image_url: string;
-  } | null;
-  mentioned_profiles: any[];
-  author_channel_context?: {
-    role: string;
-    following: boolean;
-  };
-  tags?: {
-    type?: string;
-    id?: string;
-    name?: string;
-    imageUrl?: string;
-  }[];
-}
-
-export function Casts({ casts }: { casts: Cast[] }) {
+export function Casts({ casts }: { casts: NeynarCastV2[] }) {
   const uniqueCasts = Array.from(new Map(casts.map(cast => [cast.hash, cast])).values());
 
   return (

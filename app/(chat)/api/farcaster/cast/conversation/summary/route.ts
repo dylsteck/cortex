@@ -10,33 +10,30 @@ export async function GET(request: Request) {
 
   const url = new URL(request.url);
   const identifier = url.searchParams.get("identifier");
-  const type = url.searchParams.get("type");
+  const limit = url.searchParams.get("limit") || "20";
+  const prompt = url.searchParams.get("prompt") || "";
 
   if (!identifier) {
     return new Response(JSON.stringify("Cast identifier parameter is required!"), { status: 400 });
   }
 
-  if (!type || (type !== "url" && type !== "hash")) {
-    return new Response(JSON.stringify("Cast type parameter is required and must be either 'url' or 'hash'!"), { status: 400 });
-  }
-
-  const apiKey = process.env.NEYNAR_API_KEY
+  const apiKey = process.env.NEYNAR_API_KEY;
   if (!apiKey) {
-    return new Response("NEYNAR_API_KEY is not set in the environment variables", { status: 500 })
+    return new Response("NEYNAR_API_KEY is not set in the environment variables", { status: 500 });
   }
 
-  const cacheKey = `cast:${identifier}`;
+  const cacheKey = `cast_conversation_summary:${identifier}`;
   const cachedData = await redis.get(cacheKey);
 
   if (cachedData && typeof cachedData === 'string') {
     return new Response(JSON.stringify(JSON.parse(cachedData)), { status: 200 });
   }
 
-  const response = await fetch(`${NEYNAR_API_URL}/farcaster/cast?type=${type}&identifier=${identifier}`, {
+  const response = await fetch(`${NEYNAR_API_URL}/farcaster/cast/conversation/summary?identifier=${identifier}&limit=${limit}&prompt=${encodeURIComponent(prompt)}`, {
     method: "GET",
     headers: {
       'accept': 'application/json',
-      'api_key': apiKey
+      'x-api-key': apiKey
     }
   });
 

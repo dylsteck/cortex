@@ -48,7 +48,7 @@ export const Tool = ({ result, toolName }: {result: any, toolName: string}) => {
         ) : toolName === 'askNeynarDocs' ? (
           <Skeleton className="w-full h-auto" />
         ) : toolName === 'analyzeCast' ? (
-          <FarcasterCast result={result} />
+          <FarcasterCast result={result.cast} />
         ) : <Skeleton className="w-full h-auto" /> }
       </div>
     );

@@ -16,6 +16,8 @@ import CortexAPI from './api';
 
 export const redis = Redis.fromEnv()
 
+export const CAST_HASH_LENGTH = 42;
+
 // TODO: create a new banner image
 export const BANNER_IMG_URL = 'https://i.imgur.com/hJKzrtx.png';
 export const ICON_IMG_URL = 'https://i.imgur.com/Pwf5x4V.png';
