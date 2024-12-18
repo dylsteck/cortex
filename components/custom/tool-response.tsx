@@ -37,10 +37,19 @@ export function ToolResponseBody({ children }: { children: React.ReactNode }) {
 }
 
 export function ToolResponseCard({ children, onClick, height }: { children: React.ReactNode; onClick?: () => void; height?: string }) {
+  const handleCardClick = (e: React.MouseEvent) => {
+    // Check if the click target is the card itself or a non-interactive child
+    const target = e.target as HTMLElement;
+    const isInteractiveElement = target.closest('button, a, input, [onclick], [role="button"]');
+    if (!isInteractiveElement && onClick) {
+      onClick();
+    }
+  };
+
   return (
     <Card
       className={`shrink-0 size-auto w-[400px] ${height ? height : "max-h-[20vh] sm:max-h-[22.5vh]"} overflow-y-hidden text-sm p-2 rounded-xl bg-neutral-100 dark:bg-neutral-900 border-0 cursor-pointer hover:bg-neutral-200 dark:hover:bg-neutral-800 transition-colors`}
-      onClick={onClick}
+      onClick={handleCardClick}
     >
       {children}
     </Card>
