@@ -6,7 +6,6 @@ import { TokenDeployerWidget } from './ethereum/token-deployer';
 import FarcasterFeed from './farcaster/farcaster-feed';
 import { ImageWidget, imageWidgetSchema } from './general/image';
 import { TextWidget, textWidgetSchema } from './general/text';
-import IcebreakerProfile from './icebreaker/icebreaker-profile';
 import IcebreakerSocials from './icebreaker/icebreaker-socials';
 import NounsBuilderProposals from './nouns-builder/nouns-builder-proposals';
 
@@ -151,28 +150,27 @@ export const WIDGETS = [
             }
         }
     },
-    {
-        id: 'icebreaker-profile',
-        appId: 'icebreaker',
-        name: 'Profile',
-        description: 'View network info per a fid',
-        component: IcebreakerProfile,
-        // TODO: fix <IcebreakerProfile> usage and allow it to take a fid
-        preview: <IcebreakerProfile profile={null} />,
-        defaultParams: {
-            fid: '616'
-        },
-        paramsSchema: z.object({
-            fid: z.string().min(1, 'FID is required')
-        }),
-        paramsMetadata: {
-            fid: {
-                label: 'Farcaster ID',
-                description: 'The Farcaster ID (FID) to show the profile for',
-                placeholder: '616'
-            }
-        }
-    },
+    // {
+    //     id: 'icebreaker-profile',
+    //     appId: 'icebreaker',
+    //     name: 'Profile',
+    //     description: 'View network info per a fid',
+    //     component: IcebreakerProfile,
+    //     preview: <IcebreakerProfile profile={null} />,
+    //     defaultParams: {
+    //         fid: '616'
+    //     },
+    //     paramsSchema: z.object({
+    //         fid: z.string().min(1, 'FID is required')
+    //     }),
+    //     paramsMetadata: {
+    //         fid: {
+    //             label: 'Farcaster ID',
+    //             description: 'The Farcaster ID (FID) to show the profile for',
+    //             placeholder: '616'
+    //         }
+    //     }
+    // },
     {
         id: 'icebreaker-socials',
         appId: 'icebreaker',

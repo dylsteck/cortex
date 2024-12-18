@@ -1,18 +1,19 @@
 import { motion } from 'framer-motion';
 
+import { Skeleton } from '../ui/skeleton';
+import EthTimeline from './app-builder/widgets/ethereum/eth-timeline';
 import { FarcasterBounties } from './app-builder/widgets/farcaster/bounties/farcaster-bounties';
 import { FarcasterEvent, FarcasterEvents } from './app-builder/widgets/farcaster/events/farcaster-events';
 import FarcasterCast from './app-builder/widgets/farcaster/farcaster-cast';
 import { FarcasterLivestreams } from './app-builder/widgets/farcaster/streams/farcaster-livestream';
+import IcebreakerProfile from './app-builder/widgets/icebreaker/icebreaker-profile';
+import IcebreakerProfileFeed from './app-builder/widgets/icebreaker/icebreaker-profile-feed';
+import NounsBuilderProposals from './app-builder/widgets/nouns-builder/nouns-builder-proposals';
 import { Casts } from './casts';
 import ClankerTrendingTokens from './clanker-trending-tokens';
-import IcebreakerProfile from './icebreaker-profile';
 import { Weather } from './weather';
 import { WebResults } from './web-results';
 import WowTrendingTokens from './wow-trending-tokens';
-import { Skeleton } from '../ui/skeleton';
-import EthTimeline from './app-builder/widgets/ethereum/eth-timeline';
-import NounsBuilderProposals from './app-builder/widgets/nouns-builder/nouns-builder-proposals';
 
 export const Tool = ({ result, toolName }: {result: any, toolName: string}) => {
     return (
@@ -38,9 +39,10 @@ export const Tool = ({ result, toolName }: {result: any, toolName: string}) => {
         ) : toolName === 'getEthAddressTimeline' ? (
           <EthTimeline timeline={result} />
         ) : (toolName === 'getIcebreakerFCUser' || 
-             toolName === 'getIcebreakerEthProfile' || 
-             toolName === 'getIcebreakerCredentialProfiles') ? (
+             toolName === 'getIcebreakerEthProfile' ) ? (
           <IcebreakerProfile profile={result} />
+        ) : toolName === 'getIcebreakerCredentialProfiles' ? (
+          <IcebreakerProfileFeed profiles={result.profiles} />
         ) : toolName === 'getNounsBuilderProposals' ? (
           <NounsBuilderProposals proposals={result} />
         ) : toolName === 'askNeynarDocs' ? (

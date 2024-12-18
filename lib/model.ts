@@ -12,7 +12,12 @@ export const models = [
   {
     label: 'Grok',
     name: 'grok-2-1212',
-    description: 'The latest large model from xAI',
+    description: 'The latest model from xAI',
+  },
+  {
+    label: 'Cerebras',
+    name: 'cerebras',
+    description: 'The fasted hosted Llama inference',
   },
   {
     label: 'Ollama',

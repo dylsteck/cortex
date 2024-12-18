@@ -15,6 +15,9 @@ export function ToolResponse({ children }: { children: React.ReactNode }) {
 }
 
 export function ToolResponseHeader({ text }: { text: string }) {
+  if(typeof text === 'undefined' || text.length === 0){
+    return null
+  }
   return (
     <h2 className="text-lg font-medium mb-2.5">
       {text}

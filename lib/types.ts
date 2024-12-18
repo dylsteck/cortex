@@ -93,6 +93,7 @@ export const IcebreakerGuildMembershipSchema = z.object({
 });
 
 export const IcebreakerProfileSchema = z.object({
+    avatarUrl: z.string().optional(),
     profileID: z.string(),
     walletAddress: z.string(),
     displayName: z.string(),

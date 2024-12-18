@@ -34,7 +34,7 @@ export async function createUser(userData: AuthData) {
   try {
     return await db.insert(user).values(userData);
   } catch (error) {
-    console.error("Failed to create user in database");
+    console.error("Failed to create user in database", error);
     throw error;
   }
 }

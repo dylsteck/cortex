@@ -32,7 +32,7 @@ export async function POST(request: Request) {
     model: await customModel(model),
     system: SYSTEM_PROMPT,
     messages: coreMessages,
-    maxSteps: 10,
+    maxSteps: 5,
     tools: tools,
     experimental_transform: smoothStream(),
     onFinish: async (stepResult) => {
