@@ -11,6 +11,7 @@ export const user = pgTable("user", {
   verified_address: varchar("verified_address", { length: 256 }),
   signer_uuid: varchar("signer_uuid", { length: 64 }),
   pfp_url: varchar("pfp_url", { length: 256 }),
+  createdAt: timestamp("createdAt").notNull().defaultNow(),
 });
 
 export type User = InferSelectModel<typeof user>;

@@ -10,11 +10,11 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@ai-sdk/openai": "^1.0.8",
-    "@ai-sdk/xai": "^1.0.7",
+    "@ai-sdk/openai": "^1.0.9",
+    "@ai-sdk/xai": "^1.0.9",
     "@coinbase/onchainkit": "^0.36.1",
-    "@farcaster/frame-sdk": "^0.0.19",
-    "@farcaster/frame-wagmi-connector": "^0.0.4",
+    "@farcaster/frame-sdk": "^0.0.20",
+    "@farcaster/frame-wagmi-connector": "^0.0.6",
     "@radix-ui/react-alert-dialog": "^1.1.2",
     "@radix-ui/react-avatar": "^1.1.1",
     "@radix-ui/react-dialog": "^1.1.2",
