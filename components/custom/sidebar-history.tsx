@@ -75,8 +75,8 @@ export function SidebarHistory({ user }: { user: User | undefined }) {
             return history.filter((h) => h.id !== id);
           }
         });
-        if(pathname !== '/chat'){
-          router.push('/chat');
+        if(pathname !== '/'){
+          router.push('/');
         }
         return 'Chat deleted successfully';
       },
@@ -99,7 +99,7 @@ export function SidebarHistory({ user }: { user: User | undefined }) {
             </Link>
           </SidebarMenuItem> */}
           <SidebarMenuItem>
-            <Link href="/chat">
+            <Link href="/">
               <SidebarMenuButton>
                 <MessageIcon size={10} />
                 <span>Chat</span>
@@ -147,7 +147,7 @@ export function SidebarHistory({ user }: { user: User | undefined }) {
             </Link>
           </SidebarMenuItem> */}
           <SidebarMenuItem>
-            <Link href="/chat">
+            <Link href="/">
               <SidebarMenuButton>
                 <MessageIcon size={10} />
                 <span>Chat</span>
@@ -208,7 +208,7 @@ export function SidebarHistory({ user }: { user: User | undefined }) {
             </Link>
           </SidebarMenuItem> */}
           <SidebarMenuItem>
-            <Link href="/chat">
+            <Link href="/">
               <SidebarMenuButton>
                 <MessageIcon size={10} />
                 <span>Chat</span>
@@ -260,7 +260,7 @@ export function SidebarHistory({ user }: { user: User | undefined }) {
             </Link>
           </SidebarMenuItem> */}
           <SidebarMenuItem>
-            <Link href="/chat">
+            <Link href="/">
               <SidebarMenuButton>
                 <MessageIcon size={10} />
                 <span>Chat</span>

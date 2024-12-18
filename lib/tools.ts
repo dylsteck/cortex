@@ -5,7 +5,7 @@ import { BASE_URL, CAST_HASH_LENGTH, cortexAPI } from "./utils"
 
 export const tools = {
   analyzeCast: tool({
-    description: 'Retrieve and analyze details of a specific cast by its hash or Warpcast URL.',
+    description: 'Retrieve and analyze/explain details of a specific cast by its hash or Warpcast URL.',
     parameters: z.object({
       input: z.string(),
     }),

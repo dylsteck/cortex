@@ -8,7 +8,7 @@ export const frame = {
       action: {
         type: "launch_frame",
         name: "Cortex",
-        url: `${BASE_URL}/chat`,
+        url: `${BASE_URL}`,
         splashImageUrl: ICON_IMG_URL,
         splashBackgroundColor: "#000000",
       },
