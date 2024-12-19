@@ -4,14 +4,33 @@ import { type NextRequest } from 'next/server';
 
 import { WebhookData } from './types';
 
-export function analyzePayload(payload: WebhookData){
+export function analyzePayload(payload: WebhookData): { text?: string, embeds?: any[], isValid: boolean } {
   const text = payload.data.text.trimEnd();
-  
-  if (text.startsWith('@cortex analyze') || text.startsWith('@cortex explain')) {
-    return 'Coming soon! For now try out Cortex below: https://withcortex.com';
-  }
-  
-  return 'You can only say @cortex explain or @cortex analyze right now. Learn more about Cortex: https://withcortex.com';
+  if(text.startsWith('@cortex')){
+    if (text.startsWith('@cortex analyze') || text.startsWith('@cortex explain')) {
+      return {
+        text: 'Coming soon! For now, try out Cortex below:',
+        embeds: [
+          {
+            'url': 'https://withcortex.com'
+          }
+        ],
+        isValid: true
+      };
+    }
+    return {
+      text: 'You can only say @cortex explain or @cortex analyze right now. Learn more about Cortex:',
+      embeds: [
+        {
+          'url': 'https://withcortex.com'
+        }
+      ],
+      isValid: true
+    };
+  }  
+  return {
+    isValid: false
+  };
 }
 
 export async function verifyWebhookSignature(req: NextRequest): Promise<any> {
