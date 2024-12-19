@@ -4,7 +4,7 @@ import { type NextRequest } from 'next/server';
 
 import { WebhookData } from './types';
 
-export async function analyzePayload(payload: WebhookData){
+export function analyzePayload(payload: WebhookData){
   const text = payload.data.text.trimEnd();
   
   if (text.startsWith('@cortex analyze') || text.startsWith('@cortex explain')) {

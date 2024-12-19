@@ -49,3 +49,39 @@ export async function GET(request: Request) {
 
   return new Response(JSON.stringify(data), { status: 200 });
 }
+
+export async function POST(request: Request) {
+  const session = await auth();
+  const authResponse = authMiddleware(session, request.url, request.headers);
+  if (authResponse) {
+    return authResponse;
+  }
+
+  const apiKey = process.env.NEYNAR_API_KEY
+  if (!apiKey) {
+    return new Response("NEYNAR_API_KEY is not set in the environment variables", { status: 500 })
+  }
+
+  const body = await request.json();
+
+  if (!body.signer_uuid || typeof body.signer_uuid !== 'string') {
+    return new Response(JSON.stringify("signer_uuid is required!"), { status: 400 });
+  }
+
+  const response = await fetch(`${NEYNAR_API_URL}/farcaster/cast`, {
+    method: "POST",
+    headers: {
+      'accept': 'application/json',
+      'api_key': apiKey,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(body)
+  });
+
+  if (!response.ok) {
+    return new Response(JSON.stringify("Failed to post data to NEYNAR API!"), { status: response.status });
+  }
+
+  const data = await response.json();
+  return new Response(JSON.stringify(data), { status: 200 });
+}
