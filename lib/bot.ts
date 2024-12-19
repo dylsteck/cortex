@@ -11,7 +11,7 @@ export function analyzePayload(payload: WebhookData){
     return 'Coming soon! For now try out Cortex below: https://withcortex.com';
   }
   
-  return 'You can only say @cortex explain or @cortex analyze right now';
+  return 'You can only say @cortex explain or @cortex analyze right now. Learn more about Cortex: https://withcortex.com';
 }
 
 export async function verifyWebhookSignature(req: NextRequest): Promise<any> {

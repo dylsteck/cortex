@@ -48,7 +48,7 @@ export async function GET(request: Request) {
     method: "GET",
     headers: {
       'accept': 'application/json',
-      'api_key': apiKey
+      'x-api-key': apiKey
     }
   });
 

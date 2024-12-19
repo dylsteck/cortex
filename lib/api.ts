@@ -239,13 +239,13 @@ class CortexAPI {
     return await fetcher(`${this.BASE_URL}/api/wow/tokens/trending`)
   }
 
-  async postCast(signer_uuid: string, text: string, embeds?: any[]): Promise<any> {
+  async postCast(signer_uuid: string, text: string, embeds?: any[], parent?: string): Promise<any> {
     return await fetcher(`${this.BASE_URL}/api/farcaster/cast`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ signer_uuid, text, embeds }),
+      body: JSON.stringify({ signer_uuid, text, embeds, parent }),
     });
   }
 

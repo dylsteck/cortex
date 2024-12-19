@@ -36,7 +36,7 @@ export async function GET(request: Request) {
     method: "GET",
     headers: {
       'accept': 'application/json',
-      'api_key': apiKey
+      'x-api-key': apiKey
     }
   });
 
@@ -63,25 +63,28 @@ export async function POST(request: Request) {
   }
 
   const body = await request.json();
-
   if (!body.signer_uuid || typeof body.signer_uuid !== 'string') {
     return new Response(JSON.stringify("signer_uuid is required!"), { status: 400 });
   }
 
-  const response = await fetch(`${NEYNAR_API_URL}/farcaster/cast`, {
+  const castResponse = await fetch(`${NEYNAR_API_URL}/farcaster/cast`, {
     method: "POST",
     headers: {
       'accept': 'application/json',
-      'api_key': apiKey,
+      'x-api-key': apiKey,
       'Content-Type': 'application/json'
     },
     body: JSON.stringify(body)
   });
 
-  if (!response.ok) {
-    return new Response(JSON.stringify("Failed to post data to NEYNAR API!"), { status: response.status });
+  if (!castResponse.ok) {
+    const respJson = await castResponse.json();
+    if (respJson.error) {
+      return new Response(JSON.stringify(respJson.error), { status: castResponse.status });
+    }
+    return new Response(JSON.stringify("Failed to post data to NEYNAR API!"), { status: castResponse.status });
   }
 
-  const data = await response.json();
-  return new Response(JSON.stringify(data), { status: 200 });
+  const responseJson = await castResponse.json();
+  return new Response(JSON.stringify(responseJson), { status: 200 });
 }

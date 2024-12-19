@@ -13,8 +13,11 @@ export async function POST(request: NextRequest) {
     if(!signerUUID) {
       return new NextResponse('Missing required environment variable', { status: 500 });
     }
-    const cast = await cortexAPI.postCast(signerUUID, response);
-    return NextResponse.json(cast);
+    if(payload.data.text.startsWith('@cortex')){
+        const cast = await cortexAPI.postCast(signerUUID, response, [], payload.data.hash);
+        return NextResponse.json(cast);
+    }
+    return NextResponse.json({ success: false, message: 'Invalid command' });
   } catch (error) {
     console.error('Error handling webhook:', error);
     return new NextResponse('Error handling webhook', { status: 500 });
