@@ -1,6 +1,7 @@
 import { cookies } from 'next/headers';
 
 import { AppSidebar } from '@/components/custom/app-sidebar';
+// import BottomNavigation from '@/components/custom/bottom-navigation';
 import Providers from '@/components/custom/providers';
 import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
 import { DEFAULT_MODEL_NAME, models } from '@/lib/model';
@@ -23,6 +24,7 @@ export default async function Layout({
       <SidebarInset>
         <Providers>
           {children}
+          {/* <BottomNavigation /> */}
         </Providers>
       </SidebarInset>
     </SidebarProvider>
