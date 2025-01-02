@@ -13,7 +13,7 @@ export default function FarcasterCast({ result }: { result: any }) {
     <ToolResponse>
       <ToolResponseHeader text="Cast" />
       <ToolResponseBody>
-        <ToolResponseCard onClick={() => window.open(`https://warpcast.com/~/conversation/${cast.hash}`, '_blank')}>
+        <ToolResponseCard onClick={() => window.open(`https://warpcast.com/~/conversations/${cast.hash}`, '_blank')}>
           <div className="flex items-center space-x-2.5 mb-2">
             <img 
               src={cast?.author?.pfp_url|| ""} 

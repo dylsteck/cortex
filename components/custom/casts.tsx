@@ -17,7 +17,7 @@ export function Casts({ casts }: { casts: NeynarCastV2[] }) {
         {uniqueCasts.map((cast) => (
           <ToolResponseCard
             key={cast.hash}
-            onClick={() => window.open(`https://warpcast.com/~/conversation/${cast.hash}`, "_blank")}
+            onClick={() => window.open(`https://warpcast.com/~/conversations/${cast.hash}`, "_blank")}
           >
             <div className="flex items-center space-x-2.5 mb-2">
               <img src={cast.author.pfp_url || ""} alt={cast.author.username || ""} className="rounded-full size-10" />

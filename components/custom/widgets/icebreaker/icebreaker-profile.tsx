@@ -1,7 +1,6 @@
 import Image from 'next/image';
 import React from 'react';
 
-import { APPS } from '@/components/custom/app-builder/widgets';
 import { ToolResponse, ToolResponseHeader, ToolResponseBody, ToolResponseCard } from '@/components/custom/tool-response';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';

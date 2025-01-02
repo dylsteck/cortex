@@ -1,6 +1,5 @@
 import React from 'react';
 
-import { APPS } from '@/components/custom/app-builder/widgets';
 import { ToolResponse, ToolResponseHeader, ToolResponseBody, ToolResponseCard } from '@/components/custom/tool-response';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { IcebreakerProfile as IcebreakerProfileType } from '@/lib/types';

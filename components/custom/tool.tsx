@@ -1,19 +1,19 @@
 import { motion } from 'framer-motion';
 
-import { Skeleton } from '../ui/skeleton';
-import EthTimeline from './app-builder/widgets/ethereum/eth-timeline';
-import { FarcasterBounties } from './app-builder/widgets/farcaster/bounties/farcaster-bounties';
-import { FarcasterEvent, FarcasterEvents } from './app-builder/widgets/farcaster/events/farcaster-events';
-import FarcasterCast from './app-builder/widgets/farcaster/farcaster-cast';
-import { FarcasterLivestreams } from './app-builder/widgets/farcaster/streams/farcaster-livestream';
-import IcebreakerProfile from './app-builder/widgets/icebreaker/icebreaker-profile';
-import IcebreakerProfileFeed from './app-builder/widgets/icebreaker/icebreaker-profile-feed';
-import NounsBuilderProposals from './app-builder/widgets/nouns-builder/nouns-builder-proposals';
 import { Casts } from './casts';
-import ClankerTrendingTokens from './clanker-trending-tokens';
 import { Weather } from './weather';
 import { WebResults } from './web-results';
-import WowTrendingTokens from './wow-trending-tokens';
+import { Skeleton } from '../ui/skeleton';
+import EthTimeline from './widgets/ethereum/eth-timeline';
+import { FarcasterBounties } from './widgets/farcaster/bounties/farcaster-bounties';
+import { FarcasterEvent, FarcasterEvents } from './widgets/farcaster/events/farcaster-events';
+import FarcasterCast from './widgets/farcaster/farcaster-cast';
+import { FarcasterLivestreams } from './widgets/farcaster/streams/farcaster-livestream';
+import ClankerTrendingTokens from './widgets/farcaster/tokens/clanker-trending-tokens';
+import WowTrendingTokens from './widgets/farcaster/tokens/wow-trending-tokens';
+import IcebreakerProfile from './widgets/icebreaker/icebreaker-profile';
+import IcebreakerProfileFeed from './widgets/icebreaker/icebreaker-profile-feed';
+import NounsBuilderProposals from './widgets/nouns-builder/nouns-builder-proposals';
 
 export const Tool = ({ result, toolName }: {result: any, toolName: string}) => {
     return (

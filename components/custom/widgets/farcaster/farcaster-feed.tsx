@@ -108,7 +108,7 @@ const CastItem = memo(({ cast }: { cast: Cast }) => {
     <Card
       key={cast.hash}
       className="shrink-0 size-auto w-[400px] max-h-[20vh] sm:max-h-[22.5vh] overflow-y-hidden text-sm p-2 rounded-xl bg-neutral-100 dark:bg-neutral-900 border-0 cursor-pointer hover:bg-neutral-200 dark:hover:bg-neutral-800 transition-colors"
-      onClick={() => window.open(`https://warpcast.com/~/conversation/${cast.hash}`, '_blank')}
+      onClick={() => window.open(`https://warpcast.com/~/conversations/${cast.hash}`, '_blank')}
     >
       <div className="flex items-center space-x-2.5 mb-2">
         <img src={cast.author.pfp_url || ""} alt={cast.author.username || ""} className="rounded-full size-10" />

@@ -11,13 +11,12 @@ import {
 import Image from 'next/image';
 import * as React from 'react';
 
+import { type ExtendedWidget } from '@/components/custom/app-builder/index';
 import { Button } from '@/components/ui/button';
 import { Drawer, DrawerContent, DrawerDescription, DrawerHeader, DrawerTitle, DrawerTrigger } from '@/components/ui/drawer';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { cn } from '@/lib/utils';
-
-import { type ExtendedWidget } from '..';
 
 import { APPS, WIDGETS, type Widget } from './index';
 

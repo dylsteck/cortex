@@ -13,7 +13,7 @@ const actions = [
   'Get Farcaster profile info for vitalik.eth',
   'What are the latest casts from dwr.eth?',
   'Show me casts from the fc-devs channel',
-  'Find active bounties this week',
+  'Find open bounties this week',
 ]
 
 export function SuggestedActions({ onActionSelect }: { onActionSelect: (action: string) => void }) {

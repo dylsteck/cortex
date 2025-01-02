@@ -9,8 +9,8 @@ import "react-resizable/css/styles.css";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
-import { WIDGETS } from "./widgets";
-import WidgetDrawer from "./widgets/widget-drawer";
+import { WIDGETS } from "../widgets";
+import WidgetDrawer from "../widgets/widget-drawer";
 
 interface LayoutItem {
   w: number;

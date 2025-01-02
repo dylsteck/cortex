@@ -1,8 +1,8 @@
 import { motion } from "framer-motion";
 
-import { ScrollArea, ScrollBar } from "../ui/scroll-area";
-import { Skeleton } from "../ui/skeleton";
-import { FarcasterToken } from "./app-builder/widgets/farcaster/tokens/farcaster-token";
+import { FarcasterToken } from "./farcaster-token";
+import { ScrollArea, ScrollBar } from "../../../../ui/scroll-area";
+import { Skeleton } from "../../../../ui/skeleton";
 
 type WowTrendingTokensResponse = {
     data: {
