@@ -108,27 +108,6 @@ export const WIDGETS = [
             }
         }
     },
-    // {
-    //     id: 'farcaster-cast',
-    //     appId: 'farcaster',
-    //     name: 'Cast',
-    //     description: 'View a cast given a url or hash',
-    //     component: FarcasterCast,
-    //     preview: <FarcasterCast castUrl="https://warpcast.com/dylsteck.eth/0x1f459eb2" />,
-    //     defaultParams: {
-    //         castUrl: 'https://warpcast.com/dylsteck.eth/0x1f459eb2'
-    //     },
-    //     paramsSchema: z.object({
-    //         castUrl: z.string().url('Must be a valid Warpcast URL')
-    //     }),
-    //     paramsMetadata: {
-    //         castUrl: {
-    //             label: 'Cast URL',
-    //             description: 'The Warpcast URL of the cast to display',
-    //             placeholder: 'https://warpcast.com/username/hash'
-    //         }
-    //     }
-    // },
     {
         id: 'farcaster-feed',
         appId: 'farcaster',
@@ -150,27 +129,6 @@ export const WIDGETS = [
             }
         }
     },
-    // {
-    //     id: 'icebreaker-profile',
-    //     appId: 'icebreaker',
-    //     name: 'Profile',
-    //     description: 'View network info per a fid',
-    //     component: IcebreakerProfile,
-    //     preview: <IcebreakerProfile profile={null} />,
-    //     defaultParams: {
-    //         fid: '616'
-    //     },
-    //     paramsSchema: z.object({
-    //         fid: z.string().min(1, 'FID is required')
-    //     }),
-    //     paramsMetadata: {
-    //         fid: {
-    //             label: 'Farcaster ID',
-    //             description: 'The Farcaster ID (FID) to show the profile for',
-    //             placeholder: '616'
-    //         }
-    //     }
-    // },
     {
         id: 'icebreaker-socials',
         appId: 'icebreaker',

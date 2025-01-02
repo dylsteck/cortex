@@ -253,7 +253,7 @@ export default function WidgetDrawer({ onAdd }: { onAdd: (widget: ExtendedWidget
               <DrawerDescription className="p-0 m-0 text-sm sm:text-base">View widgets across crypto apps</DrawerDescription>
             </DrawerHeader>
             <div className="mt-2 mx-1 overflow-y-auto max-h-[60vh] px-2">
-              {APPS.map((app) => (
+              {APPS.filter((app) => app.id !== 'general').map((app) => (
                 <div key={app.id} className="mb-3">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center flex-1 mr-3">
