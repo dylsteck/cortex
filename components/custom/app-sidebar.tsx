@@ -27,11 +27,10 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from '@/components/ui/sidebar';
-import { Model } from '@/lib/model';
 
 import { CortexIcon } from './icons';
 
-export function AppSidebar({ user, selectedModelName }: { user: User | undefined, selectedModelName: Model['name'] }) {
+export function AppSidebar({ user }: { user: User | undefined }) {
   const { setOpenMobile } = useSidebar();
 
   return (
@@ -57,7 +56,7 @@ export function AppSidebar({ user, selectedModelName }: { user: User | undefined
         {user && (
           <SidebarGroup>
             <SidebarGroupContent>
-              <SidebarUserNav user={user} selectedModelName={selectedModelName} />
+              <SidebarUserNav user={user} />
             </SidebarGroupContent>
           </SidebarGroup>
         )}

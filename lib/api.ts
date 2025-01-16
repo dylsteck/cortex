@@ -231,10 +231,6 @@ class CortexAPI {
     return await fetcher(`${this.BASE_URL}/api/farcaster/trending/casts`)
   }
 
-  async getWeather(latitude: number, longitude: number): Promise<any> {
-    return await fetcher(`${this.BASE_URL}/api/weather?latitude=${latitude}&longitude=${longitude}`)
-  }
-
   async getWowTrendingTokens(): Promise<any> {
     return await fetcher(`${this.BASE_URL}/api/wow/tokens/trending`)
   }

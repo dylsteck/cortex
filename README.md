@@ -31,8 +31,6 @@ Cortex leverages LLM tool calling to power the core of its functionality. The fo
 - [Nouns Builder](https://nouns.build)
 - [Clanker](https://clanker.world)
 - [Wow](https://wow.xyz)
-- [Tavily](https://tavily.com)
-- [Open-Meteo](https://open-meteo.com)
 - [Zapper](https://zapper.xyz)
 
 For a further understanding of how the assistant tools are defined / to learn how to add your own tool, check out [tools.ts](/lib/tools.ts)

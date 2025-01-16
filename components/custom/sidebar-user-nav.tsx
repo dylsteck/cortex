@@ -18,13 +18,11 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from '@/components/ui/sidebar';
-import { Model } from '@/lib/model';
 
 import { SidebarSettingsDialog } from './sidebar-settings-dialog';
 import { SIWNResponseData } from './sign-in-with-neynar';
 
-
-export function SidebarUserNav({ user, selectedModelName }: { user: User, selectedModelName: Model['name'] }) {
+export function SidebarUserNav({ user }: { user: User }) {
   const { setTheme, theme } = useTheme();
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
@@ -87,7 +85,7 @@ export function SidebarUserNav({ user, selectedModelName }: { user: User, select
         </DropdownMenu>
       </SidebarMenuItem>
 
-      <SidebarSettingsDialog username={(user as any).username} isOpen={isSettingsOpen} selectedModelName={selectedModelName} onClose={() => setIsSettingsOpen(false)} />
+      <SidebarSettingsDialog username={(user as any).username} isOpen={isSettingsOpen} onClose={() => setIsSettingsOpen(false)} />
     </SidebarMenu>
   );
 }

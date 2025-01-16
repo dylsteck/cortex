@@ -248,17 +248,6 @@ export const tools = {
       return trendingCasts.casts
     },
   }),
-  getWeather: tool({
-    description: 'Get the current weather at a location.',
-    parameters: z.object({
-      latitude: z.number(),
-      longitude: z.number(),
-    }),
-    execute: async ({ latitude, longitude }) => {
-      const weatherData = await cortexAPI.getWeather(latitude, longitude)
-      return weatherData
-    },
-  }),
   getWowTrendingTokens: tool({
     description: 'Gets trending crypto tokens from Wow.xyz, a token launcher on Base',
     parameters: z.object({}),
@@ -266,19 +255,5 @@ export const tools = {
       const trendingTokenData = await cortexAPI.getWowTrendingTokens();
       return trendingTokenData;
     },
-  }),
-  // webSearch: tool({
-  //   description: 'Search the web for information with the given query.',
-  //   parameters: z.object({
-  //     query: z.string(),
-  //     maxResults: z.number().default(10),
-  //     searchDepth: z.enum(['basic', 'advanced']).default('basic'),
-  //     includeDomains: z.array(z.string()).default([]),
-  //     excludeDomains: z.array(z.string()).default([]),
-  //   }),
-  //   execute: async ({ query, maxResults, searchDepth, includeDomains, excludeDomains }) => {
-  //     const searchData = await cortexAPI.webSearch(query, maxResults, searchDepth, includeDomains, excludeDomains)
-  //     return searchData
-  //   },
-  // }),
+  })
 }

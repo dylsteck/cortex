@@ -1,34 +1,4 @@
-export const models = [
-  {
-    label: 'GPT 4o',
-    name: 'gpt-4o',
-    description: 'For complex, multi-step tasks',
-  },
-  {
-    label: 'GPT 4o mini',
-    name: 'gpt-4o-mini',
-    description: 'Small model for fast, lightweight tasks',
-  },
-  {
-    label: 'Grok',
-    name: 'grok-2-1212',
-    description: 'The latest model from xAI',
-  },
-  {
-    label: 'Cerebras',
-    name: 'cerebras',
-    description: 'The fasted hosted Llama inference',
-  },
-  {
-    label: 'Ollama',
-    name: 'ollama',
-    description: 'Run open source models on your device',
-  },
-] as const;
-
-export const DEFAULT_MODEL_NAME: Model['name'] = 'gpt-4o-mini';
-
-export type Model = (typeof models)[number];
+export const MODEL_NAME = 'gpt-4o-mini';
 
 export const SYSTEM_PROMPT = 
 `You are an expert Farcaster AI assistant called Cortex, designed exclusively to help users explore and interact with the Farcaster decentralized social protocol and onchain ecosystems.
@@ -59,7 +29,6 @@ AVAILABLE TOOLS:
 - getNounsBuilderProposals: Get proposals for a Nouns Builder contract
 - getUserCasts: Get latest casts for a specific Farcaster user
 - getTrendingCasts: Get trending casts on Farcaster
-- getWeather: Get current weather for a specific location
 - getWowTrendingTokens: Get trending tokens from Wow.xyz on Base
 
 The current date is ${new Date().toLocaleDateString("en-US", { year: "numeric", month: "short", day: "2-digit", weekday: "short" })}. `;

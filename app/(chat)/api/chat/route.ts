@@ -1,10 +1,10 @@
+import { openai } from '@ai-sdk/openai';
 import { convertToCoreMessages, Message, smoothStream, streamText } from 'ai';
 import { z } from 'zod';
 
-import { customModel } from '@/ai';
 import { auth } from '@/app/(auth)/auth';
 import { deleteChatById, getChatById, saveChat } from '@/db/queries';
-import { Model, models, SYSTEM_PROMPT } from '@/lib/model';
+import { SYSTEM_PROMPT } from '@/lib/model';
 import { tools } from '@/lib/tools';
 import { BASE_URL, cortexAPI } from '@/lib/utils';
 
@@ -13,7 +13,7 @@ export async function POST(request: Request) {
     id,
     messages,
     model,
-  }: { id: string; messages: Array<Message>; model: Model['name'] } =
+  }: { id: string; messages: Array<Message>; model: string } =
     await request.json();
 
   const session = await auth();
@@ -22,14 +22,10 @@ export async function POST(request: Request) {
     return new Response('Unauthorized', { status: 401 });
   }
 
-  if (!models.find((m) => m.name === model)) {
-    return new Response('Model not found', { status: 404 });
-  }
-
   const coreMessages = convertToCoreMessages(messages);
 
   const result = await streamText({
-    model: await customModel(model),
+    model: await openai(model),
     system: SYSTEM_PROMPT,
     messages: coreMessages,
     maxSteps: 5,

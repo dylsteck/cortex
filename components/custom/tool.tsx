@@ -1,8 +1,6 @@
 import { motion } from 'framer-motion';
 
 import { Casts } from './casts';
-import { Weather } from './weather';
-import { WebResults } from './web-results';
 import { Skeleton } from '../ui/skeleton';
 import EthTimeline from './farcasterkit/ethereum/eth-timeline';
 import { FarcasterBounties } from './farcasterkit/farcaster/bounties/farcaster-bounties';
@@ -14,13 +12,13 @@ import WowTrendingTokens from './farcasterkit/farcaster/tokens/wow-trending-toke
 import IcebreakerProfile from './farcasterkit/icebreaker/icebreaker-profile';
 import IcebreakerProfileFeed from './farcasterkit/icebreaker/icebreaker-profile-feed';
 import NounsBuilderProposals from './farcasterkit/nouns-builder/nouns-builder-proposals';
+import { ToolResponseNew } from './tool-response';
 
 export const Tool = ({ result, toolName }: {result: any, toolName: string}) => {
     return (
       <div>
-        {toolName === 'getWeather' ? (
-          <Weather weatherAtLocation={result} />
-        ) : (toolName === 'castSearch' || toolName === 'getUserCasts' || toolName === 'getTrendingCasts' || toolName === 'getChannelsCasts') ? (
+        {/* <ToolResponseNew title={toolName} images={[]} /> */}
+        {toolName === 'castSearch' || toolName === 'getUserCasts' || toolName === 'getTrendingCasts' || toolName === 'getChannelsCasts' ? (
           <Casts casts={result} />
         ) : toolName === 'getWowTrendingTokens' ? (
           <WowTrendingTokens results={result} />
@@ -34,8 +32,6 @@ export const Tool = ({ result, toolName }: {result: any, toolName: string}) => {
           <FarcasterBounties bounties={result} />
         ) : toolName === 'getLivestreams' ? (
           <FarcasterLivestreams livestreams={result} />
-        ) : toolName === 'webSearch' ? (
-          <WebResults results={result} />
         ) : toolName === 'getEthAddressTimeline' ? (
           <EthTimeline timeline={result} />
         ) : (toolName === 'getIcebreakerFCUser' || 

@@ -6,6 +6,36 @@ import React from "react";
 import { Card } from "@/components/ui/card";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { Badge } from "../ui/badge";
+
+const PreviewBadge = ({ title, images }: { title: string, images: string[] }) => {
+  return (
+    <Badge variant="secondary" className="h-9 gap-2 px-4 bg-zinc-900 text-white hover:bg-zinc-900">
+      <div className="flex -space-x-2">
+        {images.slice(0,4).map((image, index) => (
+          <Avatar key={index} className="size-5 border border-black">
+            <AvatarImage src={image} />
+            <AvatarFallback>{index}</AvatarFallback>
+          </Avatar>
+        ))}
+      </div>
+      <span className="text-sm">{title}</span>
+    </Badge>
+  )
+}
+
+export function ToolResponseNew({ 
+  title,
+  images
+}: {
+  title: string,
+  images: string[],
+}){
+  // todo: pass list or iterable for items
+  return <PreviewBadge title={title} images={images} />
+}
+
 export function ToolResponse({ children }: { children: React.ReactNode }) {
   return (
     <div className="w-full">

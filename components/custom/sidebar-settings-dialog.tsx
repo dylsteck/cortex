@@ -2,7 +2,6 @@
 import { useState } from 'react';
 import { toast } from 'sonner';
 
-import { saveModel, clearOllamaConfig, getOllamaConfig } from '@/app/(chat)/actions';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -22,46 +21,17 @@ import {
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Model, DEFAULT_MODEL_NAME } from '@/lib/model';
-
-import { ModelSelector } from './model-selector';
 
 export function SidebarSettingsDialog({
   username,
   isOpen,
-  selectedModelName,
   onClose,
 }: {
   username: string;
   isOpen: boolean;
-  selectedModelName: Model['name'];
   onClose: () => void;
 }) {
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
-  const [localModelName, setLocalModelName] = useState(selectedModelName);
-
-  const handleSave = async () => {
-    if (localModelName === 'ollama') {
-      const ollamaConfig = await getOllamaConfig();
-      if (ollamaConfig?.ollamaApiUrl.length === 0 || ollamaConfig?.ollamaModel.length === 0) {
-        toast.error('Please configure Ollama settings before saving');
-        return;
-      }
-    }
-    onClose();
-  };
-
-  const handleCancel = async () => {
-    if (localModelName === 'ollama') {
-      const ollamaConfig = await getOllamaConfig();
-      if (ollamaConfig?.ollamaApiUrl.length === 0 || ollamaConfig?.ollamaModel.length === 0) {
-        await clearOllamaConfig();
-        setLocalModelName(DEFAULT_MODEL_NAME);
-        await saveModel(DEFAULT_MODEL_NAME);
-      }
-    }
-    onClose();
-  };
 
   const handleDelete = async () => {
     try {
@@ -80,7 +50,7 @@ export function SidebarSettingsDialog({
 
   return (
     <>
-      <Dialog open={isOpen} onOpenChange={handleCancel}>
+      <Dialog open={isOpen} onOpenChange={onClose}>
         <DialogContent className="p-6 max-w-lg bg-white dark:bg-black text-black dark:text-white">
           <DialogHeader>
             <DialogTitle className="text-gray-900 dark:text-white">Settings</DialogTitle>
@@ -98,14 +68,6 @@ export function SidebarSettingsDialog({
               <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">Username cannot be edited at this time</p>
             </div>
             <div className="flex flex-col gap-2 items-start">
-              <Label className="text-sm font-medium text-gray-700 dark:text-gray-300">Model</Label>
-              <ModelSelector
-                selectedModelName={localModelName}
-                className="mt-1 w-auto bg-white dark:bg-gray-800 text-black dark:text-gray-300"
-                onModelChange={(model) => setLocalModelName(model)}
-              />
-            </div>
-            <div className="flex flex-col gap-2 items-start">
               <Label className="text-sm font-medium text-gray-700 dark:text-gray-300">History</Label>
               <Button 
                 variant="destructive" 
@@ -115,11 +77,11 @@ export function SidebarSettingsDialog({
               </Button>
             </div>
             <div className="flex justify-end space-x-2 mt-6">
-              <Button variant="outline" className="text-gray-700 dark:text-gray-300 bg-white dark:bg-black" onClick={handleCancel}>Cancel</Button>
+              <Button variant="outline" className="text-gray-700 dark:text-gray-300 bg-white dark:bg-black" onClick={onClose}>Cancel</Button>
               <Button 
                 variant="default" 
                 className="text-white bg-gray-900 dark:bg-gray-600" 
-                onClick={handleSave}
+                onClick={onClose}
               >
                 Save
               </Button>

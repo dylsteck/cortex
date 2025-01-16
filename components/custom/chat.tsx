@@ -5,7 +5,6 @@ import { useState, useEffect, useRef } from 'react';
 
 import { Message as PreviewMessage } from '@/components/custom/message';
 import { useScrollToBottom } from '@/components/custom/use-scroll-to-bottom';
-import { Model } from '@/lib/model';
 
 import { ChatHeader } from './chat-header';
 import { ChatInput } from './chat-input';
@@ -19,7 +18,7 @@ export function Chat({
 }: {
   id: string;
   initialMessages: Array<Message>;
-  selectedModelName: Model['name'];
+  selectedModelName: string;
 }) {
   const { messages, handleSubmit, input, setInput, append, isLoading, stop } =
     useChat({
