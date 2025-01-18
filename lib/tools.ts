@@ -1,7 +1,7 @@
 import { tool } from "ai"
 import { z } from "zod"
 
-import { BASE_URL, CAST_HASH_LENGTH, cortexAPI } from "./utils"
+import { BASE_URL, CAST_HASH_LENGTH, cortexSDK } from "./utils"
 
 export const tools = {
   analyzeCast: tool({
@@ -25,7 +25,7 @@ export const tools = {
         matchValue = input;
       }
 
-      const castData = await cortexAPI.getCast(matchType, matchValue);
+      const castData = await cortexSDK.getCast(matchType, matchValue);
       return castData;
     },
   }),
@@ -36,7 +36,7 @@ export const tools = {
     }),
     execute: async ({ question }) => {
       try {
-        return await cortexAPI.askNeynarDocs(question);
+        return await cortexSDK.askNeynarDocs(question);
       } catch (error) {
         console.error('Error in askNeynarDocs tool:', error);
         return `Error querying Neynar: ${(error as Error).message}`;
@@ -49,7 +49,7 @@ export const tools = {
       query: z.string(),
     }),
     execute: async ({ query }) => {
-      const castSearchData = await cortexAPI.castSearch(query)
+      const castSearchData = await cortexSDK.castSearch(query)
       return castSearchData.result.casts
     },
   }),
@@ -84,7 +84,7 @@ export const tools = {
         }
         eventsSince = date.toISOString();
       }
-      const res = await cortexAPI.getBounties(status, eventsSince);
+      const res = await cortexSDK.getBounties(status, eventsSince);
       return res.bounties;
     },
   }),
@@ -108,7 +108,7 @@ export const tools = {
       limit, 
       cursor 
     }) => {
-      const channelCasts = await cortexAPI.getChannelsCasts({
+      const channelCasts = await cortexSDK.getChannelsCasts({
         channel_ids, 
         with_recasts, 
         viewer_fid, 
@@ -124,7 +124,7 @@ export const tools = {
     description: 'Gets trending crypto tokens from Clanker, a token launcher built on top of Farcaster',
     parameters: z.object({}),
     execute: async ({}) => {
-      const trendingTokenData = await cortexAPI.getClankerTrendingTokens();
+      const trendingTokenData = await cortexSDK.getClankerTrendingTokens();
       return trendingTokenData;
     },
   }),
@@ -136,31 +136,21 @@ export const tools = {
     execute: async ({ identifier }) => {
       const isEnsName = identifier.endsWith('.eth');
       if(isEnsName){
-        const ensData = await cortexAPI.getEnsName(identifier);
+        const ensData = await cortexSDK.getEnsName(identifier);
         const address = ensData.address
-        const timelineData = await cortexAPI.getEthAddressTimeline(address);
+        const timelineData = await cortexSDK.getEthAddressTimeline(address);
         return timelineData.data.accountsTimeline.edges;
       } else{
-        const timelineData = await cortexAPI.getEthAddressTimeline(identifier);
+        const timelineData = await cortexSDK.getEthAddressTimeline(identifier);
         return timelineData.data.accountsTimeline.edges;
       }
-    },
-  }),
-  getEvent: tool({
-    description: 'Gets information about an upcoming Farcaster event given its name',
-    parameters: z.object({
-      name: z.string(),
-    }),
-    execute: async ({ name }) => {
-      const eventData = await cortexAPI.getEvent(undefined, name);
-      return eventData;
     },
   }),
   getEvents: tool({
     description: 'Get upcoming Farcaster events on Events.xyz. Do not show any images or markdown in your response.',
     parameters: z.object({}),
     execute: async ({}) => {
-      const eventsData = await cortexAPI.getEvents();
+      const eventsData = await cortexSDK.getEvents();
       return eventsData;
     },
   }),
@@ -170,7 +160,7 @@ export const tools = {
         username: z.string(),
     }),
     execute: async ({ username }) => {
-      const userData = await cortexAPI.getFarcasterUser(username);
+      const userData = await cortexSDK.getFarcasterUser(username);
       return userData
     },
   }),
@@ -182,7 +172,7 @@ export const tools = {
       offset: z.number().optional().default(3),
     }),
     execute: async ({ credentialName, limit, offset }) => {
-      const profilesData = await cortexAPI.getIcebreakerCredentialProfiles(credentialName, limit, offset);
+      const profilesData = await cortexSDK.getIcebreakerCredentialProfiles(credentialName, limit, offset);
       return profilesData;
     },
   }),
@@ -192,7 +182,7 @@ export const tools = {
       identifier: z.string(),
     }),
     execute: async ({ identifier }) => {
-      const profileData = await cortexAPI.getIcebreakerEthProfile(identifier);
+      const profileData = await cortexSDK.getIcebreakerEthProfile(identifier);
       return profileData;
     },
   }),
@@ -202,16 +192,8 @@ export const tools = {
       fname: z.string(),
     }),
     execute: async ({ fname }) => {
-      const profileData = await cortexAPI.getIcebreakerFCUser(fname);
+      const profileData = await cortexSDK.getIcebreakerFCUser(fname);
       return profileData;
-    },
-  }),
-  getLivestreams: tool({
-    description: 'Get current Farcaster livestreams',
-    parameters: z.object({}),
-    execute: async () => {
-      const livestreamData = await cortexAPI.getLivestreams();
-      return livestreamData;
     },
   }),
   getNounsBuilderProposals: tool({
@@ -222,7 +204,7 @@ export const tools = {
       skip: z.number().optional(),
     }),
     execute: async ({ contractAddress, first, skip }) => {
-      const proposalsData = await cortexAPI.getNounsBuilderProposals(contractAddress, first, skip);
+      const proposalsData = await cortexSDK.getNounsBuilderProposals(contractAddress, first, skip);
       return proposalsData.proposals.slice(0, 10);
     },
   }),
@@ -232,11 +214,11 @@ export const tools = {
         username: z.string(),
     }),
     execute: async ({ username }) => {
-        const user = await cortexAPI.getFarcasterUser(username);
+        const user = await cortexSDK.getFarcasterUser(username);
         if(!user){
             throw new Error('User data not available');
         }
-        const userCastsData = await cortexAPI.getFarcasterUserCasts(user.fid);
+        const userCastsData = await cortexSDK.getFarcasterUserCasts(user.fid);
         return userCastsData.casts;
     },
   }),
@@ -244,16 +226,8 @@ export const tools = {
     description: 'Get trending casts (posts) from Farcaster.',
     parameters: z.object({}),
     execute: async ({}) => {
-      const trendingCasts = await cortexAPI.getTrendingCasts()
+      const trendingCasts = await cortexSDK.getTrendingCasts()
       return trendingCasts.casts
-    },
-  }),
-  getWowTrendingTokens: tool({
-    description: 'Gets trending crypto tokens from Wow.xyz, a token launcher on Base',
-    parameters: z.object({}),
-    execute: async ({}) => {
-      const trendingTokenData = await cortexAPI.getWowTrendingTokens();
-      return trendingTokenData;
     },
   })
 }

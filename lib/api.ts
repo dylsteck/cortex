@@ -1,7 +1,7 @@
 import { WarpcastCastsResponse } from "./types";
 import { BASE_URL, redis, fetcher } from "./utils"
 
-class CortexAPI {
+class CortexSDK {
   private BASE_URL: string
 
   constructor() {
@@ -106,24 +106,6 @@ class CortexAPI {
     return await fetcher(`${this.BASE_URL}/api/ethereum/timeline?address=${address}`)
   }
 
-  async getEvent(id?: string, name?: string): Promise<any> {
-    if ((!id && !name) || (id && name)) throw new Error('Provide either id or name')
-    if (id) {
-      return await fetcher(`${this.BASE_URL}/api/farcaster/event/${id}`)
-    }
-    const events = await fetcher(`${this.BASE_URL}/api/farcaster/events`)
-    const event = events.find((e: any) => e.title === name)
-    if (!event) throw new Error('Event not found')
-    return event;
-  }
-
-  async getEventsByChannel(name: string): Promise<any> {
-    if (!name || name.length === 0) {
-      throw new Error("Channel name is required");
-    }
-    return await fetcher(`${this.BASE_URL}/api/farcaster/events/channel/${name}`)
-  }
-
   async getEvents(): Promise<any> {
     return await fetcher(`${this.BASE_URL}/api/farcaster/events`)
   }
@@ -215,10 +197,6 @@ class CortexAPI {
     return await fetcher(url.toString())
   }
 
-  async getLivestreams(): Promise<any> {
-    return await fetcher(`${this.BASE_URL}/api/farcaster/streams/live`)
-  }
-
   async getNounsBuilderProposals(contractAddress: string, first?: number, skip?: number): Promise<any> {
     const url = new URL(`${this.BASE_URL}/api/nouns-builder/proposals`);
     url.searchParams.append('contractAddress', contractAddress);
@@ -229,10 +207,6 @@ class CortexAPI {
 
   async getTrendingCasts(): Promise<any> {
     return await fetcher(`${this.BASE_URL}/api/farcaster/trending/casts`)
-  }
-
-  async getWowTrendingTokens(): Promise<any> {
-    return await fetcher(`${this.BASE_URL}/api/wow/tokens/trending`)
   }
 
   async postCast(signer_uuid: string, text: string, embeds?: any[], parent?: string): Promise<any> {
@@ -264,4 +238,4 @@ class CortexAPI {
   }
 }
 
-export default CortexAPI
+export default CortexSDK

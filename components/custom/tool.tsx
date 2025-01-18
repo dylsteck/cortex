@@ -1,103 +1,67 @@
 import { motion } from 'framer-motion';
 
-import { Casts } from './casts';
+import CastsTool from './tools/casts';
+import EventsTool from './tools/events';
+import { SidebarProvider } from '../ui/sidebar';
 import { Skeleton } from '../ui/skeleton';
-import EthTimeline from './farcasterkit/ethereum/eth-timeline';
-import { FarcasterBounties } from './farcasterkit/farcaster/bounties/farcaster-bounties';
-import { FarcasterEvent, FarcasterEvents } from './farcasterkit/farcaster/events/farcaster-events';
-import FarcasterCast from './farcasterkit/farcaster/farcaster-cast';
-import { FarcasterLivestreams } from './farcasterkit/farcaster/streams/farcaster-livestream';
-import ClankerTrendingTokens from './farcasterkit/farcaster/tokens/clanker-trending-tokens';
-import WowTrendingTokens from './farcasterkit/farcaster/tokens/wow-trending-tokens';
-import IcebreakerProfile from './farcasterkit/icebreaker/icebreaker-profile';
-import IcebreakerProfileFeed from './farcasterkit/icebreaker/icebreaker-profile-feed';
-import NounsBuilderProposals from './farcasterkit/nouns-builder/nouns-builder-proposals';
-import { ToolResponseNew } from './tool-response';
+import { Cast } from './farcasterkit/react/cast';
+import BountiesTool from './tools/bounties';
+import ClankerTrendingTool from './tools/clanker-trending';
 
 export const Tool = ({ result, toolName }: {result: any, toolName: string}) => {
+
+    const renderTool = () => {
+      switch (toolName) {
+        case 'analyzeCast':
+          return <Cast cast={result.cast} />;
+        case 'castSearch':
+          return <CastsTool casts={result} />;
+        case 'getClankerTrendingTokens':
+          return <ClankerTrendingTool clankers={result} />;
+        case 'getUserCasts':
+          return <CastsTool casts={result} />;
+        case 'getTrendingCasts':
+          return <CastsTool casts={result} />;
+        case 'getChannelsCasts':
+          return <CastsTool casts={result} />;
+        case 'getEvents':
+          return <EventsTool events={result} />;
+        case 'getBounties':
+          return <BountiesTool bounties={result} />
+        default:
+          return <Skeleton className="w-full h-auto" />;
+      }
+    }
+
     return (
       <div>
-        {/* <ToolResponseNew title={toolName} images={[]} /> */}
-        {toolName === 'castSearch' || toolName === 'getUserCasts' || toolName === 'getTrendingCasts' || toolName === 'getChannelsCasts' ? (
-          <Casts casts={result} />
-        ) : toolName === 'getWowTrendingTokens' ? (
-          <WowTrendingTokens results={result} />
-        ) : toolName === 'getClankerTrendingTokens' ? (
-          <ClankerTrendingTokens results={result} />
-        ) : toolName === 'getEvent' ? (
-          <FarcasterEvent event={result} />
-        ) : toolName === 'getEvents' ? (
-          <FarcasterEvents events={result} />
-        ) : toolName === 'getBounties' ? (
-          <FarcasterBounties bounties={result} />
-        ) : toolName === 'getLivestreams' ? (
-          <FarcasterLivestreams livestreams={result} />
-        ) : toolName === 'getEthAddressTimeline' ? (
-          <EthTimeline timeline={result} />
-        ) : (toolName === 'getIcebreakerFCUser' || 
-             toolName === 'getIcebreakerEthProfile' ) ? (
-          <IcebreakerProfile profile={result} />
-        ) : toolName === 'getIcebreakerCredentialProfiles' ? (
-          <IcebreakerProfileFeed profiles={result.profiles} />
-        ) : toolName === 'getNounsBuilderProposals' ? (
-          <NounsBuilderProposals proposals={result} />
-        ) : toolName === 'askNeynarDocs' ? (
-          <Skeleton className="w-full h-auto" />
-        ) : toolName === 'analyzeCast' ? (
-          <FarcasterCast result={result.cast} />
-        ) : <Skeleton className="w-full h-auto" /> }
+        {renderTool()}
       </div>
     );
   }
   
-export const ToolPreview = ({ toolName }: {toolName: string}) => {
+export const ToolPreview = () => {
   return (
-    <div className="relative bg-zinc-950/50 rounded-xl p-4 overflow-hidden">
-      <div className='pointer-events-none absolute inset-0 rounded-[inherit] border border-transparent [mask-clip:padding-box,border-box] [mask-composite:intersect] [mask-image:linear-gradient(transparent,transparent),linear-gradient(#000,#000)]'>
-        <motion.div
-          className='absolute aspect-square bg-zinc-500'
-          style={{
-            width: 60,
-            offsetPath: 'rect(0 auto auto 0 round 60px)',
-          }}
-          animate={{
-            offsetDistance: ['0%', '100%'],
-          }}
-          transition={{
-            repeat: Infinity,
-            duration: 5,
-            ease: 'linear',
-          }}
-        />
-      </div>
-      <div className="relative z-10 space-y-4">
-        <motion.h2
-          className="relative inline-block text-lg font-medium text-zinc-600 dark:text-zinc-300"
-          style={{
-            backgroundImage: 'linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.3) 50%, transparent 100%)',
-            backgroundSize: '200% 100%',
-            backgroundClip: 'text',
-            WebkitBackgroundClip: 'text',
-            color: 'transparent',
-          }}
-          initial={{ backgroundPosition: '100% 0' }}
-          animate={{ 
-            backgroundPosition: ['100% 0', '-100% 0'],
-            transition: {
-              duration: 1.5,
-              repeat: Infinity,
-              ease: "linear"
-            }
-          }}
-        >
-          Searching Farcaster...
-        </motion.h2>
-        <div className="space-y-2">
-          <Skeleton className="h-4 w-full" />
-          <Skeleton className="h-4 w-5/6" />
-        </div>
-        <Skeleton className="h-[200px] w-full rounded-xl" />
-      </div>
-    </div>
+    <motion.h2
+      className="relative inline-block text-lg font-medium text-zinc-600 dark:text-zinc-300"
+      style={{
+        backgroundImage: 'linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.3) 50%, transparent 100%)',
+        backgroundSize: '200% 100%',
+        backgroundClip: 'text',
+        WebkitBackgroundClip: 'text',
+        color: 'transparent',
+      }}
+      initial={{ backgroundPosition: '100% 0' }}
+      animate={{ 
+        backgroundPosition: ['100% 0', '-100% 0'],
+        transition: {
+          duration: 1.5,
+          repeat: Infinity,
+          ease: "linear"
+        }
+      }}
+    >
+      Searching...
+    </motion.h2>
   );
 }

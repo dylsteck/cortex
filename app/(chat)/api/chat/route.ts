@@ -6,7 +6,7 @@ import { auth } from '@/app/(auth)/auth';
 import { deleteChatById, getChatById, saveChat } from '@/db/queries';
 import { SYSTEM_PROMPT } from '@/lib/model';
 import { tools } from '@/lib/tools';
-import { BASE_URL, cortexAPI } from '@/lib/utils';
+import { BASE_URL, cortexSDK } from '@/lib/utils';
 
 export async function POST(request: Request) {
   const {

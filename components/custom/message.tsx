@@ -52,7 +52,7 @@ export const Message = ({
                     </div>
                   );
                 }
-                return <ToolPreview key={toolCallId} toolName={toolName} />;
+                return <ToolPreview key={toolCallId} />;
               })}
             </div>
           )}

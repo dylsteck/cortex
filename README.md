@@ -30,7 +30,6 @@ Cortex leverages LLM tool calling to power the core of its functionality. The fo
 - [Icebreaker](https://icebreaker.xyz)
 - [Nouns Builder](https://nouns.build)
 - [Clanker](https://clanker.world)
-- [Wow](https://wow.xyz)
 - [Zapper](https://zapper.xyz)
 
 For a further understanding of how the assistant tools are defined / to learn how to add your own tool, check out [tools.ts](/lib/tools.ts)

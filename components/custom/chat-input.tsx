@@ -5,8 +5,8 @@ import { motion } from 'framer-motion';
 import React, { useRef, useEffect, useCallback } from 'react';
 import { toast } from 'sonner';
 
+import useWindowSize from './hooks/use-window-size';
 import { ArrowUpIcon, StopIcon } from './icons';
-import useWindowSize from './use-window-size';
 import { Button } from '../ui/button';
 import { Textarea } from '../ui/textarea';
 
@@ -87,18 +87,18 @@ export function ChatInput({
         onKeyDown={handleKeyDown}
         placeholder="Message Cortex..."
         spellCheck={false}
-        className="min-h-[44px] w-full resize-none bg-background py-3 pr-12 text-base focus-visible:ring-1 focus-visible:ring-offset-0 rounded-lg"
+        className="min-h-[44px] w-full resize-none bg-background py-3 pr-12 text-base focus-visible:ring-1 focus-visible:ring-offset-0 rounded-xl"
         style={{
           height: textareaRef.current?.scrollHeight,
           maxHeight: '200px'
         }}
       />
-      <div className="absolute right-4 sm:right-6 bottom-2.5">
+      <div className="absolute right-4 sm:right-6 bottom-2">
         <Button
           type="submit"
           size="icon"
           disabled={input.trim().length === 0}
-          className="size-8 rounded-lg bg-primary hover:bg-primary/90"
+          className="size-8 rounded-full bg-primary hover:bg-primary/90"
         >
           {isLoading ? (
             <div onClick={(e: React.MouseEvent) => {

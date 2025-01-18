@@ -1,38 +1,6 @@
 import { z } from "zod";
 
 // ============================================================================
-// Base Types & Interfaces
-// ============================================================================
-
-export interface Widget {
-    id: string;
-    name: string;
-    description: string;
-    iconUrl: string;
-    component: React.ComponentType<any>;
-    paramsSchema?: z.ZodObject<any>;
-}
-
-export interface ExtendedWidget extends Widget {
-    app: App;
-}
-
-export interface App {
-    id: string;
-    name: string;
-    description: string;
-    iconUrl: string;
-    widgets: Widget[];
-}
-
-export interface GridPosition {
-    x: number;
-    y: number;
-    w: number;
-    h: number;
-}
-
-// ============================================================================
 // Icebreaker Types & Schemas
 // ============================================================================
 
@@ -117,17 +85,6 @@ export type IcebreakerWorkExperience = z.infer<typeof IcebreakerWorkExperienceSc
 export type IcebreakerEvent = z.infer<typeof IcebreakerEventSchema>;
 export type IcebreakerGuildMembership = z.infer<typeof IcebreakerGuildMembershipSchema>;
 export type IcebreakerProfile = z.infer<typeof IcebreakerProfileSchema>;
-
-// ============================================================================
-// Widget Props Schemas
-// ============================================================================
-
-export const IcebreakerWidgetPropsSchema = z.object({
-    fname: z.string().optional(),
-    fid: z.string().optional()
-}).refine(data => data.fname || data.fid, {
-    message: "Either fname or fid must be provided"
-});
 
 // ============================================================================
 // Nouns Builder Types
@@ -500,65 +457,6 @@ export interface WarpcastCast {
 }
 
 // ============================================================================
-// Wow.xyz Types
-// ============================================================================
-
-export interface WowGraphQLResponse {
-    data: {
-      wowTrending: {
-        edges: {
-          node: {
-            name: string;
-            address: string;
-            chainId: number;
-            description: string;
-            creator: {
-              __typename: string;
-              avatar: string | null;
-              handle: string;
-              walletAddress: string;
-              __isNode: string;
-              id: string;
-            };
-            hasGraduated: boolean;
-            image: {
-              mimeType: string | null;
-              originalUri: string;
-              medium: string;
-            };
-            video: null | {
-              mimeType: string | null;
-              originalUri: string | null;
-            };
-            usdPrice: string | null;
-            symbol: string;
-            totalSupply: string;
-            marketCap: string | null;
-            blockTimestamp: string;
-            nsfw: boolean;
-            socialLinks: {
-              twitter: string | null;
-              discord: string | null;
-              website: string | null;
-              telegram: string | null;
-            };
-            __typename: string;
-          };
-          cursor: string;
-        }[];
-        pageInfo: {
-          hasNextPage: boolean;
-          hasPreviousPage: boolean;
-          startCursor: string;
-          endCursor: string;
-        };
-        count: number;
-      };
-    };
-  }
-  
-
-// ============================================================================
 // Auth Types
 // ============================================================================
 
@@ -586,137 +484,6 @@ export type AuthData = {
   signer_uuid: string;
   pfp_url: string;
 };
-
-// ============================================================================
-// Bountycaster Types
-// ============================================================================
-
-export interface Bounty {
-    current_state: string;
-    uid: string;
-    links: {
-        external: string;
-        resource: string;
-    };
-    poster: {
-        uid: string;
-        links: {
-            external: string;
-        };
-        short_name: string;
-        display_name: string;
-        profile_picture: string;
-        bio: string;
-        channels: any[];
-        platform: {
-            type: string;
-            username: string;
-            id: string;
-        };
-    };
-    last_updated: string;
-    created_at: string;
-    timestamp: string;
-    is_pinned: boolean;
-    attestations: any[];
-    summary_text: string;
-    tag_slugs: string[];
-    token_symbol_display: string;
-    swap_link: string | null;
-    expiration_date: string;
-    completion_date: string | null;
-    is_boosted: boolean;
-    rating: number;
-    platform: {
-        type: string;
-        tweet_id: string;
-    };
-    title: string;
-    channel: string | null;
-    stats: {
-        replies: number;
-        reactions: number;
-        recasts: number;
-    };
-    quota: {
-        total: number;
-        remaining: number;
-    };
-    reward_summary: {
-        num_contributions: number;
-        token: {
-            symbol: string;
-            image_url: string;
-            metadata: {
-                chain: number;
-                decimals: number;
-                type: string;
-                address: string;
-            };
-        };
-        unit_amount: string;
-        usd_value: string;
-    };
-    embeds: any[];
-    feed: any[];
-    is_payable_via_widget: boolean;
-    max_payable_on_site: string;
-    contributions: Array<{
-        amount: string;
-        is_op: boolean;
-        profile: {
-            uid: string;
-            links: {
-                external: string;
-            };
-            short_name: string;
-            display_name: string;
-            profile_picture: string;
-            bio: string;
-            channels: any[];
-            platform: {
-                type: string;
-                username: string;
-                id: string;
-            };
-        };
-    }>;
-    prize_distribution: any | null;
-    mode: string;
-    num_completed_bounties_posted_by_profile: number;
-}
-
-// ============================================================================
-// Streamm Types
-// ============================================================================
-
-export interface TokenDetails {
-  imageUrl: string;
-  name: string;
-  ticker: string;
-}
-
-export interface StreammStream {
-  creatorId: number;
-  streamId: string;
-  creatorAddress: string;
-  hasStream: boolean;
-  isLive: boolean;
-  playbackId: string;
-  streamHash: string;
-  streamTitle: string;
-  thumbnailId: string;
-  gatedId: string;
-  gatedType: string;
-  tokenDetails: TokenDetails;
-  started: number;
-  recordings: any[];
-  likes: number;
-  streamStarted: number;
-  betAddress: string;
-  betResolverAddress: string;
-  betResolverFid: number;
-}
 
 // ============================================================================
 // ENS Data Types

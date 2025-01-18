@@ -1,87 +1,77 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
-import React from "react";
+import { motion } from "framer-motion";
+import { XIcon } from "lucide-react";
+import Link from "next/link";
+import React, { useEffect, useState } from "react";
 
 import { Card } from "@/components/ui/card";
-import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
+import { Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerFooter, DrawerHeader, DrawerTitle, DrawerTrigger } from "@/components/ui/drawer";
 
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Badge } from "../ui/badge";
+import { useMediaQuery } from "./hooks/use-media-query";
+import PreviewBadge from "./preview-badge";
 
-const PreviewBadge = ({ title, images }: { title: string, images: string[] }) => {
+export function ToolResponse({ badgeTitle, bodyTitle, images, items, renderItem, keyExtractor }: { badgeTitle: string, bodyTitle: string, images: string[], items: any, renderItem: (item: any) => React.ReactNode, keyExtractor: (item: any) => string }) {
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const isDesktop = useMediaQuery("(min-width: 768px)")
+  
   return (
-    <Badge variant="secondary" className="h-9 gap-2 px-4 bg-zinc-900 text-white hover:bg-zinc-900">
-      <div className="flex -space-x-2">
-        {images.slice(0,4).map((image, index) => (
-          <Avatar key={index} className="size-5 border border-black">
-            <AvatarImage src={image} />
-            <AvatarFallback>{index}</AvatarFallback>
-          </Avatar>
-        ))}
+      <div className="relative">
+        <PreviewBadge title={badgeTitle} images={images} onClick={() => setIsOpen(!isOpen)} />
+        <ToolResponseBody
+          isDesktop={isDesktop}
+          isOpen={isOpen}
+          onClose={() => setIsOpen(false)}
+          title={bodyTitle}
+          items={items}
+          renderItem={renderItem}
+          keyExtractor={keyExtractor}
+        />
       </div>
-      <span className="text-sm">{title}</span>
-    </Badge>
   )
 }
 
-export function ToolResponseNew({ 
-  title,
-  images
-}: {
-  title: string,
-  images: string[],
-}){
-  // todo: pass list or iterable for items
-  return <PreviewBadge title={title} images={images} />
-}
-
-export function ToolResponse({ children }: { children: React.ReactNode }) {
-  return (
-    <div className="w-full">
-      {children}
-    </div>
-  );
-}
-
-export function ToolResponseHeader({ text }: { text: string }) {
-  if(typeof text === 'undefined' || text.length === 0){
-    return null
+function ToolResponseBody({ isDesktop, isOpen, onClose, title, items, renderItem, keyExtractor }: { isDesktop: boolean, isOpen: boolean, onClose: () => void, title: string, items: any[], renderItem: (item: any) => React.ReactNode, keyExtractor: (item: any) => string }) {
+  if (!isOpen) return null
+  if (isDesktop) {
+    return (
+      <motion.div 
+        initial={{ x: "100%" }} 
+        animate={{ x: 0 }} 
+        exit={{ x: "100%" }} 
+        transition={{ type: "spring", stiffness: 300, damping: 30 }} 
+        className="fixed right-0 top-0 h-full w-80 bg-zinc-900 text-white shadow-lg p-4 z-50 overflow-y-scroll"
+      >
+        <div className="flex flex-row gap-4 items-center">
+          <XIcon className="size-6 cursor-pointer" onClick={onClose} />
+          <h2 className="text-lg font-semibold">{title}</h2>
+        </div>
+        <div className="mt-4 space-y-2 max-w-full">
+          {items.map((item) => (
+            <div key={keyExtractor(item)} className="flex items-center space-x-2 w-full">
+              <span className="text-sm w-full">{renderItem(item)}</span>
+            </div>
+          ))}
+        </div>
+      </motion.div>
+    )
   }
   return (
-    <h2 className="text-lg font-medium mb-2.5">
-      {text}
-    </h2>
-  );
-}
-
-export function ToolResponseBody({ children }: { children: React.ReactNode }) {
-  return (
-    <ScrollArea className="w-full overflow-x-auto">
-      <div className="flex space-x-4 pb-4">
-        {children}
-      </div>
-      <ScrollBar orientation="horizontal" />
-    </ScrollArea>
-  );
-}
-
-export function ToolResponseCard({ children, onClick, height }: { children: React.ReactNode; onClick?: () => void; height?: string }) {
-  const handleCardClick = (e: React.MouseEvent) => {
-    // Check if the click target is the card itself or a non-interactive child
-    const target = e.target as HTMLElement;
-    const isInteractiveElement = target.closest('button, a, input, [onclick], [role="button"]');
-    if (!isInteractiveElement && onClick) {
-      onClick();
-    }
-  };
-
-  return (
-    <Card
-      className={`shrink-0 size-auto w-[400px] ${height ? height : "max-h-[20vh] sm:max-h-[22.5vh]"} overflow-y-hidden text-sm p-2 rounded-xl bg-neutral-100 dark:bg-neutral-900 border-0 cursor-pointer hover:bg-neutral-200 dark:hover:bg-neutral-800 transition-colors`}
-      onClick={handleCardClick}
-    >
-      {children}
-    </Card>
-  );
+    <Drawer open={isOpen} onOpenChange={onClose}>
+      <DrawerContent>
+        <DrawerHeader className="text-left">
+          <DrawerTitle>{title}</DrawerTitle>
+        </DrawerHeader>
+        <div className="pl-4 pb-2 flex flex-row gap-2 items-start overflow-y-auto max-w-full max-h-[30vh]">
+          {items.map((item) => (
+            <div key={keyExtractor(item)} className="w-full">
+              <span className="text-sm w-full break-words">{renderItem(item)}</span>
+            </div>
+          ))}
+        </div>
+      </DrawerContent>
+    </Drawer>
+  )
 }

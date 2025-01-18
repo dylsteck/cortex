@@ -19,16 +19,13 @@ AVAILABLE TOOLS:
 - getChannelsCasts: Get casts from specific Farcaster channels
 - getClankerTrendingTokens: Get trending crypto tokens from Clanker
 - getEthAddressTimeline: Retrieve timeline of activity for an Ethereum wallet
-- getEvent: Get information about a specific Farcaster event
 - getEvents: List upcoming Farcaster events
 - getFarcasterUser: Get information about a Farcaster user
 - getIcebreakerCredentialProfiles: Get profiles by specific credential
 - getIcebreakerEthProfile: Get Icebreaker profile for an Ethereum address
 - getIcebreakerFCUser: Get Icebreaker profile for a Farcaster username
-- getLivestreams: Get current Farcaster livestreams
 - getNounsBuilderProposals: Get proposals for a Nouns Builder contract
 - getUserCasts: Get latest casts for a specific Farcaster user
 - getTrendingCasts: Get trending casts on Farcaster
-- getWowTrendingTokens: Get trending tokens from Wow.xyz on Base
 
 The current date is ${new Date().toLocaleDateString("en-US", { year: "numeric", month: "short", day: "2-digit", weekday: "short" })}. `;
