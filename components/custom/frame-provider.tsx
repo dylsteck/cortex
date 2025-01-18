@@ -1,6 +1,6 @@
 'use client'
 
-import { FrameContext, sdk } from "@farcaster/frame-sdk";
+import { sdk } from "@farcaster/frame-sdk";
 import { farcasterFrame } from "@farcaster/frame-wagmi-connector";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
