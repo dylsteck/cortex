@@ -3,8 +3,8 @@ import { Attachment, Message } from 'ai';
 import { useChat } from 'ai/react';
 import { useState, useEffect, useRef } from 'react';
 
-import { useScrollToBottom } from '@/components/custom/hooks/use-scroll-to-bottom';
 import { Message as PreviewMessage } from '@/components/custom/message';
+import { useScrollToBottom } from '@/hooks/use-scroll-to-bottom';
 
 import { ChatHeader } from './chat-header';
 import { ChatInput } from './chat-input';

@@ -9,9 +9,9 @@ import React, { useEffect, useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerFooter, DrawerHeader, DrawerTitle, DrawerTrigger } from "@/components/ui/drawer";
 
-import { Badge } from "../ui/badge";
-import { useMediaQuery } from "./hooks/use-media-query";
 import PreviewBadge from "./preview-badge";
+import { useMediaQuery } from "../../hooks/use-media-query";
+import { Badge } from "../ui/badge";
 
 export function ToolResponse({ badgeTitle, bodyTitle, images, items, renderItem, keyExtractor }: { badgeTitle: string, bodyTitle: string, images: string[], items: any, renderItem: (item: any) => React.ReactNode, keyExtractor: (item: any) => string }) {
   const [isOpen, setIsOpen] = useState<boolean>(false);

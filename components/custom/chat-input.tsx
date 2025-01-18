@@ -5,8 +5,8 @@ import { motion } from 'framer-motion';
 import React, { useRef, useEffect, useCallback } from 'react';
 import { toast } from 'sonner';
 
-import useWindowSize from './hooks/use-window-size';
 import { ArrowUpIcon, StopIcon } from './icons';
+import useWindowSize from '../../hooks/use-window-size';
 import { Button } from '../ui/button';
 import { Textarea } from '../ui/textarea';
 
