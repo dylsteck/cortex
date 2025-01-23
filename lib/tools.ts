@@ -128,24 +128,24 @@ export const tools = {
       return trendingTokenData;
     },
   }),
-  getEthAddressTimeline: tool({
-    description: 'Get the timeline of activity for an Ethereum wallet by address or ENS name',
-    parameters: z.object({
-      identifier: z.string(),
-    }),
-    execute: async ({ identifier }) => {
-      const isEnsName = identifier.endsWith('.eth');
-      if(isEnsName){
-        const ensData = await cortexSDK.getEnsName(identifier);
-        const address = ensData.address
-        const timelineData = await cortexSDK.getEthAddressTimeline(address);
-        return timelineData.data.accountsTimeline.edges;
-      } else{
-        const timelineData = await cortexSDK.getEthAddressTimeline(identifier);
-        return timelineData.data.accountsTimeline.edges;
-      }
-    },
-  }),
+  // getEthAddressTimeline: tool({
+  //   description: 'Get the timeline of activity for an Ethereum wallet by address or ENS name',
+  //   parameters: z.object({
+  //     identifier: z.string(),
+  //   }),
+  //   execute: async ({ identifier }) => {
+  //     const isEnsName = identifier.endsWith('.eth');
+  //     if(isEnsName){
+  //       const ensData = await cortexSDK.getEnsName(identifier);
+  //       const address = ensData.address
+  //       const timelineData = await cortexSDK.getEthAddressTimeline(address);
+  //       return timelineData.data.accountsTimeline.edges;
+  //     } else{
+  //       const timelineData = await cortexSDK.getEthAddressTimeline(identifier);
+  //       return timelineData.data.accountsTimeline.edges;
+  //     }
+  //   },
+  // }),
   getEvents: tool({
     description: 'Get upcoming Farcaster events on Events.xyz. Do not show any images or markdown in your response.',
     parameters: z.object({}),
@@ -154,60 +154,38 @@ export const tools = {
       return eventsData;
     },
   }),
-  getFarcasterUser: tool({
-    description: 'Gets information about a Farcaster user.',
-    parameters: z.object({
-        username: z.string(),
-    }),
-    execute: async ({ username }) => {
-      const userData = await cortexSDK.getFarcasterUser(username);
-      return userData
-    },
-  }),
-  getIcebreakerCredentialProfiles: tool({
-    description: 'Get Icebreaker profiles by a specific credential name.',
-    parameters: z.object({
-      credentialName: z.string(),
-      limit: z.number().optional().default(100),
-      offset: z.number().optional().default(3),
-    }),
-    execute: async ({ credentialName, limit, offset }) => {
-      const profilesData = await cortexSDK.getIcebreakerCredentialProfiles(credentialName, limit, offset);
-      return profilesData;
-    },
-  }),
-  getIcebreakerEthProfile: tool({
-    description: 'Get Icebreaker profile for an Ethereum address or ENS name.',
-    parameters: z.object({
-      identifier: z.string(),
-    }),
-    execute: async ({ identifier }) => {
-      const profileData = await cortexSDK.getIcebreakerEthProfile(identifier);
-      return profileData;
-    },
-  }),
-  getIcebreakerFCUser: tool({
-    description: 'Get Icebreaker profile for a Farcaster username (fname).',
-    parameters: z.object({
-      fname: z.string(),
-    }),
-    execute: async ({ fname }) => {
-      const profileData = await cortexSDK.getIcebreakerFCUser(fname);
-      return profileData;
-    },
-  }),
-  getNounsBuilderProposals: tool({
-    description: 'Get Nouns Builder proposals for a specific contract address',
-    parameters: z.object({
-      contractAddress: z.string(),
-      first: z.number().optional(),
-      skip: z.number().optional(),
-    }),
-    execute: async ({ contractAddress, first, skip }) => {
-      const proposalsData = await cortexSDK.getNounsBuilderProposals(contractAddress, first, skip);
-      return proposalsData.proposals.slice(0, 10);
-    },
-  }),
+  // getIcebreakerEthProfile: tool({
+  //   description: 'Get Icebreaker profile for an Ethereum address or ENS name.',
+  //   parameters: z.object({
+  //     identifier: z.string(),
+  //   }),
+  //   execute: async ({ identifier }) => {
+  //     const profileData = await cortexSDK.getIcebreakerEthProfile(identifier);
+  //     return profileData;
+  //   },
+  // }),
+  // getIcebreakerFCUser: tool({
+  //   description: 'Get Icebreaker profile for a Farcaster username (fname).',
+  //   parameters: z.object({
+  //     fname: z.string(),
+  //   }),
+  //   execute: async ({ fname }) => {
+  //     const profileData = await cortexSDK.getIcebreakerFCUser(fname);
+  //     return profileData;
+  //   },
+  // }),
+  // getNounsBuilderProposals: tool({
+  //   description: 'Get Nouns Builder proposals for a specific contract address',
+  //   parameters: z.object({
+  //     contractAddress: z.string(),
+  //     first: z.number().optional(),
+  //     skip: z.number().optional(),
+  //   }),
+  //   execute: async ({ contractAddress, first, skip }) => {
+  //     const proposalsData = await cortexSDK.getNounsBuilderProposals(contractAddress, first, skip);
+  //     return proposalsData.proposals.slice(0, 10);
+  //   },
+  // }),
   getUserCasts: tool({
     description: 'Gets the latest casts per a particular username on Farcaster.',
     parameters: z.object({

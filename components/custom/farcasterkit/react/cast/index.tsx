@@ -21,7 +21,7 @@ export const Cast = ({ cast, theme = 'light' }: { cast: NeynarCastV2, theme?: 'l
   };
 
   return (
-    <div className={`p-4 rounded-lg max-w-xs border ${textColors[theme].border} shadow-lg overflow-hidden`}> 
+  <div className={`p-4 rounded-lg w-full border ${textColors[theme].border} shadow-lg overflow-hidden cursor-pointer`} onClick={() => window.open(`https://warpcast.com/${cast.author.username ?? `~/conversations`}/${cast.hash}`, '_blank')}> 
       <div className="flex items-center mb-3 space-x-3">
         <img
           src={cast.author.pfp_url}

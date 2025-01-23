@@ -6,6 +6,7 @@ import { auth } from '@/app/(auth)/auth';
 import { deleteChatById, getChatById, saveChat } from '@/db/queries';
 import { SYSTEM_PROMPT } from '@/lib/model';
 import { tools } from '@/lib/tools';
+import { SessionData } from '@/lib/types';
 import { BASE_URL, cortexSDK } from '@/lib/utils';
 
 export async function POST(request: Request) {
@@ -23,10 +24,9 @@ export async function POST(request: Request) {
   }
 
   const coreMessages = convertToCoreMessages(messages);
-
   const result = await streamText({
     model: await openai(model),
-    system: SYSTEM_PROMPT,
+    system: SYSTEM_PROMPT(session.user as SessionData),
     messages: coreMessages,
     maxSteps: 5,
     tools: tools,

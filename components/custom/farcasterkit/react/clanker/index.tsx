@@ -4,81 +4,63 @@ import React from 'react';
 
 import { ClankerTrendingTokensResponse } from '../../common/types/clanker';
 
-export const Clanker = ({ clanker, theme = 'light' }: { 
-  clanker: ClankerTrendingTokensResponse['tokens'][string], 
-  theme?: 'light' | 'dark'
+export const Clanker = ({ clanker }: { 
+  clanker: ClankerTrendingTokensResponse['tokens'][string]
 }) => {
-  const textColors = {
-    light: {
-      username: 'text-black',
-      reactions: 'text-black',
-      body: 'text-black',
-      border: 'border-gray-300'
-    },
-    dark: {
-      username: 'text-gray-400',
-      reactions: 'text-gray-400',
-      body: 'text-gray-200',
-      border: 'border-gray-900'
-    }
-  };
-
   return (
-    <div className={`p-4 rounded-lg max-w-xs border ${textColors[theme].border} shadow-lg overflow-hidden`}> 
-      <div className="flex flex-col space-y-2">
+    <div className="p-4 rounded-lg w-full border border-gray-300 shadow-lg overflow-hidden text-black dark:text-white cursor-pointer" onClick={() => window.open(`https://clanker.world/clanker/${clanker.contract_address}`, '_blank')}> 
+      <div className="flex items-start space-x-4">
         {clanker.img_url && (
           <img
             src={clanker.img_url}
             alt={clanker.name}
-            className="size-20 rounded-full border border-gray-600 self-center"
+            className="size-10 rounded-full border border-gray-600"
           />
         )}
-        <div className="text-center">
-          <p className={`font-semibold text-lg ${textColors[theme].username}`}>{clanker.name}</p>
-          <p className={`text-sm ${textColors[theme].username}`}>
-            {clanker.symbol}
-          </p>
+        <div className="flex flex-col">
+          <p className={`font-semibold text-lg`}>{clanker.name}</p>
+          <p className={`text-sm`}>{clanker.symbol}</p>
         </div>
       </div>
       <div className="mt-4 space-y-2">
         <div className="grid grid-cols-2 gap-2">
           <div>
-            <p className={`text-xs font-medium ${textColors[theme].body}`}>Contract Address</p>
-            <p className={`text-sm truncate ${textColors[theme].body}`}>{clanker.contract_address}</p>
+            <p className={`text-xs font-medium`}>Contract Address</p>
+            <p className={`text-sm truncate`}>{clanker.contract_address.slice(0, 10)}...{clanker.contract_address.slice(-4)}</p>
           </div>
           <div>
-            <p className={`text-xs font-medium ${textColors[theme].body}`}>Pool Address</p>
-            <p className={`text-sm truncate ${textColors[theme].body}`}>{clanker.pool_address}</p>
+            <p className={`text-xs font-medium`}>Pool Address</p>
+            <p className={`text-sm truncate`}>{clanker.pool_address.slice(0, 10)}...{clanker.pool_address.slice(-4)}</p>
           </div>
         </div>
         <div className="grid grid-cols-2 gap-2">
           <div>
-            <p className={`text-xs font-medium ${textColors[theme].body}`}>Created At</p>
-            <p className={`text-sm ${textColors[theme].body}`}>
+            <p className={`text-xs font-medium`}>Created At</p>
+            <p className={`text-sm`}>
               {new Date(clanker.created_at).toLocaleDateString()}
             </p>
           </div>
           <div>
-            <p className={`text-xs font-medium ${textColors[theme].body}`}>Transaction Hash</p>
-            <p className={`text-sm truncate ${textColors[theme].body}`}>{clanker.tx_hash}</p>
+            <p className={`text-xs font-medium`}>Transaction Hash</p>
+            <p className={`text-sm truncate`}>{clanker.tx_hash.slice(0, 10)}...{clanker.tx_hash.slice(-4)}</p>
           </div>
         </div>
-        {clanker.cast_hash && (
+        {/* {clanker.cast_hash && (
           <div>
-            <p className={`text-xs font-medium ${textColors[theme].body}`}>Cast Hash</p>
-            <p className={`text-sm truncate ${textColors[theme].body}`}>{clanker.cast_hash}</p>
+            <p className={`text-xs font-medium`}>Cast Hash</p>
+            <p className={`text-sm truncate`}>{clanker.cast_hash.slice(0, 10)}...{clanker.cast_hash.slice(-4)}</p>
           </div>
-        )}
-        <div className="grid grid-cols-2 gap-2">
+        )} */}
+        {/* <div className="grid grid-cols-2 gap-2">
           <div>
-            <p className={`text-xs font-medium ${textColors[theme].body}`}>Type</p>
-            <p className={`text-sm ${textColors[theme].body}`}>{clanker.type || 'N/A'}</p>
+            <p className={`text-xs font-medium`}>Type</p>
+            <p className={`text-sm`}>{clanker.type || 'N/A'}</p>
           </div>
           <div>
-            <p className={`text-xs font-medium ${textColors[theme].body}`}>Pair</p>
-            <p className={`text-sm ${textColors[theme].body}`}>{clanker.pair || 'N/A'}</p>
+            <p className={`text-xs font-medium`}>Pair</p>
+            <p className={`text-sm`}>{clanker.pair || 'N/A'}</p>
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );

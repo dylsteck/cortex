@@ -15,7 +15,8 @@ import { Badge } from "../ui/badge";
 
 export function ToolResponse({ badgeTitle, bodyTitle, images, items, renderItem, keyExtractor }: { badgeTitle: string, bodyTitle: string, images: string[], items: any, renderItem: (item: any) => React.ReactNode, keyExtractor: (item: any) => string }) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const isDesktop = useMediaQuery("(min-width: 768px)")
+  const isDesktop = useMediaQuery("(min-width: 640px)")
+  // note: 640px = sm in Tailwind
   
   return (
       <div className="relative">
@@ -42,7 +43,7 @@ function ToolResponseBody({ isDesktop, isOpen, onClose, title, items, renderItem
         animate={{ x: 0 }} 
         exit={{ x: "100%" }} 
         transition={{ type: "spring", stiffness: 300, damping: 30 }} 
-        className="fixed right-0 top-0 h-full w-80 bg-zinc-900 text-white shadow-lg p-4 z-50 overflow-y-scroll"
+        className="fixed right-0 top-0 h-full w-80 bg-[#101010] text-white shadow-lg p-4 z-50 overflow-y-scroll"
       >
         <div className="flex flex-row gap-4 items-center">
           <XIcon className="size-6 cursor-pointer" onClick={onClose} />
@@ -60,14 +61,15 @@ function ToolResponseBody({ isDesktop, isOpen, onClose, title, items, renderItem
   }
   return (
     <Drawer open={isOpen} onOpenChange={onClose}>
-      <DrawerContent>
+      <DrawerContent className="min-h-[40vh] h-auto">
         <DrawerHeader className="text-left">
           <DrawerTitle>{title}</DrawerTitle>
         </DrawerHeader>
-        <div className="pl-4 pb-2 flex flex-row gap-2 items-start overflow-y-auto max-w-full max-h-[30vh]">
-          {items.map((item) => (
-            <div key={keyExtractor(item)} className="w-full">
-              <span className="text-sm w-full break-words">{renderItem(item)}</span>
+        <div className="p-2 pt-0 space-y-2 max-w-full max-h-[35vh] overflow-y-scroll">
+          {items.map((item, index) => (
+            <div key={keyExtractor(item)} className="flex flex-col w-full">
+              <span className="text-sm size-full break-words">{renderItem(item)}</span>
+              {/* {index < items.length - 1 && <div className="h-px bg-white w-full opacity-60 px-2" />} */}
             </div>
           ))}
         </div>

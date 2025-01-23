@@ -41,7 +41,7 @@ export const Message = ({
             </div>
           ) : null}
           {toolInvocations && toolInvocations.length > 0 && (
-            <div className="space-y-4 overflow-hidden">
+            <div className="space-y-4 flex flex-row gap-2 items-center overflow-hidden">
               {toolInvocations.map((toolInvocation) => {
                 const { toolName, toolCallId, state } = toolInvocation;
                 if (state === 'result') {

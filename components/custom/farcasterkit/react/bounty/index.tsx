@@ -11,17 +11,17 @@ export function Bounty({ bounty }: { bounty: BountyType }) {
   const hasReward = bounty.reward_summary?.token?.symbol && bounty.reward_summary?.unit_amount;
 
   return (
-    <div onClick={() => window.open(bounty.links.external, '_blank')}>
-      <div className="w-[300px] md:w-[400px] flex flex-col shrink-0">
-        <div className="flex-none pb-3">
+    <div className="cursor-pointer" onClick={() => window.open(`https://bountycaster.xyz${bounty.links.resource}`, '_blank')}>
+      <div className="w-full border border-white rounded-lg flex flex-col shrink-0 shadow-lg hover:shadow-xl transition-shadow duration-200 p-2">
+        <div className="flex-none pb-4">
           <div className="flex justify-between items-start">
             <div>
-              <div className="text-lg font-bold">
+              <div className="text-lg font-medium pt-1">
                 <a href={bounty.links.external} target="_blank" rel="noopener noreferrer" className="hover:underline">
                   {bounty.title}
                 </a>
               </div>
-              <div className="flex items-center space-x-2 mt-1">
+              <div className="flex items-center space-x-2 mt-2">
                 {hasReward && (
                   <Badge variant="outline" className="text-green-600 border-green-600">
                     {bounty.reward_summary.unit_amount} {bounty.reward_summary.token.symbol}
@@ -35,7 +35,7 @@ export function Bounty({ bounty }: { bounty: BountyType }) {
             </div>
           </div>
         </div>
-        <div className="space-y-2 relative pb-0">
+        <div className="space-y-3 relative pb-0">
           <div className="flex items-center space-x-3">
             <Avatar>
               <AvatarImage src={bounty.poster.profile_picture} alt={bounty.poster.display_name} />
@@ -46,17 +46,9 @@ export function Bounty({ bounty }: { bounty: BountyType }) {
             </div>
           </div>
           <div className="text-sm text-muted-foreground">
-            {bounty.summary_text}
+            {bounty.summary_text.length > 200 ? `${bounty.summary_text.substring(0, 200)}...` : bounty.summary_text}
           </div>
         </div>
-        <a 
-          href={bounty.links.external} 
-          target="_blank" 
-          rel="noopener noreferrer" 
-          className="absolute bottom-2 right-2 text-muted-foreground hover:text-foreground"
-        >
-          <ExternalLinkIcon className="size-4" />
-        </a>
       </div>
     </div>
   )

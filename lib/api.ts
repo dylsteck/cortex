@@ -1,4 +1,3 @@
-import { WarpcastCastsResponse } from "./types";
 import { BASE_URL, redis, fetcher } from "./utils"
 
 class CortexSDK {

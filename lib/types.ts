@@ -286,176 +286,6 @@ export interface FarcasterFeedProps {
     channelId?: string;
 }
 
-export interface WarpcastCastsResponse {
-    result: {
-        casts: WarpcastCast[]
-    }
-}
-
-export interface WarpcastCast {
-    hash: string
-    threadHash: string
-    parentHash?: string
-    parentAuthor?: {
-        fid: number
-        username: string
-        displayName: string
-        profile: {
-            bio: {
-                text: string
-                mentions: string[]
-                channelMentions: string[]
-            }
-            location: {
-                placeId: string
-                description: string
-            }
-        }
-        followerCount: number
-        followingCount: number
-        activeOnFcNetwork: boolean
-    }
-    parentSource?: {
-        type: string
-        url: string
-    }
-    author: {
-        fid: number
-        username: string
-        displayName: string
-        pfp?: {
-            url: string
-            verified: boolean
-        }
-        profile: {
-            bio: {
-                text: string
-                mentions: string[]
-                channelMentions: string[]
-            }
-            location: {
-                placeId: string
-                description: string
-            }
-        }
-        followerCount: number
-        followingCount: number
-        activeOnFcNetwork: boolean
-        viewerContext: {
-            following: boolean
-            blockedBy: boolean
-        }
-    }
-    castType?: string
-    text?: string
-    timestamp: number
-    mentions: {
-        fid?: number
-        username?: string
-        displayName?: string
-        profile?: {
-            bio: {
-                text: string
-                mentions: string[]
-                channelMentions: string[]
-            }
-            location: {
-                placeId: string
-                description: string
-            }
-        }
-        followerCount?: number
-        followingCount?: number
-    }[]
-    ancestors: {
-        count: number
-        casts?: WarpcastCast[]
-    }
-    replies: {
-        count: number
-    }
-    reactions: {
-        count: number
-    }
-    recasts: {
-        count: number
-    }
-    watches: {
-        count: number
-    }
-    tags: {
-        type: string
-        id: string
-        name: string
-        imageUrl: string
-    }[]
-    quoteCount?: number
-    combinedRecastCount?: number
-    warpsTipped?: number
-    viewCount?: number
-    channel: {
-        key: string
-        name: string
-        imageUrl: string
-        authorContext: {
-            role: string
-            restricted: boolean
-            banned: boolean
-        }
-        authorRole: string
-    }
-    viewerContext: {
-        reacted: boolean
-        recast: boolean
-        bookmarked: boolean
-    }
-    channelMentions?: {
-        key: string
-        name: string
-    }[]
-    embeds?: {
-        images: {
-            type: string
-            url: string
-            sourceUrl?: string
-            media?: {
-                version: string
-                width: number
-                height: number
-                staticRaster: string
-            }
-            alt?: string
-        }[]
-        urls: {
-            type: string
-            openGraph: {
-                url: string
-                sourceUrl: string
-                title: string
-                domain: string
-                image: string
-                useLargeImage?: boolean
-                frame: {
-                    version: string
-                    frameUrl: string
-                    imageUrl: string
-                    postUrl: string
-                    buttons: {
-                        index: number
-                        title: string
-                        type: string
-                    }[]
-                    imageAspectRatio: string
-                }
-            }
-        }[]
-        videos: any[]
-        unknowns: any[]
-        processedCastText: string
-        groupInvites: any[]
-    }
-}
-
 // ============================================================================
 // Auth Types
 // ============================================================================
@@ -483,6 +313,16 @@ export type AuthData = {
   verified_address?: string;
   signer_uuid: string;
   pfp_url: string;
+};
+
+export type SessionData = {
+  fid: string;
+  username: string;
+  name: string;
+  bio: string;
+  verified_address?: string;
+  pfp_url: string;
+  createdAt: string;
 };
 
 // ============================================================================

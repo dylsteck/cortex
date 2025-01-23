@@ -12,7 +12,7 @@ export default function PreviewBadge({ title, images, onClick }: { title: string
             </Avatar>
           ))}
         </div>
-        <span className="text-sm font-medium">{title}</span>
+        <span className="text-sm font-normal">{title}</span>
       </Badge>
     ) 
   }
