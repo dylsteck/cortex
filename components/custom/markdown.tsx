@@ -30,9 +30,9 @@ const MemoizedMarkdownBlock = memo(
       },
       ol: ({ node, children, ...props }: any) => {
         return (
-          <ol className="list-decimal list-outside ml-4" {...props}>
+          <ul className="list-disc list-outside ml-4" {...props}>
             {children}
-          </ol>
+          </ul>
         );
       },
       li: ({ node, children, ...props }: any) => {
@@ -44,7 +44,7 @@ const MemoizedMarkdownBlock = memo(
       },
       ul: ({ node, children, ...props }: any) => {
         return (
-          <ul className="list-decimal list-outside ml-4" {...props}>
+          <ul className="list-disc list-outside ml-4" {...props}>
             {children}
           </ul>
         );

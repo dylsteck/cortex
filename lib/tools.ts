@@ -147,7 +147,12 @@ export const tools = {
   //   },
   // }),
   getEvents: tool({
-    description: 'Get upcoming Farcaster events on Events.xyz. Do not show any images or markdown in your response.',
+    description: `Get upcoming Farcaster events on Events.xyz. Do not show any images in your response and try to model your response into this format below:
+    
+    Here are some upcoming events:
+    • [Event Name] at [Event Time] hosted by [Event Hosts]: [Link](https://events.xyz/events/[Event ID])
+
+    [One to two sentence overview of the events given the context]`,
     parameters: z.object({}),
     execute: async ({}) => {
       const eventsData = await cortexSDK.getEvents();
