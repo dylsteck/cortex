@@ -1,6 +1,6 @@
 'use client';
 
-import { HomeIcon, PlusIcon } from 'lucide-react';
+import { HomeIcon, PlusIcon, InfoIcon, MoreHorizontalIcon, TrashIcon, UserIcon, PlusCircle } from 'lucide-react';
 import Link from 'next/link';
 import { useParams, usePathname, useRouter } from 'next/navigation';
 import { type User } from 'next-auth';
@@ -8,13 +8,6 @@ import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 import useSWR from 'swr';
 
-import {
-  InfoIcon,
-  MessageIcon,
-  MoreHorizontalIcon,
-  TrashIcon,
-  UserIcon,
-} from '@/components/custom/icons';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -48,11 +41,8 @@ export function SidebarHistory({ user }: { user: User | undefined }) {
   const { setOpenMobile } = useSidebar();
   const { id } = useParams();
   const pathname = usePathname();
-  const {
-    data: history,
-    isLoading,
-    mutate,
-  } = useSWR<Array<Chat>>(user ? '/api/history' : null, fetcher, {
+  const router = useRouter();
+  const { data: history = [], isLoading, mutate } = useSWR<Array<Chat>>(user ? '/api/history' : null, fetcher, {
     fallbackData: [],
   });
 
@@ -62,7 +52,7 @@ export function SidebarHistory({ user }: { user: User | undefined }) {
 
   const [deleteId, setDeleteId] = useState<string | null>(null);
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
-  const router = useRouter();
+
   const handleDelete = async () => {
     const deletePromise = fetch(`/api/chat?id=${deleteId}`, {
       method: 'DELETE',
@@ -70,235 +60,67 @@ export function SidebarHistory({ user }: { user: User | undefined }) {
     toast.promise(deletePromise, {
       loading: 'Deleting chat...',
       success: () => {
-        mutate((history) => {
-          if (history) {
-            return history.filter((h) => h.id !== id);
-          }
-        });
-        if(pathname !== '/'){
+        mutate((currentHistory = []) => currentHistory.filter((h) => h.id !== deleteId));
+        if (pathname !== '/') {
           router.push('/');
         }
         return 'Chat deleted successfully';
       },
       error: 'Failed to delete chat',
     });
-
     setShowDeleteDialog(false);
   };
-
-  if (!user) {
-    return (
-      <SidebarGroup>
-        <SidebarMenu className="mb-5">
-          {/* <SidebarMenuItem>
-            <Link href="/">
-              <SidebarMenuButton>
-                <HomeIcon size={10} />
-                <span>Home</span>
-              </SidebarMenuButton>
-            </Link>
-          </SidebarMenuItem> */}
-          <SidebarMenuItem>
-            <Link href="/">
-              <SidebarMenuButton>
-                <MessageIcon size={10} />
-                <span>Chat</span>
-              </SidebarMenuButton>
-            </Link>
-          </SidebarMenuItem>
-          {/* <SidebarMenuItem>
-            <Link href="/frame">
-              <SidebarMenuButton>
-                <PlusIcon size={10} />
-                <span>New Frame</span>
-              </SidebarMenuButton>
-            </Link>
-          </SidebarMenuItem> */}
-          {/* <SidebarMenuItem>
-            <Link href="/profile">
-              <SidebarMenuButton>
-                <UserIcon />
-                <span>Profile</span>
-              </SidebarMenuButton>
-            </Link>
-          </SidebarMenuItem> */}
-        </SidebarMenu>
-        <SidebarGroupLabel>Chat History</SidebarGroupLabel>
-        <SidebarGroupContent>
-          <div className="text-zinc-500 h-dvh w-full flex flex-row justify-center items-center text-sm gap-2">
-            <InfoIcon />
-            <div>Login to save and revisit previous chats!</div>
-          </div>
-        </SidebarGroupContent>
-      </SidebarGroup>
-    );
-  }
-
-  if (isLoading) {
-    return (
-      <SidebarGroup>
-       <SidebarMenu className="mb-5">
-        {/* <SidebarMenuItem>
-            <Link href="/">
-              <SidebarMenuButton>
-                <HomeIcon size={10} />
-                <span>Home</span>
-              </SidebarMenuButton>
-            </Link>
-          </SidebarMenuItem> */}
-          <SidebarMenuItem>
-            <Link href="/">
-              <SidebarMenuButton>
-                <MessageIcon size={10} />
-                <span>Chat</span>
-              </SidebarMenuButton>
-            </Link>
-          </SidebarMenuItem>
-          {/* <SidebarMenuItem>
-            <Link href="/frame">
-              <SidebarMenuButton>
-                <PlusIcon size={10} />
-                <span>New Frame</span>
-              </SidebarMenuButton>
-            </Link>
-          </SidebarMenuItem> */}
-          {/* <SidebarMenuItem>
-            <Link href="/profile">
-              <SidebarMenuButton>
-                <UserIcon />
-                <span>Profile</span>
-              </SidebarMenuButton>
-            </Link>
-          </SidebarMenuItem> */}
-        </SidebarMenu>
-        <SidebarGroupLabel>Chat History</SidebarGroupLabel>
-        <SidebarGroupContent>
-          <div className="flex flex-col">
-            {[44, 32, 28, 64, 52].map((item) => (
-              <div
-                key={item}
-                className="rounded-md h-8 flex gap-2 px-2 items-center"
-              >
-                <div
-                  className="h-4 rounded-md flex-1 max-w-[--skeleton-width] bg-sidebar-accent-foreground/10"
-                  style={
-                    {
-                      '--skeleton-width': `${item}%`,
-                    } as React.CSSProperties
-                  }
-                />
-              </div>
-            ))}
-          </div>
-        </SidebarGroupContent>
-      </SidebarGroup>
-    );
-  }
-
-  if (history?.length === 0) {
-    return (
-      <SidebarGroup>
-        <SidebarMenu className="mb-5">
-          {/* <SidebarMenuItem>
-            <Link href="/">
-              <SidebarMenuButton>
-                <HomeIcon size={10} />
-                <span>Home</span>
-              </SidebarMenuButton>
-            </Link>
-          </SidebarMenuItem> */}
-          <SidebarMenuItem>
-            <Link href="/">
-              <SidebarMenuButton>
-                <MessageIcon size={10} />
-                <span>Chat</span>
-              </SidebarMenuButton>
-            </Link>
-          </SidebarMenuItem>
-          {/* <SidebarMenuItem>
-            <Link href="/frame">
-              <SidebarMenuButton>
-                <PlusIcon size={10} />
-                <span>New Frame</span>
-              </SidebarMenuButton>
-            </Link>
-          </SidebarMenuItem> */}
-          {/* <SidebarMenuItem>
-            <Link href="/profile">
-              <SidebarMenuButton>
-                <UserIcon />
-                <span>Profile</span>
-              </SidebarMenuButton>
-            </Link>
-          </SidebarMenuItem> */}
-        </SidebarMenu>
-        <SidebarGroupLabel>Chat History</SidebarGroupLabel>
-        <SidebarGroupContent>
-          <SidebarMenu>
-            <SidebarMenuItem>
-              <SidebarMenuButton>
-                <InfoIcon />
-                <span>No chats found</span>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-          </SidebarMenu>
-        </SidebarGroupContent>
-      </SidebarGroup>
-    );
-  }
 
   return (
     <>
       <SidebarGroup>
         <SidebarMenu className="mb-5">
-          {/* <SidebarMenuItem>
-            <Link href="/">
-              <SidebarMenuButton>
-                <HomeIcon size={10} />
-                <span>Home</span>
-              </SidebarMenuButton>
-            </Link>
-          </SidebarMenuItem> */}
           <SidebarMenuItem>
             <Link href="/">
               <SidebarMenuButton>
-                <MessageIcon size={10} />
-                <span>Chat</span>
+                <PlusCircle size={10} />
+                <span>New Chat</span>
               </SidebarMenuButton>
             </Link>
           </SidebarMenuItem>
-          {/* <SidebarMenuItem>
-            <Link href="/frame">
-              <SidebarMenuButton>
-                <PlusIcon size={10} />
-                <span>New Frame</span>
-              </SidebarMenuButton>
-            </Link>
-          </SidebarMenuItem> */}
-          {/* <SidebarMenuItem>
-            <Link href="/profile">
-              <SidebarMenuButton>
-                <UserIcon />
-                <span>Profile</span>
-              </SidebarMenuButton>
-            </Link>
-          </SidebarMenuItem> */}
         </SidebarMenu>
         <SidebarGroupLabel>Chat History</SidebarGroupLabel>
         <SidebarGroupContent>
-          <SidebarMenu>
-            {history &&
-              history.map((chat) => (
+          {!user ? (
+            <div className="text-zinc-500 h-dvh w-full flex flex-row justify-center items-center text-sm gap-2">
+              <InfoIcon />
+              <div>Login to save and revisit previous chats!</div>
+            </div>
+          ) : isLoading ? (
+            <div className="flex flex-col">
+              {[44, 32, 28, 64, 52].map((width) => (
+                <div key={width} className="rounded-md h-8 flex gap-2 px-2 items-center">
+                  <div
+                    className="h-4 rounded-md flex-1 bg-sidebar-accent-foreground/10"
+                    style={{ width: `${width}%` }}
+                  />
+                </div>
+              ))}
+            </div>
+          ) : history.length === 0 ? (
+            <SidebarMenu>
+              <SidebarMenuItem>
+                <SidebarMenuButton>
+                  <InfoIcon />
+                  <span>No chats found</span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            </SidebarMenu>
+          ) : (
+            <SidebarMenu>
+              {history.map((chat) => (
                 <SidebarMenuItem key={chat.id}>
                   <SidebarMenuButton asChild isActive={chat.id === id}>
-                    <Link
-                      href={`/chat/${chat.id}`}
-                      onClick={() => setOpenMobile(false)}
-                    >
+                    <Link href={`/chat/${chat.id}`} onClick={() => setOpenMobile(false)}>
                       <span>{getTitleFromChat(chat)}</span>
                     </Link>
                   </SidebarMenuButton>
-                  <DropdownMenu modal={true}>
+                  <DropdownMenu modal>
                     <DropdownMenuTrigger asChild>
                       <SidebarMenuAction
                         className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
@@ -323,7 +145,8 @@ export function SidebarHistory({ user }: { user: User | undefined }) {
                   </DropdownMenu>
                 </SidebarMenuItem>
               ))}
-          </SidebarMenu>
+            </SidebarMenu>
+          )}
         </SidebarGroupContent>
       </SidebarGroup>
       <AlertDialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
@@ -331,15 +154,12 @@ export function SidebarHistory({ user }: { user: User | undefined }) {
           <AlertDialogHeader>
             <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
             <AlertDialogDescription>
-              This action cannot be undone. This will permanently delete your
-              chat and remove it from our servers.
+              This action cannot be undone. This will permanently delete your chat and remove it from our servers.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction onClick={handleDelete}>
-              Continue
-            </AlertDialogAction>
+            <AlertDialogAction onClick={handleDelete}>Continue</AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>

@@ -87,28 +87,28 @@ export function ChatInput({
         onKeyDown={handleKeyDown}
         placeholder="Message Cortex..."
         spellCheck={false}
-        className="min-h-[44px] w-full resize-none bg-background py-3 pr-12 text-base focus-visible:ring-1 focus-visible:ring-offset-0 rounded-xl"
+        className="min-h-[40px] w-full resize-none bg-background py-2 pr-12 text-base focus-visible:ring-1 focus-visible:ring-offset-0 rounded-full"
         style={{
           height: textareaRef.current?.scrollHeight,
           maxHeight: '200px'
         }}
       />
-      <div className="absolute right-4 sm:right-6 bottom-2">
+      <div className="absolute right-4 sm:right-6 bottom-1.5">
         <Button
           type="submit"
           size="icon"
           disabled={input.trim().length === 0}
-          className="size-8 rounded-full bg-primary hover:bg-primary/90"
+          className="size-6 rounded-full bg-primary hover:bg-primary/90"
         >
           {isLoading ? (
             <div onClick={(e: React.MouseEvent) => {
               e.preventDefault();
               stop();
             }}>
-              <StopIcon size={16} />
+              <StopIcon size={4} />
             </div>
           ) : (
-            <ArrowUpIcon size={16} />
+            <ArrowUpIcon size={4} />
           )}
         </Button>
       </div>

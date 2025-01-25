@@ -1,6 +1,6 @@
 import { Message } from "ai";
 import { InferSelectModel } from "drizzle-orm";
-import { pgTable, varchar, timestamp, json, uuid } from "drizzle-orm/pg-core";
+import { pgTable, text, varchar, timestamp, json, uuid } from "drizzle-orm/pg-core";
 
 export const user = pgTable("user", {
   id: uuid("id").primaryKey().notNull().defaultRandom(),
@@ -28,3 +28,16 @@ export const chat = pgTable("chat", {
 export type Chat = Omit<InferSelectModel<typeof chat>, "messages"> & {
   messages: Array<Message>;
 };
+
+export const farcasterApps = pgTable("farcaster_apps", {
+  slug: text("slug").primaryKey().notNull(),
+  name: text("name").notNull(),
+  tag: text("tag").notNull(),
+  description: text("description").notNull(),
+  image_url: text("image_url").notNull(),
+  screenshots: json("screenshots").notNull(),
+  url: text("url").notNull(),
+  author_fid: text("author_fid"),
+});
+
+export type FarcasterApp = InferSelectModel<typeof farcasterApps>;
