@@ -1,6 +1,6 @@
 'use client';
 
-import { HomeIcon, PlusIcon, InfoIcon, MoreHorizontalIcon, TrashIcon, UserIcon, PlusCircle } from 'lucide-react';
+import { HomeIcon, InfoIcon, MoreHorizontalIcon, TrashIcon, UserIcon, Plus } from 'lucide-react';
 import Link from 'next/link';
 import { useParams, usePathname, useRouter } from 'next/navigation';
 import { type User } from 'next-auth';
@@ -78,7 +78,7 @@ export function SidebarHistory({ user }: { user: User | undefined }) {
           <SidebarMenuItem>
             <Link href="/">
               <SidebarMenuButton>
-                <PlusCircle size={10} />
+                <Plus size={10} />
                 <span>New Chat</span>
               </SidebarMenuButton>
             </Link>
@@ -130,9 +130,9 @@ export function SidebarHistory({ user }: { user: User | undefined }) {
                         <span className="sr-only">More</span>
                       </SidebarMenuAction>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent side="bottom" align="end">
+                    <DropdownMenuContent side="bottom" align="end" className="rounded-xl">
                       <DropdownMenuItem
-                        className="text-destructive focus:bg-destructive/15 focus:text-destructive cursor-pointer"
+                        className="text-destructive focus:bg-destructive/15 focus:text-destructive cursor-pointer rounded-xl"
                         onSelect={() => {
                           setDeleteId(chat.id);
                           setShowDeleteDialog(true);

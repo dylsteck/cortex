@@ -31,12 +31,12 @@ export function SidebarUserNav({ user }: { user: User }) {
       <SidebarMenuItem>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <SidebarMenuButton className="data-[state=open]:bg-sidebar-accent bg-background data-[state=open]:text-sidebar-accent-foreground h-10">
+            <SidebarMenuButton className="data-[state=open]:bg-sidebar-accent bg-background data-[state=open]:text-sidebar-accent-foreground h-10 rounded-xl">
               <Image
                 src={(user as any).pfp_url}
                 alt={(user as any).username ?? 'User Avatar'}
-                width={24}
-                height={24}
+                width={20}
+                height={20}
                 className="rounded-full"
               />
               <span>{(user as any).username}</span>
@@ -45,7 +45,7 @@ export function SidebarUserNav({ user }: { user: User }) {
           </DropdownMenuTrigger>
           <DropdownMenuContent
             side="top"
-            className="w-[--radix-popper-anchor-width]"
+            className="w-[--radix-popper-anchor-width] rounded-xl"
           >
             <DropdownMenuItem
               className="cursor-pointer"

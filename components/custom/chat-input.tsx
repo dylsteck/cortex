@@ -2,7 +2,7 @@
 
 import { ChatRequestOptions, CreateMessage, Message } from 'ai';
 import { motion } from 'framer-motion';
-import React, { useRef, useEffect, useCallback } from 'react';
+import React, { useRef, useEffect, useCallback, useState } from 'react';
 import { toast } from 'sonner';
 
 import { ArrowUpIcon, StopIcon } from './icons';
@@ -58,11 +58,12 @@ export function ChatInput({
 
   const submitForm = useCallback(() => {
     handleSubmit(undefined, {});
+    setInput('');
 
-    if (width && width > 768) {
-      textareaRef.current?.focus();
+    if (textareaRef.current) {
+      textareaRef.current.focus();
     }
-  }, [handleSubmit, width]);
+  }, [handleSubmit, setInput]);
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (event.key === 'Enter' && !event.shiftKey) {
@@ -77,40 +78,31 @@ export function ChatInput({
   };
 
   return (
-    <div className="relative flex items-center w-full gap-2 px-2 sm:px-4">
+    <div className="relative w-full flex flex-col gap-4">
       <Textarea
         ref={textareaRef}
-        tabIndex={0}
-        rows={1}
+        placeholder="Send a message..."
         value={input}
         onChange={handleInput}
+        className="min-h-[24px] max-h-[calc(75dvh)] overflow-hidden resize-none rounded-2xl !text-base bg-muted"
+        rows={2}
         onKeyDown={handleKeyDown}
-        placeholder="Message Cortex..."
-        spellCheck={false}
-        className="min-h-[40px] w-full resize-none bg-background py-2 pr-12 text-base focus-visible:ring-1 focus-visible:ring-offset-0 rounded-full"
-        style={{
-          height: textareaRef.current?.scrollHeight,
-          maxHeight: '200px'
-        }}
       />
-      <div className="absolute right-4 sm:right-6 bottom-1.5">
-        <Button
-          type="submit"
-          size="icon"
-          disabled={input.trim().length === 0}
-          className="size-6 rounded-full bg-primary hover:bg-primary/90"
-        >
-          {isLoading ? (
-            <div onClick={(e: React.MouseEvent) => {
-              e.preventDefault();
-              stop();
-            }}>
-              <StopIcon size={4} />
-            </div>
-          ) : (
-            <ArrowUpIcon size={4} />
-          )}
-        </Button>
+
+      <div className="absolute bottom-0 right-0 p-2 w-fit flex flex-row justify-end">
+        {isLoading ? (
+          <Button onClick={stop} className="rounded-full p-1.5 h-fit border dark:border-zinc-600">
+            <StopIcon size={14} />
+          </Button>
+        ) : (
+          <Button
+            onClick={submitForm}
+            disabled={input.length === 0}
+            className="rounded-full p-1.5 h-fit border dark:border-zinc-600"
+          >
+            <ArrowUpIcon size={14} />
+          </Button>
+        )}
       </div>
     </div>
   );

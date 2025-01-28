@@ -51,7 +51,7 @@ export function SidebarSettingsDialog({
   return (
     <>
       <Dialog open={isOpen} onOpenChange={onClose}>
-        <DialogContent className="p-6 max-w-lg bg-white dark:bg-black text-black dark:text-white">
+        <DialogContent className="p-6 max-w-lg bg-white dark:bg-black text-black dark:text-white rounded-xl">
           <DialogHeader>
             <DialogTitle className="text-gray-900 dark:text-white">Settings</DialogTitle>
           </DialogHeader>
@@ -67,16 +67,16 @@ export function SidebarSettingsDialog({
               <Button 
                 variant="destructive"
                 onClick={() => setShowDeleteDialog(true)}
-                className="rounded-full"
+                className="rounded-xl"
               >
-                Delete Chat History
+                Clear History
               </Button>
             </div>
             <div className="flex justify-end space-x-2 mt-6">
-              <Button variant="outline" className="text-gray-700 dark:text-gray-300 bg-white dark:bg-black" onClick={onClose}>Cancel</Button>
+              <Button variant="outline" className="text-gray-700 dark:text-gray-300 bg-white dark:bg-black rounded-xl" onClick={onClose}>Cancel</Button>
               <Button 
                 variant="default" 
-                className="text-white bg-gray-900 dark:bg-gray-600" 
+                className="text-white bg-gray-900 dark:bg-gray-600 rounded-xl" 
                 onClick={onClose}
               >
                 Save
