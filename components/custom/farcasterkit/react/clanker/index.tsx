@@ -2,65 +2,49 @@
 import { Heart, Repeat } from 'lucide-react';
 import React from 'react';
 
-import { ClankerTrendingTokensResponse } from '../../common/types/clanker';
+import { formatPrice } from '@/lib/utils';
+
+import { MergedClanker } from '../../common/types/clanker';
 
 export const Clanker = ({ clanker }: { 
-  clanker: ClankerTrendingTokensResponse['tokens'][string]
+  clanker: MergedClanker
 }) => {
   return (
-    <div className="p-4 rounded-lg w-full overflow-hidden text-black dark:text-white cursor-pointer" onClick={() => window.open(`https://clanker.world/clanker/${clanker.contract_address}`, '_blank')}> 
-      <div className="flex items-start space-x-4">
-        {clanker.img_url && (
+    <div className="p-2 rounded-lg w-full overflow-hidden text-black dark:text-white cursor-pointer" onClick={() => window.open(`https://clanker.world/clanker/${clanker.token.contract_address}`, '_blank')}> 
+      <div className="flex flex-row gap-2 items-start">
+        {clanker.token.img_url ? (
           <img
-            src={clanker.img_url}
-            alt={clanker.name}
-            className="size-10 rounded-full border border-gray-600"
+            src={clanker.token.img_url}
+            alt={clanker.token.name}
+            className="size-10 rounded-full border border-gray-600 mt-1"
           />
+        ) : (
+          <div className="flex items-center justify-center size-10 rounded-full bg-gray-400 text-white mt-1">
+            <span className="font-medium">
+              {clanker.token.name.charAt(0)}
+            </span>
+          </div>
         )}
         <div className="flex flex-col">
-          <p className={`font-semibold text-lg`}>{clanker.name}</p>
-          <p className={`text-sm`}>{clanker.symbol}</p>
+          <p className={`font-semibold text-lg`}>{clanker.token.name}</p>
+          <p className={`text-sm font-normal opacity-90`}>${clanker.token.symbol}</p>
         </div>
       </div>
-      <div className="mt-4 space-y-2">
+      <div className="mt-3 space-y-2 space-x-3">
         <div className="grid grid-cols-2 gap-2">
           <div>
-            <p className={`text-xs font-medium`}>Contract Address</p>
-            <p className={`text-sm truncate`}>{clanker.contract_address.slice(0, 10)}...{clanker.contract_address.slice(-4)}</p>
-          </div>
-          <div>
-            <p className={`text-xs font-medium`}>Pool Address</p>
-            <p className={`text-sm truncate`}>{clanker.pool_address.slice(0, 10)}...{clanker.pool_address.slice(-4)}</p>
-          </div>
-        </div>
-        <div className="grid grid-cols-2 gap-2">
-          <div>
-            <p className={`text-xs font-medium`}>Created At</p>
+            <p className={`text-xs font-medium`}>24h volume</p>
             <p className={`text-sm`}>
-              {new Date(clanker.created_at).toLocaleDateString()}
+              {clanker.attributes.h24_volume_usd ? (`$${formatPrice(parseInt(clanker.attributes.h24_volume_usd))}`) : 'N/A'}
             </p>
           </div>
           <div>
-            <p className={`text-xs font-medium`}>Transaction Hash</p>
-            <p className={`text-sm truncate`}>{clanker.tx_hash.slice(0, 10)}...{clanker.tx_hash.slice(-4)}</p>
+            <p className={`text-xs font-medium`}>Market Cap</p>
+            <p className={`text-sm`}>
+              {clanker.attributes.market_cap_usd ? (`$${formatPrice(parseInt(clanker.attributes.market_cap_usd))}`) : 'N/A'}
+            </p>
           </div>
         </div>
-        {/* {clanker.cast_hash && (
-          <div>
-            <p className={`text-xs font-medium`}>Cast Hash</p>
-            <p className={`text-sm truncate`}>{clanker.cast_hash.slice(0, 10)}...{clanker.cast_hash.slice(-4)}</p>
-          </div>
-        )} */}
-        {/* <div className="grid grid-cols-2 gap-2">
-          <div>
-            <p className={`text-xs font-medium`}>Type</p>
-            <p className={`text-sm`}>{clanker.type || 'N/A'}</p>
-          </div>
-          <div>
-            <p className={`text-xs font-medium`}>Pair</p>
-            <p className={`text-sm`}>{clanker.pair || 'N/A'}</p>
-          </div>
-        </div> */}
       </div>
     </div>
   );

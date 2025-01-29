@@ -77,6 +77,20 @@ export const fetcher = async (url: string, options?: RequestInit) => {
   return json;
 };
 
+export function formatPrice(price: number) {
+  // examples: 50k, 52.4m, 1.2b
+  // source: https://github.com/NickTikhonov/clankfun/blob/df31e7723478090c5c798e9399516be5e0c2bfc8/src/app/components/ClankerCard.tsx#L529
+  if (price < 1000) {
+    return price.toFixed(2);
+  } else if (price < 1000000) {
+    return (price / 1000).toFixed(2) + "k";
+  } else if (price < 1000000000) {
+    return (price / 1000000).toFixed(2) + "m";
+  } else {
+    return (price / 1000000000).toFixed(2) + "b";
+  }
+}
+
 export function generateUUID(): string {
   return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
     const r = (Math.random() * 16) | 0;

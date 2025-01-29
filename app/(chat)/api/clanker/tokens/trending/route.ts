@@ -18,6 +18,5 @@ export async function GET(request: Request) {
   } else if (typeof data === "string") {
     data = JSON.parse(data);
   }
-
   return new Response(JSON.stringify(data), { status: 200 });
 }

@@ -69,3 +69,17 @@ export type ClankerTrendingTokensResponse = {
     };
   };
 };
+
+export type MergedClanker = {
+  id: ClankerTrendingTokensResponse['trending'][number]['id'];
+  type: ClankerTrendingTokensResponse['trending'][number]['type'];
+  attributes: ClankerTrendingTokensResponse['trending'][number]['attributes'];
+  relationships: ClankerTrendingTokensResponse['trending'][number]['relationships'];
+  token: {
+      id: ClankerTrendingTokensResponse['tokens'][string]['id'];
+      contract_address: ClankerTrendingTokensResponse['tokens'][string]['contract_address'];
+      name: ClankerTrendingTokensResponse['tokens'][string]['name'];
+      symbol: ClankerTrendingTokensResponse['tokens'][string]['symbol'];
+      img_url: ClankerTrendingTokensResponse['tokens'][string]['img_url'];
+  };
+}
