@@ -10,10 +10,18 @@ import ClankerTrendingTool from './tools/clanker-trending';
 
 export const Tool = ({ result, toolName }: {result: any, toolName: string}) => {
 
+    const roundedElement = (element: React.ReactElement) => {
+      return(
+        <div className="rounded-xl border border-black dark:border-white">
+          {element}
+        </div>
+      )
+    }
+
     const renderTool = () => {
       switch (toolName) {
         case 'analyzeCast':
-          return <Cast cast={result.cast} />;
+          return roundedElement(<Cast cast={result.cast} />);
         case 'castSearch':
           return <CastsTool casts={result} />;
         case 'getClankerTrendingTokens':

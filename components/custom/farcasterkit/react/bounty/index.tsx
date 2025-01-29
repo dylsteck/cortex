@@ -12,7 +12,7 @@ export function Bounty({ bounty }: { bounty: BountyType }) {
 
   return (
     <div className="cursor-pointer" onClick={() => window.open(`https://bountycaster.xyz${bounty.links.resource}`, '_blank')}>
-      <div className="w-full border border-white rounded-lg flex flex-col shrink-0 shadow-lg hover:shadow-xl transition-shadow duration-200 p-2">
+      <div className="w-full rounded-lg flex flex-col shrink-0 shadow-lg hover:shadow-xl transition-shadow duration-200 p-2">
         <div className="flex-none pb-4">
           <div className="flex justify-between items-start">
             <div>

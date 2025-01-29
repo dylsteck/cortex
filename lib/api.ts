@@ -205,17 +205,7 @@ class CortexSDK {
   }
 
   async getTrendingCasts(): Promise<any> {
-    return await fetcher(`${this.BASE_URL}/api/farcaster/trending/casts`)
-  }
-
-  async postCast(signer_uuid: string, text: string, embeds?: any[], parent?: string): Promise<any> {
-    return await fetcher(`${this.BASE_URL}/api/farcaster/cast`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ signer_uuid, text, embeds, parent }),
-    });
+    return await fetcher(`${this.BASE_URL}/api/farcaster/feed/trending`)
   }
 
   async webSearch(

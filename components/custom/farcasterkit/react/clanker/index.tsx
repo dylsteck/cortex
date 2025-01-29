@@ -8,7 +8,7 @@ export const Clanker = ({ clanker }: {
   clanker: ClankerTrendingTokensResponse['tokens'][string]
 }) => {
   return (
-    <div className="p-4 rounded-lg w-full border border-gray-300 shadow-lg overflow-hidden text-black dark:text-white cursor-pointer" onClick={() => window.open(`https://clanker.world/clanker/${clanker.contract_address}`, '_blank')}> 
+    <div className="p-4 rounded-lg w-full overflow-hidden text-black dark:text-white cursor-pointer" onClick={() => window.open(`https://clanker.world/clanker/${clanker.contract_address}`, '_blank')}> 
       <div className="flex items-start space-x-4">
         {clanker.img_url && (
           <img

@@ -40,7 +40,7 @@ function formatDate(
 
 export function Event({ event }: { event: EventData }) {
   return (
-    <div className="flex flex-col w-full h-auto border border-black dark:border-[#cfcccf] rounded-lg shadow-md overflow-hidden cursor-pointer" onClick={() => window.open(`https://events.xyz/events/${event.id}`, '_blank')}>
+    <div className="flex flex-col w-full h-auto rounded-lg shadow-md overflow-hidden cursor-pointer" onClick={() => window.open(`https://events.xyz/events/${event.id}`, '_blank')}>
       {event.image_url ? 
           <div className="w-full">
             <img

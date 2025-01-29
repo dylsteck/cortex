@@ -28,7 +28,7 @@ export async function POST(request: Request) {
     model: await openai(model),
     system: SYSTEM_PROMPT(session.user as SessionData),
     messages: coreMessages,
-    maxSteps: 5,
+    maxSteps: 3,
     tools: tools,
     experimental_transform: smoothStream(),
     onFinish: async (stepResult) => {
