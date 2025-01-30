@@ -1,43 +1,59 @@
 'use client'
 
-import { sdk } from "@farcaster/frame-sdk";
-import { farcasterFrame } from "@farcaster/frame-wagmi-connector";
+import { Context, sdk, SignIn } from "@farcaster/frame-sdk";
+import { FrameSDK } from "@farcaster/frame-sdk/dist/types";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
-import { connect } from "wagmi/actions"
+import { getCsrfToken } from "next-auth/react";
+import { useCallback, useEffect } from "react";
 
 import { login } from "@/app/(auth)/actions";
 import { AuthData } from "@/lib/types";
-import { wagmiConfig } from "@/lib/wagmi";
 
 export default function FrameProvider({ children }: { children: React.ReactNode }){
-    const router = useRouter();
+  const router = useRouter(); 
+  const getNonce = useCallback(async () => {
+      const nonce = await getCsrfToken();
+      if (!nonce) throw new Error("Unable to generate nonce");
+      return nonce;
+    }, []);
+
+    const handleSignIn = useCallback(async (user: Context.FrameContext['user']) => {
+      try {
+        const nonce = await getNonce();
+        const result = await sdk.actions.signIn({ nonce });
+        const loginData: AuthData = {
+          fid: user.fid.toString(),
+          username: user.username || "",
+          name: user.displayName || "",
+          bio: '',
+          verified_address: '',
+          signer_uuid: "",
+          pfp_url: user.pfpUrl || "",
+          message: result.message,
+          signature: result.signature
+        };
+        await login(loginData);
+      } catch (e) {
+        if (e instanceof SignIn.RejectedByUser) {
+          throw new Error("Rejected by user");
+          return;
+        }
+      }
+    }, [getNonce]);
+
     useEffect(() => {
         const init = async () => {
           const context = await sdk.context;
           if (context?.client.clientFid) {
-            const resp = await connect(wagmiConfig, { connector: farcasterFrame(), chainId: 8453 });
-            const { accounts, chainId } = resp;
-            if (context?.user) {
-                const loginData: AuthData = {
-                    fid: context.user.fid.toString(),
-                    username: context.user.username || "",
-                    name: context.user.displayName || "",
-                    bio: '',
-                    verified_address: accounts[0],
-                    signer_uuid: "",
-                    pfp_url: context.user.pfpUrl || ""
-                  };
-                await login(loginData);
-                router.refresh();
-              }
+            await handleSignIn(context.user);
+            router.push('/');
           }
           setTimeout(() => {
             sdk.actions.ready()
           }, 500)
         }
         init()
-      }, [router])
+      }, [handleSignIn, router])
 
     return(
         <>

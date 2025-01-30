@@ -20,7 +20,7 @@ import {
 } from '@/components/ui/sidebar';
 
 import { SidebarSettingsDialog } from './sidebar-settings-dialog';
-import { SIWNResponseData } from './sign-in-with-neynar';
+import { SIWNResponseData } from './farcasterkit/react/sign-in-with-neynar';
 
 export function SidebarUserNav({ user }: { user: User }) {
   const { setTheme, theme } = useTheme();

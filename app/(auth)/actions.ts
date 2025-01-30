@@ -2,7 +2,6 @@
 
 import { z } from "zod";
 
-import { SIWNResponseData } from "@/components/custom/sign-in-with-neynar";
 import { createUser, getUserByFid } from "@/db/queries";
 import { AuthData } from "@/lib/types";
 

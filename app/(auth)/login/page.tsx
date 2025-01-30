@@ -5,11 +5,12 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
+import SignInWithNeynar, { SIWNResponseData } from "@/components/custom/farcasterkit/react/auth/sign-in-with-neynar";
 import { CortexIcon } from "@/components/custom/icons";
-import SignInWithNeynar, { SIWNResponseData } from "@/components/custom/sign-in-with-neynar";
 import { AuthData } from "@/lib/types";
 
 import { login } from "../actions";
+
 
 export default function Page() {
   const router = useRouter();

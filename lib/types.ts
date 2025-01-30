@@ -25,6 +25,8 @@ export type AuthData = {
   verified_address?: string;
   signer_uuid: string;
   pfp_url: string;
+  message?: string;
+  signature?: string;
 };
 
 export type SessionData = {
