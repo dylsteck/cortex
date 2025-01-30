@@ -20,7 +20,7 @@ export function ToolResponse({ badgeTitle, bodyTitle, images, items, renderItem,
  
  return (
    <div className="relative">
-     <PreviewBadge title={badgeTitle} images={images} onClick={() => setIsOpen(!isOpen)} />
+     <PreviewBadge title={badgeTitle} images={images} isOpen={isOpen} onClick={() => setIsOpen(!isOpen)} />
      <ToolResponseBody
        isDesktop={isDesktop}
        isOpen={isOpen}
