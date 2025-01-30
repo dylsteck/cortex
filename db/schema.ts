@@ -38,6 +38,7 @@ export const farcasterApps = pgTable("farcaster_apps", {
   screenshots: json("screenshots").notNull(),
   url: text("url").notNull(),
   author_fid: text("author_fid"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
 });
 
 export type FarcasterApp = InferSelectModel<typeof farcasterApps>;

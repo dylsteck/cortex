@@ -3,8 +3,8 @@ import { Repeat } from 'lucide-react';
 import React from 'react';
 
 import { HeartIcon, MessageIcon } from '@/components/custom/icons';
-import { NeynarCastV2 } from '@/lib/types';
 
+import { NeynarCastV2 } from '../../common/types/farcaster';
 import FrameLink from '../utils/frame-link';
 
 export const Cast = ({ cast }: { cast: NeynarCastV2 }) => {

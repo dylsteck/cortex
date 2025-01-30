@@ -42,7 +42,7 @@ export function SuggestedActions({ onActionSelect }: { onActionSelect: (action: 
               onClick={() => onActionSelect(item)}
               variant="outline"
               size="sm"
-              className="border-foreground/40 rounded-xl text-xs px-3 py-2.5 h-auto whitespace-nowrap bg-gray-200 dark:bg-[#141414] backdrop-blur-sm transition-all duration-200 flex items-center gap-2"
+              className="border-foreground/40 rounded-xl text-xs px-3 py-2 h-auto whitespace-nowrap bg-gray-200 dark:bg-[#141414] backdrop-blur-sm transition-all duration-200 flex items-center gap-2"
             >
               <div className="rounded-full bg-gray-800 dark:bg-gray-200 p-1">
                 <TrendingUp className="size-4 text-white dark:text-gray-600" />
