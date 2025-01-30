@@ -1,6 +1,7 @@
 'use client';
 import { Attachment, Message } from 'ai';
 import { useChat } from 'ai/react';
+import { User } from 'next-auth';
 import { useState, useEffect, useRef } from 'react';
 
 import { Message as PreviewMessage } from '@/components/custom/message';
@@ -14,10 +15,12 @@ import { SuggestedActions } from './suggested-actions';
 export function Chat({
   id,
   initialMessages,
+  user,
   selectedModelName,
 }: {
   id: string;
   initialMessages: Array<Message>;
+  user: User | undefined;
   selectedModelName: string;
 }) {
   const { messages, handleSubmit, input, setInput, append, isLoading, stop } =
@@ -30,7 +33,6 @@ export function Chat({
     });
 
   const [containerRef, endRef] = useScrollToBottom(messages);
-  
   return (
     <div className="flex flex-col w-screen h-dvh bg-background overflow-hidden border-0">
       <ChatHeader />
@@ -41,6 +43,7 @@ export function Chat({
             <PreviewMessage
               key={message.id}
               role={message.role}
+              user={user}
               nextRole={messages[index + 1] ? messages[index + 1].role : ""}
               content={message.content}
               attachments={message.experimental_attachments}

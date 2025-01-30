@@ -36,6 +36,7 @@ export default async function Page(props: { params: Promise<any> }) {
   return (
     <PreviewChat
       id={chat.id}
+      user={session?.user}
       initialMessages={chat.messages}
       selectedModelName={MODEL_NAME}
     />
