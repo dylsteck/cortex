@@ -19,8 +19,8 @@ import {
   SidebarMenuItem,
 } from '@/components/ui/sidebar';
 
+import { SIWNResponseData } from './farcasterkit/react/auth/sign-in-with-neynar';
 import { SidebarSettingsDialog } from './sidebar-settings-dialog';
-import { SIWNResponseData } from './farcasterkit/react/sign-in-with-neynar';
 
 export function SidebarUserNav({ user }: { user: User }) {
   const { setTheme, theme } = useTheme();

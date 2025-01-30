@@ -66,7 +66,7 @@ export default function SignInWithNeynar({ handleSignInSuccess }: { handleSignIn
         initiateSignIn();
       }}
     >
-     <Button className="relative">
+     <Button className="relative rounded-xl">
         Sign In with Farcaster
       </Button>
     </form>
