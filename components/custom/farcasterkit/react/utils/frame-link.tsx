@@ -25,7 +25,16 @@ export default function FrameLink({
                     break;
             }
         } else{
-            window.open(identifier, '_blank')
+            switch(type){
+                case 'url':
+                    window.open(identifier, '_blank')
+                    break;
+                case 'profile':
+                    window.open(`https://warpcast.com/~/profiles/${identifier}`)
+                    await sdk.actions.viewProfile({ fid: parseInt(identifier) })
+                default:
+                    break;
+            }
         }
     }
     return(

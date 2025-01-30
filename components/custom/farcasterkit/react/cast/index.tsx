@@ -10,7 +10,7 @@ import FrameLink from '../utils/frame-link';
 export const Cast = ({ cast }: { cast: NeynarCastV2 }) => {
   return (
   <div className={`p-3 pb-1.5 rounded-lg w-full overflow-hidden cursor-pointer`}> 
-    {/* <FrameLink identifier={`${cast.author.fid}`} type='profile'> */}
+    <FrameLink identifier={`${cast.author.fid}`} type='profile'>
       <div className="flex items-center mb-3 space-x-2">
         <img
           src={cast.author.pfp_url}
@@ -24,7 +24,7 @@ export const Cast = ({ cast }: { cast: NeynarCastV2 }) => {
           </p>
         </div>
       </div>
-    {/* </FrameLink> */}
+    </FrameLink>
     <FrameLink identifier={`https://warpcast.com/${cast.author.username ?? `~/conversations`}/${cast.hash}`} type='url'>
       <p className={`text-base break-words text-black dark:text-white`}> 
         {cast.text.length > 380 ? `${cast.text.slice(0, 380)}...` : cast.text}
